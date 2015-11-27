@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-
+const isLive = (process.env.NODE_ENV === 'production' | process.env.NODE_ENV === 'staging')
 module.exports = {
   context: __dirname + "/app",
   entry: "./app.jsx",
@@ -9,19 +9,12 @@ module.exports = {
     path: __dirname + "/public"
   },
 
-  // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
-  // plugins: [
-  //   new webpack.ProvidePlugin({
-  //     'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-  //   })
-  // ],
-
   module: {
     loaders: [
       {
         test: [/\.jsx$/, /\.js$/],
         exclude: [/node_modules/],
-        loaders: ((process.env.NODE_ENV === 'production') ? ["babel?presets[]=airbnb"] : ["react-hot", "babel?presets[]=airbnb"])
+        loaders: (isLive ? ["babel?presets[]=airbnb"] : ["react-hot", "babel?presets[]=airbnb"])
       }
     ],
   },
