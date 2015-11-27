@@ -1,0 +1,38 @@
+{
+  "name": "Jendela",
+  "version": "0.0.1",
+  "description": "Mengulas layanan publik dengan transparan",
+  "dependencies": {
+    "http-server": "^0.8.5",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "webpack": "^1.12.8"
+  },
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-airbnb": "^1.0.0",
+    "react-hot-loader": "^1.3.0",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "scripts": {
+    "dev": "webpack-dev-server --hot --inline --content-base public --port 8080",
+    "start": "webpack --optimize-minimize --optimize-dedupe | http-server ./public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jendela/jendela.git"
+  },
+  "keywords": [
+    "transparansi",
+    "layanan publik",
+    "hackathon",
+    "merdeka"
+  ],
+  "author": "jendela.dev",
+  "license": "BSD-3",
+  "bugs": {
+    "url": "https://github.com/jendela/jendela/issues"
+  },
+  "homepage": "https://github.com/jendela/jendela"
+}
