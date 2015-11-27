@@ -9,12 +9,12 @@ module.exports = {
     path: __dirname + "/public"
   },
 
-  plugins: [
-    // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
-    new webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-    })
-  ],
+  // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+  //   })
+  // ],
 
   module: {
     loaders: [

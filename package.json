@@ -17,20 +17,21 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --hot --inline --content-base public --port 8080",
-    "start": "webpack --optimize-minimize --optimize-dedupe | http-server ./public"
+    "start": "webpack --optimize-minimize --optimize-dedupe && http-server ./public"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jendela/jendela.git"
   },
   "keywords": [
+    "react",
     "transparansi",
     "layanan publik",
     "hackathon",
     "merdeka"
   ],
   "author": "jendela.dev",
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/jendela/jendela/issues"
   },
