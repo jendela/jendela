@@ -1,4 +1,4 @@
-var webpack = require('webpack')
+const webpack = require('webpack')
 
 module.exports = {
   context: __dirname + "/app",
@@ -21,7 +21,7 @@ module.exports = {
       {
         test: [/\.jsx$/, /\.js$/],
         exclude: [/node_modules/],
-        loaders: ["react-hot", "babel?presets[]=airbnb"]
+        loaders: ((process.env.NODE_ENV === 'production') ? ["babel?presets[]=airbnb"] : ["react-hot", "babel?presets[]=airbnb"])
       }
     ],
   },
