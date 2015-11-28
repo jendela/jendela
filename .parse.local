@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "Jendela": {
+      "applicationId": "vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN"
+    },
+    "_default": {
+      "link": "Jendela"
+    }
+  }
+}
