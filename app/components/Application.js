@@ -3,6 +3,7 @@
 import React from 'react'
 import MapComponent from './maps/MapComponent'
 import Statistic from './Statistic'
+import Review from './Review'
 
 class Application extends React.Component {
     render() {
@@ -18,6 +19,10 @@ class Application extends React.Component {
                     <h3>Map</h3>
                 </div>
                 <MapComponent />
+                <div className="row">
+                    <h3>Ulasan Terakhir</h3>
+                    <Review />
+                </div>
             </div>
         )
     }
