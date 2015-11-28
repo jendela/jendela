@@ -23,8 +23,6 @@ class Review extends ParseComponent {
 
     observe(props, states) {
 
-        console.debug(states);
-
         // selected province
         let province = undefined;
         if (states.province)

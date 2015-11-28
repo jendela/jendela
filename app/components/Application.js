@@ -4,10 +4,10 @@ import React from 'react'
 import MapComponent from './maps/MapComponent'
 import Statistic from './Statistic'
 import Review from './Review'
+import ReviewAdd from './ReviewAdd'
 
 class Application extends React.Component {
     render() {
-
         return (
             <div>
                 <div className="row">
@@ -22,6 +22,10 @@ class Application extends React.Component {
                 <div className="row">
                     <h3>Ulasan Terakhir</h3>
                     <Review />
+                </div>
+                <div className="row">
+                    <h3>Tambah Ulasan</h3>
+                    <ReviewAdd />
                 </div>
             </div>
         )
