@@ -76,24 +76,24 @@ Parse.Cloud.job("Statistik", function (request, status) {
 // Utility functions
 
 function statistikTotalBiayaKota(request, status) {
-    return statistikTotal(request, status, Kota, "total_biaya", "Top 10 Total Biaya per Kota");
+    return statistikTotal(status, Kota, "total_biaya", "Top 10 Total Biaya per Kota", "Total Biaya");
 }
 
 function statistikTotalBiayaPropinsi(request, status) {
-    return statistikTotal(request, status, Propinsi, "total_biaya", "Top 10 Total Biaya per Propinsi");
+    return statistikTotal(status, Propinsi, "total_biaya", "Top 10 Total Biaya per Propinsi", "Total Biaya");
 }
 
 function statistikRataBiayaKota(request, status) {
-    return statistikTotal(request, status, Kota, "total_biaya", "Top 10 Rata Biaya per Kota");
+    return statistikTotal(status, Kota, "total_biaya", "Top 10 Rata Biaya per Kota", "Rata-rata Biaya");
 }
 
 function statistikRataBiayaPropinsi(request, status) {
-    return statistikTotal(request, status, Propinsi, "total_biaya", "Top 10 Rata Biaya per Propinsi");
+    return statistikTotal(status, Propinsi, "total_biaya", "Top 10 Rata Biaya per Propinsi", "Rata-rata Biaya");
 }
 
-function statistikTotal(request, status, parseClass, field, title) {
+function statistikTotal(status, level, field, title, category) {
     // Kota
-    var kotaQuery = new Parse.Query(parseClass);
+    var kotaQuery = new Parse.Query(level);
     return kotaQuery.descending(field).limit(10).find().then(function (kotas) {
         var jsonData = kotas.map(function (kota) {
             return {
@@ -104,6 +104,8 @@ function statistikTotal(request, status, parseClass, field, title) {
         var statistik = new Statistik();
         statistik.set("judul", title);
         statistik.set("data", jsonData);
+        statistik.set("level", level.className);
+        statistik.set("kategori", category);
         statistik.save();
     }, function (error) {
         console.error("Got an error " + error.code + " : " + error.message);
@@ -111,9 +113,9 @@ function statistikTotal(request, status, parseClass, field, title) {
     });
 }
 
-function statistikRata(request, status, parseClass, field, title) {
+function statistikRata(status, level, field, title, category) {
     // Kota
-    var kotaQuery = new Parse.Query(parseClass);
+    var kotaQuery = new Parse.Query(level);
     return kotaQuery.find().then(function (kotas) {
         var jsonData = kotas.map(function (kota) {
             if (kota.get("total_ulasan") != undefined && !kota.get("total_ulasan") == 0) {
@@ -141,6 +143,8 @@ function statistikRata(request, status, parseClass, field, title) {
         var statistik = new Statistik();
         statistik.set("judul", title);
         statistik.set("data", jsonData);
+        statistik.set("level", level.className);
+        statistik.set("kategori", category);
         statistik.save();
     }, function (error) {
         console.error("Got an error " + error.code + " : " + error.message);
