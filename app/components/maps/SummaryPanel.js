@@ -2,7 +2,7 @@
 
 import React from 'react'
 import MapStore from '../../stores/MapStore'
-import SummariesStore from '../../stores/SummariesStore'
+import SummaryStore from '../../stores/SummaryStore'
 import { m } from '../../helper'
 
 var styles = {
@@ -26,7 +26,7 @@ var styles = {
   }
 }
 
-class Panel extends React.Component {
+class SummaryPanel extends React.Component {
 
   constructor(props) {
     super(props)
@@ -44,7 +44,14 @@ class Panel extends React.Component {
   }
 
   _onChange() {
-    this.setState({ province: MapStore.highlightedProvince() })
+    let activeProvince = ''
+    if (MapStore.selectedProvince() !== '') {
+      activeProvince = MapStore.selectedProvince()
+    } else if (MapStore.highlightedProvince() !== '') {
+      activeProvince = MapStore.highlightedProvince()
+    }
+    
+    this.setState({ province: activeProvince })
   }
 
   // render helpers
@@ -77,7 +84,7 @@ class Panel extends React.Component {
 
   render() {
     const { province } = this.state
-    const summary = SummariesStore.getSummaryForProvinceId(province)
+    const summary = SummaryStore.getSummaryForProvinceId(province)
 
     const rating = this._renderRating(summary.rating)
     const averageTable = this._renderAverageTable([
@@ -91,7 +98,7 @@ class Panel extends React.Component {
       <div className="callout" style={styles.panel}>
         <h5 style={styles.title}>{summary.title} <br/> {rating}</h5>
 
-        <div>20000 Ulasan</div>
+        <div>{summary.totalReviews} Ulasan</div>
         <div>Total biaya: {summary.total}</div>
 
         <br/>
@@ -107,4 +114,4 @@ class Panel extends React.Component {
 
 }
 
-export default Panel
+export default SummaryPanel

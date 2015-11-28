@@ -10,10 +10,14 @@ import MapStore from '../../stores/MapStore'
 
 const styles = {
   province: {
-    fill: "#B2CBDC"
+    fill: "#B2CBDC",
+    cursor: "pointer"
   },
   provinceHighlighted: {
     fill: "#C2E699"
+  },
+  provinceSelected: {
+    fill: "#78C679"
   },
   boundary: {
     fill: "none",
@@ -33,13 +37,14 @@ class Map extends React.Component {
 
   constructor(props) {
     super(props)
-    
+
     this._onChange = this._onChange.bind(this)
     this.state = {
       provinces: [],
       coasts: null,
       borders: null,
-      highlight: null
+      highlight: null,
+      selected: null
     }
   }
 
@@ -78,15 +83,22 @@ class Map extends React.Component {
     }
   }
 
-  // private functions
+  // actions
 
-  _handleHover(provinceId) {
+  _highlightProvince(provinceId) {
     MapActions.highlightProvince(provinceId)
+  }
+
+  _selectProvince(provinceId) {
+    let isProvinceSelected = (MapStore.selectedProvince() === provinceId)
+    let province = !isProvinceSelected ? provinceId : ''
+    MapActions.selectProvince(province)
   }
 
   _onChange() {
     this.setState({
-      highlight: MapStore.highlightedProvince()
+      highlight: MapStore.highlightedProvince(),
+      selected: MapStore.selectedProvince()
     })
   }
 
@@ -135,13 +147,15 @@ class Map extends React.Component {
       .map((province) => {
         let style = m(
           styles.province,
-          MapStore.isProvinceHighlighted(province.key) && styles.provinceHighlighted
+          MapStore.highlightedProvince() === province.key && styles.provinceHighlighted,
+          MapStore.selectedProvince() === province.key && styles.provinceSelected
         );
         return (
           <path
             style={style} key={province.key}
-            onMouseEnter={this._handleHover.bind(this, province.key)}
-            onMouseLeave={this._handleHover.bind(this, '')}
+            onMouseEnter={this._highlightProvince.bind(this, province.key)}
+            onMouseLeave={this._highlightProvince.bind(this, '')}
+            onClick={this._selectProvince.bind(this, province.key)}
             d={province.path} />
         );
       });

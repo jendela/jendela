@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Indonesia from './Map'
-import Panel from './Panel'
+import SummaryPanel from './SummaryPanel'
 
 const height = 420
 const styles = {
@@ -33,7 +33,7 @@ class MapComponent extends React.Component {
           </div>
 
           <div className="large-3 columns" style={styles.panel}>
-            <Panel />
+            <SummaryPanel />
           </div>
         </div>
       </section>

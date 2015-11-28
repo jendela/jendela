@@ -55,6 +55,7 @@ const _summaries = _raw
       title: el.name,
       rating: (money % 5) + 1,
       total: total,
+      totalReviews: (money * 100),
       avgKTP: total2,
       avgKK: total2,
       avgAkta: total2,
@@ -65,7 +66,7 @@ const _summaries = _raw
     return acc
   }, {})
 
-const SummariesStore = assign(EventEmitter.prototype, {
+const SummaryStore = assign(EventEmitter.prototype, {
 
   getSummaryForProvinceId(province) {
     let key = province.replace('ID.', '')
@@ -77,4 +78,4 @@ const SummariesStore = assign(EventEmitter.prototype, {
 
 })
 
-module.exports = SummariesStore
+module.exports = SummaryStore

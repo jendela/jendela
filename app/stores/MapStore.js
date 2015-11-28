@@ -8,6 +8,7 @@ import MapConstants from '../constants/MapConstants'
 const CHANGE_EVENT = "change"
 
 var _highlighted = ''
+var _selected = ''
 
 const MapStore = assign(EventEmitter.prototype, {
 
@@ -31,8 +32,12 @@ const MapStore = assign(EventEmitter.prototype, {
     return _highlighted
   },
 
-  isProvinceHighlighted(province) {
-    return _highlighted === province
+  selectProvince(province) {
+    _selected = province
+  },
+
+  selectedProvince() {
+    return _selected
   }
 
 })
@@ -43,12 +48,16 @@ AppDispatcher.register((action) => {
       MapStore.highlightProvince(action.province)
       break;
 
+    case MapConstants.SELECT_PROVINCE:
+      MapStore.selectProvince(action.province)
+      break;
+
     default:
       // nothingness
   }
 
   MapStore.emitChange()
-  
+
   return true
 })
 
