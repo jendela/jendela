@@ -18,6 +18,17 @@
 
 * open your localhost [localhost:8080](http://localhost:8080)
 
-## Lincense
+## Deployment
+
+### Parse Cloud Code
+
+* setup parse [command line tool](https://parse.com/docs/cloudcode/guide#command-line-installation) on local machine 
+* run "deploy" to deploy the cloud code
+
+  ```sh
+  $ parse deploy
+  ```
+
+## License
 
 BSD
