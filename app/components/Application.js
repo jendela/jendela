@@ -5,9 +5,13 @@ import Landing from './Landing'
 
 class Application extends React.Component {
 
-  render() {
-    return (<Landing />)
-  }
+    render() {
+        return (
+            <div>
+                <Landing />
+            </div>
+        )
+    }
 
 }
 
