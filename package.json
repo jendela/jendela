@@ -7,7 +7,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-airbnb": "^1.0.0",
     "parse": "~1.6.9",
-    "parse-react": "^0.5.0"
+    "parse-react": "^0.5.0",
     "d3": "^3.5.9",
     "exports-loader": "^0.6.2",
     "flux": "^2.0.1",
