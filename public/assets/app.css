@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,800);
 
-html, body {
+html, body, h1, h2, h3, h4, h5, h6 {
     background: #FFF;
     min-height: 100%;
     color: #222;

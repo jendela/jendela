@@ -6,7 +6,7 @@ import React from 'react'
 
 var ParseComponent = ParseReact.Component(React);
 
-class Statistik extends ParseComponent {
+class Statistic extends ParseComponent {
 
     constructor(props) {
         super(props);
@@ -18,7 +18,7 @@ class Statistik extends ParseComponent {
 
     observe(props, states) {
         return {
-            items: new Parse.Query('Statistik')
+            items: new Parse.Query('Statistic')
         };
     }
 
@@ -104,5 +104,5 @@ class Statistik extends ParseComponent {
     }
 
 }
-Statistik.defaultProps = {type: undefined};
-export default Statistik
+Statistic.defaultProps = {type: undefined};
+export default Statistic

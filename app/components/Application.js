@@ -1,18 +1,26 @@
 'use strict'
 
 import React from 'react'
-import Landing from './Landing'
+import MapComponent from './maps/MapComponent'
+import Statistic from './Statistic'
 
 class Application extends React.Component {
-
     render() {
+
         return (
             <div>
-                <Landing />
+                <div className="row">
+                    <h3>Statistik</h3>
+                    <Statistic />
+                </div>
+
+                <div className="row">
+                    <h3>Map</h3>
+                </div>
+                <MapComponent />
             </div>
         )
     }
-
 }
 
 export default Application

@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const isLive = (process.env.NODE_ENV === 'production' | process.env.NODE_ENV === 'staging')
+
 module.exports = {
   entry: "./app/app.jsx",
 
@@ -7,6 +8,13 @@ module.exports = {
     filename: "app.js",
     path: "./public"
   },
+
+  plugins: [
+    // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+    })
+  ],
 
   module: {
     loaders: [
