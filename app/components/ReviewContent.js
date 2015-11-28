@@ -4,6 +4,9 @@ import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
 
+var moment = require('moment');
+moment.locale("id-ID");
+
 import { Component } from 'react';
 
 class ReviewContent extends Component {
@@ -20,7 +23,16 @@ class ReviewContent extends Component {
         return (
             <div>
                 {this.props.reviews.map((e)=> {
-                    return <div key={e.objectId}>{e.title}</div>
+                    console.log(e);
+                    return (
+                        <div className="small-12 large-6 columns" key={e.objectId}>
+                            <h7>Diulas {moment(e.createdAt).fromNow()}</h7>
+                            <h5>{e.title}</h5>
+                            <h6>{e.rating} bintang</h6>
+                            <p>{e.content}</p>
+                            <div><span></span><span>{e.fee}</span></div>
+                        </div>
+                    );
                 })}
             </div>
         );

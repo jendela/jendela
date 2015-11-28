@@ -69,7 +69,7 @@ class Review extends ParseComponent {
             provinces: new Parse.Query('Province').select(["objectId", "name"]),
             cities: new Parse.Query('City').equalTo("province", province).select(["objectId", "name"]),
             services: new Parse.Query('Service').select(["objectId", "name"]),
-            reviews: reviewQuery
+            reviews: reviewQuery.limit(6)
         };
     }
 
