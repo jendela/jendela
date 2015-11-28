@@ -1,12 +1,14 @@
 'use strict'
 
 import React from 'react'
-import Landing from './Landing'
+import MapComponent from './maps/MapComponent'
 
 class Application extends React.Component {
 
   render() {
-    return (<Landing />)
+    return (
+      <MapComponent />
+    )
   }
 
 }

@@ -1,0 +1,3 @@
+module.exports = {
+  HIGHLIGHT_PROVINCE: 'HIGHLIGHT_PROVINCE'
+}

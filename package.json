@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "Mengulas layanan publik dengan transparan",
   "dependencies": {
+    "d3": "^3.5.9",
+    "exports-loader": "^0.6.2",
+    "flux": "^2.0.1",
+    "imports-loader": "^0.6.5",
+    "topojson": "^1.6.0",
     "http-server": "^0.8.5",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
