@@ -6,7 +6,8 @@ module.exports = {
 
   output: {
     filename: "app.js",
-    path: "./public"
+    path: "./public/assets",
+    publicPath: "/assets/"
   },
 
   plugins: [
