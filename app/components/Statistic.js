@@ -11,7 +11,7 @@ class Statistic extends ParseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            "kategori": "",
+            "category": "",
             "level": ""
         };
     }
@@ -29,13 +29,14 @@ class Statistic extends ParseComponent {
             return <span>Loading</span>;
 
         // config filter
-        let kategoris = [];
+        let categories = [];
         this.data.items.forEach((e)=> {
-            if (kategoris.indexOf(e.kategori) == -1)
-                kategoris.push(e.kategori);
+            console.log(e);
+            if (categories.indexOf(e.category) == -1)
+                categories.push(e.category);
         });
-        if (this.state.kategori == "")
-            this.state.kategori = kategoris[0];
+        if (this.state.category == "")
+            this.state.category = categories[0];
         let levels = [];
         this.data.items.forEach((e)=> {
             if (levels.indexOf(e.level) == -1)
@@ -48,11 +49,11 @@ class Statistic extends ParseComponent {
         let filter = (
             <form>
                 <div>
-                    <label htmlFor="kategori">Kategori</label>
-                    <select id="kategori" onChange={this._onChangeKategori.bind(this)}>
-                        {kategoris.map((kategori) => {
-                            return <option key={kategori}
-                                           value={kategori}>{kategori}</option>
+                    <label htmlFor="category">Kategori</label>
+                    <select id="category" onChange={this._onChangeCategory.bind(this)}>
+                        {categories.map((category) => {
+                            return <option key={category}
+                                           value={category}>{category}</option>
                         })}
                     </select>
                 </div>
@@ -70,7 +71,7 @@ class Statistic extends ParseComponent {
 
         // render title
         let statToShow = this.data.items.find((e) => {
-            if (e.kategori == this.state.kategori && e.level == this.state.level)
+            if (e.category == this.state.category && e.level == this.state.level)
                 return true;
             return false;
         });
@@ -80,7 +81,7 @@ class Statistic extends ParseComponent {
             return (
                 <div className="row" key={e.name}>
                     <div className="small-12 large-6 columns">{e.name}</div>
-                    <div className="small-12 large-6 columns">{e.nilai==undefined?0:e.nilai}</div>
+                    <div className="small-12 large-6 columns">{e.value==undefined?0:e.value}</div>
                 </div>
             )
         });
@@ -89,14 +90,14 @@ class Statistic extends ParseComponent {
         return (
             <div>
                 {filter}
-                <h4>{statToShow.judul}</h4>
+                <h4>{statToShow.title}</h4>
                 <div className="panel">{tableToShow}</div>
             </div>
         )
     }
 
-    _onChangeKategori(e) {
-        this.setState({"kategori": e.target.value});
+    _onChangeCategory(e) {
+        this.setState({"category": e.target.value});
     }
 
     _onChangeLevel(e) {
