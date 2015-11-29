@@ -6,111 +6,111 @@ import SummaryStore from '../../stores/SummaryStore'
 import { m } from '../../helper'
 
 var styles = {
-  panel: {
-    marginTop: '1em'
-  },
-  title: {
-    textTransform: 'uppercase',
-    fontWeight: 700
-  },
-  list: {
-    listStyleType: "none",
-    paddingLeft: 0
-  },
-  rating: {
-    color: '#87BCB4',
-    fontSize: '1em'
-  },
-  averageRow: {
-    fontSize: '0.99em'
-  }
+    panel: {
+        marginTop: '1em'
+    },
+    title: {
+        textTransform: 'uppercase',
+        fontWeight: 700
+    },
+    list: {
+        listStyleType: "none",
+        paddingLeft: 0
+    },
+    rating: {
+        color: '#87BCB4',
+        fontSize: '1em'
+    },
+    averageRow: {
+        fontSize: '0.99em'
+    }
 }
 
 class SummaryPanel extends React.Component {
 
-  constructor(props) {
-    super(props)
+    constructor(props) {
+        super(props)
 
-    this._onChange = this._onChange.bind(this)
-    this.state = { province: '' }
-  }
-
-  componentDidMount() {
-    MapStore.addChangeListener(this._onChange)
-  }
-
-  componentWillMount() {
-    MapStore.removeChangeListener(this._onChange)
-  }
-
-  _onChange() {
-    let activeProvince = ''
-    if (MapStore.selectedProvince() !== '') {
-      activeProvince = MapStore.selectedProvince()
-    } else if (MapStore.highlightedProvince() !== '') {
-      activeProvince = MapStore.highlightedProvince()
+        this._onChange = this._onChange.bind(this)
+        this.state = { province: '' }
     }
-    
-    this.setState({ province: activeProvince })
-  }
 
-  // render helpers
+    componentDidMount() {
+        MapStore.addChangeListener(this._onChange)
+    }
 
-  _starRating(rating) {
-    if (rating <= 0) { return '' }
-    return '★' + this._starRating(rating - 1)
-  }
+    componentWillUnmount() {
+        MapStore.removeChangeListener(this._onChange)
+    }
 
-  _renderRating(rating) {
-    return (
-      <span>
-        <span style={styles.rating}>{this._starRating(rating)}</span>
-        <span style={m(styles.rating, {color: '#AAAAAA'})}>{this._starRating(5 - rating)}</span>
-      </span>
-    )
-  }
+    _onChange() {
+        let activeProvince = ''
+        if (MapStore.highlightedProvince() !== '') {
+            activeProvince = MapStore.highlightedProvince()
+        } else if (MapStore.selectedProvince() !== '') {
+            activeProvince = MapStore.selectedProvince()
+        }
 
-  _renderAverageTable(values) {
-    return values.map((average, idx) => {
-      return (
-        <div className="row" key={idx} style={styles.averageRow}>
-          <div className="large-5 columns">{average.title}</div>
-          <div className="large-7 columns">{average.nominal}</div>
-        </div>
-      )
-    })
-  }
+        this.setState({ province: activeProvince })
+    }
 
+    // render helpers
 
-  render() {
-    const { province } = this.state
-    const summary = SummaryStore.getSummaryForProvinceId(province)
+    _starRating(rating) {
+        if (rating <= 0) { return '' }
+        return '★' + this._starRating(rating - 1)
+    }
 
-    const rating = this._renderRating(summary.rating)
-    const averageTable = this._renderAverageTable([
-      { 'title': 'KTP', 'nominal': summary.avgKTP },
-      { 'title': 'Kartu Klg', 'nominal': summary.avgKK },
-      { 'title': 'Akta Lahir', 'nominal': summary.avgAkta },
-      { 'title': 'Akta Kawin', 'nominal': summary.avgKawin },
-    ])
+    _renderRating(rating) {
+        return (
+            <span>
+                <span style={styles.rating}>{this._starRating(rating)}</span>
+                <span style={m(styles.rating, {color: '#AAAAAA'})}>{this._starRating(5 - rating)}</span>
+            </span>
+        )
+    }
 
-    return (
-      <div className="callout" style={styles.panel}>
-        <h5 style={styles.title}>{summary.title} <br/> {rating}</h5>
+    _renderAverageTable(values) {
+        return values.map((average, idx) => {
+            return (
+                <div className="row" key={idx} style={styles.averageRow}>
+                    <div className="large-5 columns">{average.title}</div>
+                    <div className="large-7 columns">{average.nominal}</div>
+                </div>
+            )
+        })
+    }
 
-        <div>{summary.totalReviews} Ulasan</div>
-        <div>Total biaya: {summary.total}</div>
+    render() {
+        const { province } = this.state
+        const summary = SummaryStore.getSummaryForProvinceId(province)
 
-        <br/>
-        <h5>Data rata-rata</h5>
+        const rating = this._renderRating(summary.rating)
+        const averageTable = this._renderAverageTable([
+            { 'title': 'KTP', 'nominal': summary.avgKTP },
+            { 'title': 'Kartu Klg', 'nominal': summary.avgKK },
+            { 'title': 'Akta Lahir', 'nominal': summary.avgAkta },
+            { 'title': 'Akta Kawin', 'nominal': summary.avgKawin },
+        ])
 
-        {averageTable}
+        return (
+            <div className="callout" style={styles.panel}>
+                <h5 style={styles.title}>{summary.title} <br/> {rating}</h5>
 
-        <br/>
-        <button type="button" className="expanded button">Lihat data selengkapnya &rarr;</button>
-      </div>
-    )
-  }
+                <div>{summary.totalReviews} Ulasan</div>
+                <div>Total biaya: {summary.total}</div>
+
+                <br/>
+
+                <h5>Data rata-rata</h5>
+
+                {averageTable}
+
+                <br/>
+                <button type="button" className="expanded button" style={{background:'#31A694'}}>Lihat data selengkapnya &rarr;</button>
+            </div>
+        )
+    }
 
 }
 

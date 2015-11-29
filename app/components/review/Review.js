@@ -11,6 +11,13 @@ var ParseComponent = ParseReact.Component(React);
 
 var Province = Parse.Object.extend("Province");
 
+const styles = {
+    info: {
+        paddingTop: "25px",
+        paddingBottom: "10px"
+    }
+}
+
 class Review extends ParseComponent {
 
     constructor(props) {
@@ -74,7 +81,7 @@ class Review extends ParseComponent {
 
     render() {
         return (
-            <div>
+            <section style={styles.info}>
                 <div className="row">
                     <ReviewFilter provinces={this.data.provinces} cities={this.data.cities}
                                   services={this.data.services}
@@ -82,7 +89,7 @@ class Review extends ParseComponent {
 
                 <div className="row">
                     <ReviewContent reviews={this.data.reviews}/></div>
-            </div>
+            </section>
         );
     }
 

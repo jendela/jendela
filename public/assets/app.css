@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,800);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900);
 
 html, body, h1, h2, h3, h4, h5, h6 {
     background: #FFF;
@@ -7,3 +7,5 @@ html, body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 a, a:hover { color: #3768B5; }
+
+.row { max-width: 70rem; }

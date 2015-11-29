@@ -6,6 +6,14 @@ import React from 'react'
 
 var ParseComponent = ParseReact.Component(React);
 
+const styles = {
+    info: {
+        color: "#FFF",
+        paddingTop: "25px",
+        paddingBottom: "10px"
+    }
+}
+
 class ReviewAdd extends ParseComponent {
 
     constructor(props) {
@@ -36,12 +44,7 @@ class ReviewAdd extends ParseComponent {
         };
     }
 
-    componentDidMount() {
-    }
-
     render() {
-
-        console.log(this.state);
 
         // input provinsi
         let provinceInput = (
@@ -103,7 +106,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="rating">Rating</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.rating} placeholder="Rating" id="rating" onChange={this._onChange.bind(this)}
+                    <input type="number" value={this.state.rating} placeholder="Rating" id="rating"
+                           onChange={this._onChange.bind(this)}
                            required/>
                 </div>
             </div>
@@ -116,7 +120,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="title">Judul</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="text" value={this.state.title} placeholder="Judul" id="title" onChange={this._onChange.bind(this)} required/>
+                    <input type="text" value={this.state.title} placeholder="Judul" id="title"
+                           onChange={this._onChange.bind(this)} required/>
                 </div>
             </div>
         );
@@ -128,7 +133,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="content">Konten</label>
                 </div>
                 <div className="large-9 columns">
-                    <textarea rows="5" value={this.state.content} className="form-control" id="content" placeholder="Konten"
+                    <textarea rows="5" value={this.state.content} className="form-control" id="content"
+                              placeholder="Konten"
                               onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
@@ -142,7 +148,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="fee">Biaya</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.fee} placeholder="Biaya" id="fee" onChange={this._onChange.bind(this)}/>
+                    <input type="number" value={this.state.fee} placeholder="Biaya" id="fee"
+                           onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -153,7 +160,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="duration">Durasi Pelayanan</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.duration} placeholder="Durasi" id="duration" onChange={this._onChange.bind(this)}/>
+                    <input type="number" value={this.state.duration} placeholder="Durasi" id="duration"
+                           onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -164,7 +172,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="date">Tanggal</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="text" value={this.state.date} placeholder="Date" id="date" onChange={this._onChange.bind(this)}/>
+                    <input type="text" value={this.state.date} placeholder="Date" id="date"
+                           onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -186,7 +195,8 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="name">Name</label>
                     </div>
                     <div className="large-9 columns">
-                        <input value={this.state.name} required type="text" placeholder="Name" id="name" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.name} required type="text" placeholder="Name" id="name"
+                               onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -196,7 +206,8 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="phone">Telepon</label>
                     </div>
                     <div className="large-9 columns">
-                        <input value={this.state.phone} required type="text" placeholder="Telepon" id="phone" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.phone} required type="text" placeholder="Telepon" id="phone"
+                               onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -206,7 +217,8 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="email">Email</label>
                     </div>
                     <div className="large-9 columns">
-                        <input value={this.state.email} required type="email" placeholder="Email" id="email" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.email} required type="email" placeholder="Email" id="email"
+                               onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -233,21 +245,23 @@ class ReviewAdd extends ParseComponent {
 
 
         return (
-            <form onSubmit={this._onClick.bind(this)}>
-                {provinceInput}
-                {cityInput}
-                {serviceInput}
-                {ratingInput}
-                {titleInput}
-                {contentInput}
-                {feeInput}
-                {durationInput}
-                {dateInput}
-                {isAnonInput}
-                {identitasInput}
-                {isAgreeInput}
-                {sendButton}
-            </form>
+            <section style={styles.info}>
+                <form onSubmit={this._onClick.bind(this)}>
+                    {provinceInput}
+                    {cityInput}
+                    {serviceInput}
+                    {ratingInput}
+                    {titleInput}
+                    {contentInput}
+                    {feeInput}
+                    {durationInput}
+                    {dateInput}
+                    {isAnonInput}
+                    {identitasInput}
+                    {isAgreeInput}
+                    {sendButton}
+                </form>
+            </section>
         );
     }
 

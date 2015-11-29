@@ -3,6 +3,7 @@
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
+import Loading from './template/Loading'
 
 var ParseComponent = ParseReact.Component(React);
 
@@ -25,13 +26,17 @@ class Statistic extends ParseComponent {
 
     render() {
 
-        if (this.data.items.length == 0)
-            return <span>Loading</span>;
+        if (this.data.items.length == 0) {
+            return (
+                <div className="row">
+                    <Loading />
+                </div>
+            )
+        }
 
         // config filter
         let categories = [];
         this.data.items.forEach((e)=> {
-            console.log(e);
             if (categories.indexOf(e.category) == -1)
                 categories.push(e.category);
         });
@@ -47,26 +52,28 @@ class Statistic extends ParseComponent {
 
         // render filter
         let filter = (
-            <form>
-                <div>
-                    <label htmlFor="category">Kategori</label>
-                    <select id="category" onChange={this._onChangeCategory.bind(this)}>
-                        {categories.map((category) => {
-                            return <option key={category}
-                                           value={category}>{category}</option>
-                        })}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="level">Level</label>
-                    <select id="level" onChange={this._onChangeLevel.bind(this)}>
-                        {levels.map((level) => {
-                            return <option key={level}
-                                           value={level}>{level}</option>
-                        })}
-                    </select>
-                </div>
-            </form>
+            <div className="row">
+                <form>
+                    <div className="large-6 columns">
+                        <label htmlFor="category">Kategori</label>
+                        <select id="category" onChange={this._onChangeCategory.bind(this)}>
+                            {categories.map((category) => {
+                                return <option key={category}
+                                               value={category}>{category}</option>
+                            })}
+                        </select>
+                    </div>
+                    <div className="large-6 columns">
+                        <label htmlFor="level">Level</label>
+                        <select id="level" onChange={this._onChangeLevel.bind(this)}>
+                            {levels.map((level) => {
+                                return <option key={level}
+                                               value={level}>{level}</option>
+                            })}
+                        </select>
+                    </div>
+                </form>
+            </div>
         );
 
         // render title
@@ -88,11 +95,13 @@ class Statistic extends ParseComponent {
 
         // return
         return (
-            <div>
-                {filter}
-                <h4>{statToShow.title}</h4>
-                <div className="panel">{tableToShow}</div>
-            </div>
+            <section className="row">
+                <div className="large-12 columns">
+                    {filter}
+                    <h4>{statToShow.title}</h4>
+                    <div className="callout">{tableToShow}</div>
+                </div>
+            </section>
         )
     }
 
