@@ -50,7 +50,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="province">Provinsi</label>
                 </div>
                 <div className="large-9 columns">
-                    <select id="province" onChange={this._onChange.bind(this)}>
+                    <select id="province" value={this.state.province} onChange={this._onChange.bind(this)}>
+                        <option key="" value="">Pilih Propinsi</option>
                         {this.data.provinces.map((e)=> {
                             return <option key={e.objectId} value={e.objectId}>{e.name}</option>
                         })}
@@ -66,7 +67,9 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="city">Kota</label>
                 </div>
                 <div className="large-9 columns">
-                    <select id="city" onChange={this._onChange.bind(this)}>
+                    {this.state.cityError ? <small className="error">Kota harus di isi</small> : <span />}
+                    <select id="city" value={this.state.city} onChange={this._onChange.bind(this)}>
+                        <option key="" value="">Pilih Kota</option>
                         {this.data.cities.map((e)=> {
                             return <option key={e.objectId} value={e.objectId}>{e.name}</option>
                         })}
@@ -82,7 +85,9 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="service">Layanan</label>
                 </div>
                 <div className="large-9 columns">
-                    <select id="service" onChange={this._onChange.bind(this)}>
+                    {this.state.serviceError ? <small className="error">Jenis layanan harus di isi</small> : <span />}
+                    <select id="service" value={this.state.service} onChange={this._onChange.bind(this)}>
+                        <option key="" value="">Pilih Layanan</option>
                         {this.data.services.map((e)=> {
                             return <option key={e.objectId} value={e.objectId}>{e.name}</option>
                         })}
@@ -98,7 +103,8 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="rating">Rating</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" placeholder="Rating" id="rating" onChange={this._onChange.bind(this)}/>
+                    <input type="number" value={this.state.rating} placeholder="Rating" id="rating" onChange={this._onChange.bind(this)}
+                           required/>
                 </div>
             </div>
         );
@@ -110,7 +116,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="title">Judul</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="text" placeholder="Judul" id="title" onChange={this._onChange.bind(this)}/>
+                    <input type="text" value={this.state.title} placeholder="Judul" id="title" onChange={this._onChange.bind(this)} required/>
                 </div>
             </div>
         );
@@ -122,7 +128,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="content">Konten</label>
                 </div>
                 <div className="large-9 columns">
-                    <textarea rows="5" className="form-control" id="content" placeholder="Konten"
+                    <textarea rows="5" value={this.state.content} className="form-control" id="content" placeholder="Konten"
                               onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
@@ -136,7 +142,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="fee">Biaya</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" placeholder="Biaya" id="fee" onChange={this._onChange.bind(this)}/>
+                    <input type="number" value={this.state.fee} placeholder="Biaya" id="fee" onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -147,7 +153,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="duration">Durasi Pelayanan</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" placeholder="Durasi" id="duration" onChange={this._onChange.bind(this)}/>
+                    <input type="number" value={this.state.duration} placeholder="Durasi" id="duration" onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -158,7 +164,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="date">Tanggal</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="text" placeholder="Date" id="date" onChange={this._onChange.bind(this)}/>
+                    <input type="text" value={this.state.date} placeholder="Date" id="date" onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
@@ -166,7 +172,7 @@ class ReviewAdd extends ParseComponent {
         let isAnonInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <label><input type="checkbox" id="isAnon"
+                    <label><input value={this.state.isAnnon} type="checkbox" id="isAnon"
                                   onChange={(e)=>{this.setState({isAnon:e.target.checked})}}/> Saya mau mengirim ulasan
                         secara anonim</label>
                 </div>
@@ -180,7 +186,7 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="name">Name</label>
                     </div>
                     <div className="large-9 columns">
-                        <input type="text" placeholder="Name" id="name" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.name} required type="text" placeholder="Name" id="name" onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -190,7 +196,7 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="phone">Telepon</label>
                     </div>
                     <div className="large-9 columns">
-                        <input type="text" placeholder="Telepon" id="phone" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.phone} required type="text" placeholder="Telepon" id="phone" onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -200,7 +206,7 @@ class ReviewAdd extends ParseComponent {
                         <label htmlFor="email">Email</label>
                     </div>
                     <div className="large-9 columns">
-                        <input type="email" placeholder="Email" id="email" onChange={this._onChange.bind(this)}/>
+                        <input value={this.state.email} required type="email" placeholder="Email" id="email" onChange={this._onChange.bind(this)}/>
                     </div>
                 </div>
             );
@@ -211,7 +217,7 @@ class ReviewAdd extends ParseComponent {
         let isAgreeInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <label><input type="checkbox" id="isAgree"
+                    <label><input required type="checkbox" id="isAgree"
                                   onChange={(e)=>{this.setState({isAgree:e.target.checked})}}/> Saya menyetujui syarat
                         dan ketentuan berlaku</label>
                 </div>
@@ -220,14 +226,14 @@ class ReviewAdd extends ParseComponent {
         let sendButton = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <input type="button" value="Kirim" onClick={this._onClick.bind(this)}/>
+                    <button type="submit">Kirim</button>
                 </div>
             </div>
         );
 
 
         return (
-            <form>
+            <form onSubmit={this._onClick.bind(this)}>
                 {provinceInput}
                 {cityInput}
                 {serviceInput}
@@ -252,13 +258,22 @@ class ReviewAdd extends ParseComponent {
     }
 
     _onClick(e) {
+        e.preventDefault();
 
         if (this.state.isAgree) {
-            console.log({
-                "__type": "Pointer",
-                "className": "Service",
-                "objectId": this.state.service
-            });
+
+            let errorState = false;
+            if (!this.state.city) {
+                this.setState({cityError: true});
+            } else
+                this.setState({cityError: false});
+            if (!this.state.service) {
+                this.setState({serviceError: true});
+            } else
+                this.setState({serviceError: false});
+            if (errorState)
+                return;
+
             var newReview = {
                 city: {
                     "__type": "Pointer",
@@ -282,11 +297,31 @@ class ReviewAdd extends ParseComponent {
                 newReview["phone"] = this.state.phone;
                 newReview["email"] = this.state.email;
             }
-            ParseReact.Mutation.Create('Review', newReview).dispatch();
+            ParseReact.Mutation.Create('Review', newReview).dispatch().then(()=> {
+                alert('Terima kasih atas ulasan anda');
+
+                this.setState({
+                    province: "",
+                    city: "",
+                    service: "",
+                    rating: "",
+                    title: "",
+                    content: "",
+                    fee: "",
+                    duration: "",
+                    date: "",
+                    name: "",
+                    phone: "",
+                    email: "",
+                });
+
+            });
+            return false;
         }
 
         else {
             // TODO
+            return false;
         }
     }
 
