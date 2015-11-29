@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import d3 from 'd3'
 import topojson from 'topojson'
@@ -7,6 +5,7 @@ import topojson from 'topojson'
 import { m } from '../../helper'
 import MapActions from '../../actions/MapActions'
 import MapStore from '../../stores/MapStore'
+import Loading from '../template/Loading'
 
 const styles = {
     province: {
@@ -33,7 +32,7 @@ const styles = {
     }
 }
 
-class Map extends React.Component {
+class Indonesia extends React.Component {
 
     constructor(props) {
         super(props)
@@ -135,16 +134,8 @@ class Map extends React.Component {
         const { provinces, coasts, borders, selected, highlighted } = this.state
 
         if (provinces.length == 0) {
-            return (
-                <svg ref='svg' width={width} height={height}>
-                    <text x={width/2} y={height/2} style={styles.loadingText}>
-                        Loading...
-                    </text>
-                </svg>
-            )
+            return <Loading />
         }
-
-
 
         let provincesPaths = provinces
         .map((province) => {
@@ -182,4 +173,4 @@ Map.propTypes = {
     scale: React.PropTypes.number.isRequired
 }
 
-export default Map
+export default Indonesia

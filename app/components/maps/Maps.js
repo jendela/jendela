@@ -1,7 +1,5 @@
-'use strict'
-
 import React from 'react'
-import Indonesia from './Map'
+import Indonesia from './Indonesia'
 import SummaryPanel from './SummaryPanel'
 import MapSelection from './MapSelection'
 
@@ -23,7 +21,7 @@ const styles = {
     }
 }
 
-class MapComponent extends React.Component {
+class Maps extends React.Component {
     render() {
         return (
             <section id="mapSection" style={styles.mapSection}>
@@ -47,11 +45,9 @@ class MapComponent extends React.Component {
                         <SummaryPanel />
                     </div>
                 </div>
-
-
             </section>
         )
     }
 }
 
-export default MapComponent
+export default Maps

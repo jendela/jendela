@@ -10,10 +10,11 @@ const styles = {
         color: '#7385A1',
         textTransform: 'uppercase',
         fontWeight: 900,
-        fontSize: '1.1em'
+        fontSize: '0.9em',
+        letterSpacing: '1px'
     },
     selection: {
-        marginTop: '0.5em'
+        marginTop: '6px'
     }
 }
 
@@ -50,7 +51,7 @@ class MapSelection extends React.Component {
             <form style={styles.selection}>
                 <div className="row">
                     <div className="large-1 small-4 columns">
-                        <label htmlFor="map-filter" className="middle" style={styles.selectionLabel}>Filter : </label>
+                        <label htmlFor="map-filter" className="middle" style={styles.selectionLabel}>Filter: </label>
                     </div>
                     <div className="large-3 small-8 columns end">
                         <select id="map-filter" style={styles.selection} onChange={this._selectProvince.bind(this)} value={selectedProvince}>
