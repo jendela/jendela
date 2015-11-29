@@ -7,6 +7,13 @@ import Loading from './template/Loading'
 
 var ParseComponent = ParseReact.Component(React);
 
+const styles = {
+    info: {
+        paddingTop: "25px",
+        paddingBottom: "10px"
+    }
+}
+
 class Statistic extends ParseComponent {
 
     constructor(props) {
@@ -95,7 +102,7 @@ class Statistic extends ParseComponent {
 
         // return
         return (
-            <section className="row">
+            <section style={styles.info} className="row">
                 <div className="large-12 columns">
                     {filter}
                     <h4>{statToShow.title}</h4>

@@ -8,7 +8,7 @@ import Footer from './components/template/Footer'
 
 import Home from './components/home/Home'
 import Review from './components/review/Review'
-import AddReview from './components/review/AddReview'
+import ReviewAdd from './components/review/ReviewAdd'
 import Statistic from './components/Statistic'
 import Services from './components/Services'
 import FAQ from './components/FAQ'
@@ -33,7 +33,7 @@ const router = (
         <Route path="/" component={Application}>
             <IndexRoute component={Home} />
             <Route path="review" component={Review} />
-            <Route path="addreview" component={AddReview} />
+            <Route path="addreview" component={ReviewAdd} />
             <Route path="statistic" component={Statistic} />
             <Route path="services" component={Services} />
             <Route path="faq" component={FAQ} />
