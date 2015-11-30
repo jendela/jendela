@@ -62,7 +62,6 @@ class ReviewContent extends Component {
         return (
             <div>
                 {this.props.reviews.map((e)=> {
-                    console.log(e);
                     return (
                         <div style={styles.post_panel} className="small-12 large-6 columns" key={e.objectId}>
                             <div style={styles.post_time}>Diulas {moment(e.createdAt).fromNow()}</div>

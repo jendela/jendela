@@ -6,6 +6,7 @@ import React from 'react'
 
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
+import ReviewCity from './ReviewCity';
 
 var ParseComponent = ParseReact.Component(React);
 
@@ -70,22 +71,35 @@ class Review extends ParseComponent {
             reviewQuery.equalTo("service", service);
         }
 
+        // selected city query
+        let selCityQuery = new Parse.Query('City');
+
         return {
             provinces: new Parse.Query('Province').select(["objectId", "name"]),
             cities: new Parse.Query('City').equalTo("province", province).select(["objectId", "name"]),
             services: new Parse.Query('Service').select(["objectId", "name"]),
-            reviews: reviewQuery.limit(6)
+            reviews: reviewQuery.limit(6),
+            city: new Parse.Query('City').equalTo("objectId", states.city)
         };
     }
 
 
     render() {
+
+        console.log(this.data.city);
+
+        let cityInfo = null;
+        if (this.props.reviewType != "lite")
+            cityInfo = <div className="row"><ReviewCity city={this.data.city} /></div>;
+
         return (
             <section style={styles.info}>
                 <div className="row">
                     <ReviewFilter provinces={this.data.provinces} cities={this.data.cities}
                                   services={this.data.services}
                                   submit={this._createItem.bind(this)}/></div>
+
+                {cityInfo}
 
                 <div className="row">
                     <ReviewContent reviews={this.data.reviews}/></div>
@@ -98,4 +112,5 @@ class Review extends ParseComponent {
     }
 
 }
+Review.defaultProps = {reviewType: undefined};
 export default Review
