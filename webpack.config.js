@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const isLive = (process.env.NODE_ENV === 'production' | process.env.NODE_ENV === 'staging')
 
 module.exports = {
 
@@ -47,5 +46,9 @@ module.exports = {
       'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     })
   ],
+
+  resolve: {
+      root: path.resolve('./bower_components/foundation-sites/dist')
+  }
 
 }
