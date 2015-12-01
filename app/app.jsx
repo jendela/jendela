@@ -1,10 +1,47 @@
-'use strict'
-
 import React from 'react'
-import ReactDom from 'react-dom'
+import { render } from 'react-dom'
+import { Router, Route, IndexRoute } from 'react-router'
+import Parse from 'parse'
 
-import Application from './components/Application'
+import Navigation from './components/template/Navigation'
+import Footer from './components/template/Footer'
 
-ReactDom.render(
-	<Application />, document.getElementById('application')
-);
+import Home from './components/home/Home'
+import Review from './components/review/Review'
+import ReviewAdd from './components/review/ReviewAdd'
+import Statistic from './components/Statistic'
+import Services from './components/service/Service'
+import ServicesDetail from './components/service/ServiceDetail'
+import FAQ from './components/FAQ'
+import NotFound from './components/NotFound'
+
+Parse.initialize("vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN", "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu")
+
+class Application extends React.Component {
+    render() {
+        return (
+            <div>
+                <Navigation />
+                {this.props.children}
+                <Footer />
+            </div>
+        )
+    }
+}
+
+const router = (
+    <Router>
+        <Route path="/" component={Application}>
+            <IndexRoute component={Home} />
+            <Route path="review" component={Review} />
+            <Route path="addreview" component={ReviewAdd} />
+            <Route path="statistic" component={Statistic} />
+            <Route path="services/:serviceId" component={ServicesDetail} />
+            <Route path="services" component={Services} />
+            <Route path="faq" component={FAQ} />
+            <Route path="*" component={NotFound} />
+        </Route>
+    </Router>
+)
+
+render(router, document.getElementById('application'));
