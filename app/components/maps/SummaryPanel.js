@@ -5,24 +5,53 @@ import MapStore from '../../stores/MapStore'
 import SummaryStore from '../../stores/SummaryStore'
 import { m } from '../../helper'
 
-var styles = {
+const jendelaBlue = '#368baf'
+const jendelaGreen = '#87BCB4'
+
+const styles = {
     panel: {
         marginTop: '1em'
     },
     title: {
-        textTransform: 'uppercase',
-        fontWeight: 700
+        textTransform: 'capitalize',
+        fontWeight: 900,
+        color: jendelaBlue,
+        fontSize: '1.4em'
     },
     list: {
         listStyleType: "none",
         paddingLeft: 0
     },
     rating: {
-        color: '#87BCB4',
-        fontSize: '1em'
+        color: jendelaGreen,
+        fontSize: '1.4em'
     },
     averageRow: {
         fontSize: '0.99em'
+    }
+}
+
+const panelStyles = {
+    icon: {
+        width: '25%',
+        height: 'auto',
+        paddingRight: 0,
+        paddingTop: '4px'
+    },
+    info: {
+        width: '75%',
+        paddingLeft: 0
+    },
+    text: {
+        textTransform: 'uppercase',
+        color: jendelaBlue,
+        fontWeight: 900,
+        fontSize: '1.5em',
+        marginBottom: '-10px'
+    },
+    label: {
+        color: jendelaGreen,
+        fontWeight: 900
     }
 }
 
@@ -81,11 +110,28 @@ class SummaryPanel extends React.Component {
         })
     }
 
+    _renderPanelInfo(icon, value, label) {
+        return (
+            <div className="row" style={{marginBottom: '4px'}}>
+                <div className="columns" style={panelStyles.icon}>
+                    <img src={icon} />
+                </div>
+                <div className="columns" style={panelStyles.info}>
+                    <div style={panelStyles.text}>{value}</div>
+                    <div style={panelStyles.label}>{label}</div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         const { province } = this.state
         const summary = SummaryStore.getSummaryForProvinceId(province)
 
         const rating = this._renderRating(summary.rating)
+        const totalReviewInfo = this._renderPanelInfo("img/icon-panel-review.png", summary.totalReviews, "Ulasan")
+        const totalFeeInfo = this._renderPanelInfo("img/icon-panel-money.png", summary.total, "Total biaya")
+
         const averageTable = this._renderAverageTable([
             { 'title': 'KTP', 'nominal': summary.avgKTP },
             { 'title': 'Kartu Klg', 'nominal': summary.avgKK },
@@ -95,23 +141,21 @@ class SummaryPanel extends React.Component {
 
         return (
             <div className="callout" style={styles.panel}>
-                <h5 style={styles.title}>{summary.title} <br/> {rating}</h5>
+                <div style={styles.title}>{summary.title}</div>
 
-                <div>{summary.totalReviews} Ulasan</div>
-                <div>Total biaya: {summary.total}</div>
+                {rating}
+                {totalReviewInfo}
+                {totalFeeInfo}
 
-                <br/>
-
-                <h5>Data rata-rata</h5>
-
+                <div style={styles.title}>Informasi rata-rata</div>
                 {averageTable}
 
-                <br/>
+                <br />
+
                 <button type="button" className="expanded button" style={{background:'#31A694'}}>Lihat data selengkapnya &rarr;</button>
             </div>
         )
     }
-
 }
 
 export default SummaryPanel

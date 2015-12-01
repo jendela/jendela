@@ -2,8 +2,10 @@ import React from 'react'
 import Indonesia from './Indonesia'
 import SummaryPanel from './SummaryPanel'
 import MapSelection from './MapSelection'
+import { m } from '../../helper.js'
 
-const height = 420
+const height = 460
+const width = 840
 const styles = {
     mapSection: {
         width: '100%',
@@ -23,6 +25,17 @@ const styles = {
 
 class Maps extends React.Component {
     render() {
+        const mapStyles = {
+            row: {
+                maxWidth: '75.5rem',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                background: '#D5EEFF'
+            },
+            map: { width: '69.5%' },
+            panel: { width: '30.5%' }
+        }
+
         return (
             <section id="mapSection" style={styles.mapSection}>
                 <div style={styles.filter}>
@@ -33,15 +46,15 @@ class Maps extends React.Component {
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="large-9 columns" style={styles.map}>
+                <div className="row" style={mapStyles.row} >
+                    <div className="large-9 columns" style={m(styles.map, mapStyles.map)}>
                         <Indonesia
                             width={height * 2} height={height}
                             centerX={118} centerY={-3}
                             scale={1050} />
                     </div>
 
-                    <div className="large-3 columns" style={styles.panel}>
+                    <div className="large-3 columns" style={m(styles.panel, mapStyles.panel)}>
                         <SummaryPanel />
                     </div>
                 </div>

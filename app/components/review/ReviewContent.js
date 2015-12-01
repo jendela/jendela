@@ -62,19 +62,18 @@ class ReviewContent extends Component {
         return (
             <div>
                 {this.props.reviews.map((e)=> {
-                    console.log(e);
                     return (
                         <div style={styles.post_panel} className="small-12 large-6 columns" key={e.objectId}>
                             <div style={styles.post_time}>Diulas {moment(e.createdAt).fromNow()}</div>
                             <div style={styles.post_title}>{e.title}</div>
                             <div style={styles.post_rating}>{e.rating} bintang</div>
-                            <p style={styles.post_content}>
+                            <div style={styles.post_content}>
                                 {e.content}
                                 <div>
                                     <span style={styles.post_detail}></span>
                                     <span style={styles.post_detail}>Rp {e.fee},00</span>
                                 </div>
-                            </p>
+                            </div>
                         </div>
                     );
                 })}

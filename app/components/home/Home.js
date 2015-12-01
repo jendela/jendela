@@ -1,6 +1,6 @@
 import React from 'react'
 import Maps from '../maps/Maps'
-import Jendela from './Jendela'
+import Jendela from './JendelaCTA'
 import Review from '../review/Review'
 import Services from '../Services'
 

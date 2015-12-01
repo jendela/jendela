@@ -9,7 +9,7 @@ const styles = {
     }
 }
 
-class Jendela extends React.Component {
+class JendelaCTA extends React.Component {
     render() {
         return (
             <section style={styles.info}>
@@ -26,4 +26,4 @@ class Jendela extends React.Component {
     }
 }
 
-export default Jendela
+export default JendelaCTA

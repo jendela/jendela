@@ -104,7 +104,6 @@ class ReviewFilter extends Component {
     }
 
     _onChangeProvince(e) {
-        console.log(e.target);
         this.setState({"province": e.target.value});
         this._submit("province", e.target.value);
     }
