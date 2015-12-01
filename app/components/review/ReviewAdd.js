@@ -20,7 +20,7 @@ class ReviewAdd extends ParseComponent {
         super(props);
         this.state = {
             province: "",
-            isAnon: false,
+            isAnon: true,
             isAgree: false
         }
         ;
@@ -181,7 +181,7 @@ class ReviewAdd extends ParseComponent {
         let isAnonInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <label><input value={this.state.isAnnon} type="checkbox" id="isAnon"
+                    <label><input checked={this.state.isAnon} type="checkbox" id="isAnon"
                                   onChange={(e)=>{this.setState({isAnon:e.target.checked})}}/> Saya mau mengirim ulasan
                         secara anonim</label>
                 </div>
@@ -238,14 +238,14 @@ class ReviewAdd extends ParseComponent {
         let sendButton = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <button type="submit">Kirim</button>
+                    <button className="button" type="submit">Kirim</button>
                 </div>
             </div>
         );
 
 
         return (
-            <section style={styles.info}>
+            <section className="row" style={styles.info}>
                 <form onSubmit={this._onClick.bind(this)}>
                     {provinceInput}
                     {cityInput}

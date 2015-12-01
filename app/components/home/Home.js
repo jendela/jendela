@@ -10,7 +10,7 @@ class Home extends React.Component {
             <div>
                 <Maps />
                 <Jendela />
-                <Review />
+                <Review reviewType="lite" />
                 <Services />
             </div>
         )
