@@ -20,51 +20,44 @@ class ReviewCity extends Component {
 
         if (this.props.city.length == 0)
             return (
-                <div className="small-12 columns">
-                    <p>Tidak ada kota yang dipilih</p>
-                </div>
+                <section className="row">
+                    <div className="small-12 columns">
+                        <p>Tidak ada kota yang dipilih</p>
+                    </div>
+                </section>
             );
 
         let city = this.props.city[0];
 
         return (
-            <section>
+            <section className="row">
                 <div className="large-12 columns">
                     <div className="row">
                         <div className="small-6 columns">
                             <h3>{city.name}</h3>
-                            <h5>Nama si abang</h5>
-                            <h5>Alamat si abang</h5>
                         </div>
                         <div className="small-4 columns">
-                            <button type="button" className="button" style={{background:'#31A694'}}>Tulis Ulasan</button>
+                            <button type="button" className="button" style={{background:'#31A694'}}>Tulis Ulasan
+                            </button>
                             <button type="button" className="button" style={{background:'#31A694'}}>Share</button>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="large-4 columns">
-                            <div>Total Ulasan: {city.total_review}</div>
-                            <div>Total Biaya: Rp. {city.total_fee}</div>
+                        <div className="large-3 columns">
+                            <div>Total Ulasan: {city.total_review ? city.total_review : 0}</div>
+                            <div>Total Biaya: Rp. {city.total_fee ? city.total_fee : 0}</div>
                         </div>
-                        <div className="small-8 columns">
+                        <div className="small-9 columns">
                             <div className="row">
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
-                                </div>
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
-                                </div>
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
-                                </div>
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
-                                </div>
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
-                                </div>
-                                <div className="large-6 columns">
-                                    <div>Some Stats</div>
+                                {this.props.details.length == 0 ?
+                                    <p>Kota ini belum memiliki statistik, saatnya berkontribusi!</p>
+                                    : undefined}
+                                {this.props.details.map((e)=> {
+                                    return <div className="large-3 columns">
+                                        <div>Rata {e.service.name} Rp. {e.total_fee / e.total_review}</div>
+                                    </div>;
+                                })}
+                                <div className="large-3 columns">
                                 </div>
                             </div>
                         </div>

@@ -54,19 +54,22 @@ class ReviewContent extends Component {
 
         if (this.props.reviews.length == 0)
             return (
-                <div className="small-12 columns">
-                    <p>Tidak ada review berdasarkan filter</p>
+                <div className="row">
+                    <div className="small-12 columns">
+                        <p>Tidak ada review berdasarkan filter</p>
+                    </div>
                 </div>
             );
 
         return (
-            <div>
+            <div className="row">
                 {this.props.reviews.map((e)=> {
                     return (
                         <div style={styles.post_panel} className="small-12 large-6 columns" key={e.objectId}>
                             <div style={styles.post_time}>Diulas {moment(e.createdAt).fromNow()}</div>
                             <div style={styles.post_title}>{e.title}</div>
                             <div style={styles.post_rating}>{e.rating} bintang</div>
+                            <div style={styles.post_rating}>{e.city.name}, {e.city.province.name} | {e.service.name} </div>
                             <p style={styles.post_content}>
                                 {e.content}
                                 <div>

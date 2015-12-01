@@ -29,7 +29,8 @@ class Review extends ParseComponent {
         this.state = {
             "sortDir": "ascending",
             "sortBy": "createdAt",
-            "pageNum": 0
+            "pageNum": 0,
+            "sortBasedOn": "Waktu"
         }
     }
 
@@ -63,7 +64,7 @@ class Review extends ParseComponent {
             };
 
         // review query
-        let reviewQuery = new Parse.Query('Review');
+        let reviewQuery = new Parse.Query('Review').include("service").include("city.province");
         if (city != undefined)
             reviewQuery.equalTo("city", city);
         else if (province != undefined) {
@@ -74,69 +75,44 @@ class Review extends ParseComponent {
         if (service != undefined) {
             reviewQuery.equalTo("service", service);
         }
-        reviewQuery.descending(this.state.sortBy);
+        if (states.sortBasedOn == "Waktu") {
+            reviewQuery.descending("createdAt");
+        } else if (states.sortBasedOn == "Biaya") {
+            reviewQuery.descending("fee");
+        } else if (states.sortBasedOn == "Bintang") {
+            reviewQuery.descending("rating");
+        }
         if (props.reviewType == "lite")
             reviewQuery.limit(6);
         else
             reviewQuery.limit(MAX_SHOWN_POST);
 
+        let cityServiceDetail = new Parse.Query('CityServiceDetail');
+        cityServiceDetail.equalTo("city", city);
+        cityServiceDetail.equalTo("year", undefined);
+        cityServiceDetail.equalTo("month", undefined);
+        cityServiceDetail.include("service");
+
         return {
-            provinces: new Parse.Query('Province').select(["objectId", "name"]),
-            cities: new Parse.Query('City').equalTo("province", province).select(["objectId", "name"]),
-            services: new Parse.Query('Service').select(["objectId", "name"]),
+            provinces: new Parse.Query('Province').ascending("name").select(["objectId", "name"]),
+            cities: new Parse.Query('City').ascending("name").equalTo("province", province).select(["objectId", "name"]),
+            services: new Parse.Query('Service').ascending("name").select(["objectId", "name"]),
             reviews: reviewQuery.skip(states.pageNum * 10),
-            city: new Parse.Query('City').equalTo("objectId", states.city)
+            city: new Parse.Query('City').equalTo("objectId", states.city),
+            details: cityServiceDetail
         };
     }
 
 
     render() {
 
+        console.log(this.state)
+
         if (this.props.reviewType == "lite")
             return this.renderLite();
         else
             return this.renderFull();
 
-        /*
-
-         let cityInfo = null;
-         if (this.props.reviewType != "lite")
-         cityInfo = <div className="row"><ReviewCity city={this.data.city}/></div>;
-
-         return (
-         <section style={styles.info}>
-         <div className="row">
-         <ReviewFilter reviewType="location"
-         provinces={this.data.provinces}
-         cities={this.data.cities}
-         services={this.data.services}
-         submit={this._createItem.bind(this)} />
-         </div>
-
-         {cityInfo}
-
-         <div className="row">
-         <div className="small-12 columns">
-         <h3>Ulasan Terakhir</h3>
-         </div>
-         </div>
-
-         <ReviewFilter reviewType={this.props.reviewType == "lite" ? "full" : "others"}
-         provinces={this.data.provinces}
-         cities={this.data.cities}
-         services={this.data.services}
-         submit={this._createItem.bind(this)}/>
-
-         {this.props.reviewType != "lite" ? <div className="row">
-         <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-         updatePage={this._updatePage.bind(this)}/></div> : <span></span>}
-         <div className="row">
-         <ReviewContent reviews={this.data.reviews}/></div>
-         {this.props.reviewType != "lite" ? <div className="row">
-         <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-         updatePage={this._updatePage.bind(this)}/></div> : <span></span>}
-         </section>
-         );*/
     }
 
     renderLite() {
@@ -166,22 +142,18 @@ class Review extends ParseComponent {
                 {renderCity.call(this)}
                 {renderTitle.call(this)}
                 {renderFilter.call(this, "others")}
-                <div className="row">
-                    <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-                                updatePage={this._updatePage.bind(this)}/>
-                </div>
+                <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
+                            updatePage={this._updatePage.bind(this)}/>
                 {renderContents.call(this)}
-                <div className="row">
-                    <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-                                updatePage={this._updatePage.bind(this)}/>
-                </div>
+                <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
+                            updatePage={this._updatePage.bind(this)}/>
             </div>
         );
 
         return (
             <div>
                 {renderFilter.call(this, "location")}
-                {this.state.city ? contents : <span></span>}
+                {this.state.city ? contents : undefined}
             </div>
         );
     }
@@ -191,7 +163,18 @@ class Review extends ParseComponent {
     }
 
     _createItem(filterState) {
-        this.setState(filterState);
+
+        var newState = {};
+        for (var prop in filterState) {
+            if (filterState[prop]) {
+                if (filterState[prop] == "all")
+                    newState[prop] = undefined;
+                else
+                    newState[prop] = filterState[prop];
+            }
+        }
+
+        this.setState(newState);
     }
 
 }
@@ -220,28 +203,20 @@ function renderFilter(newReviewType) {
                                submit={this._createItem.bind(this)}/>
     else
         review = <ReviewFilter reviewType={newReviewType}
-                          provinces={this.data.provinces}
-                          cities={this.data.cities}
-                          services={this.data.services}
-                          submit={this._createItem.bind(this)}/>
+                               provinces={this.data.provinces}
+                               cities={this.data.cities}
+                               services={this.data.services}
+                               submit={this._createItem.bind(this)}/>
 
-    return (
-        <div className="row">
-            {review}
-        </div>
-    );
+    return review;
 }
 
 function renderCity() {
-    return <ReviewCity city={this.data.city}/>;
+    return <ReviewCity city={this.data.city} details={this.data.details}/>;
 }
 
 function renderContents() {
-    return (
-        <div className="row">
-            <ReviewContent reviews={this.data.reviews}/>
-        </div>
-    );
+    return <ReviewContent reviews={this.data.reviews}/>;
 }
 
 Review.defaultProps = {reviewType: undefined};

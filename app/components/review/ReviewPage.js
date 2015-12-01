@@ -22,10 +22,12 @@ class ReviewPage extends Component {
             next = <button style={{background:'#31A694'}} onClick={this._onNextClicked.bind(this)}>Selanjutnya</button>
 
         return (
-            <div className="small-4 small-centered columns">
-                {prev}
-                <span> Halaman {this.props.page + 1} </span>
-                {next}
+            <div className="row">
+                <div className="small-4 small-centered columns">
+                    {prev}
+                    <span> Halaman {this.props.page + 1} </span>
+                    {next}
+                </div>
             </div>
 
         );

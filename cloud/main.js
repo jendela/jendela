@@ -79,6 +79,40 @@ Parse.Cloud.afterSave(Review, function (request) {
                 prop.increment("total_duration", request.object.get("duration")?request.object.get("duration"):0);
                 prop.save();
             });
+
+            // update total for each city and service
+            cityServiceDetail = new Parse.Query("CityServiceDetail");
+            cityServiceDetail.equalTo("city", cityDb);
+            cityServiceDetail.equalTo("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
+            });
+            cityServiceDetail.equalTo("month", undefined);
+            cityServiceDetail.equalTo("year", undefined);
+            cityServiceDetail.find().then(function (props) {
+
+                var prop = undefined;
+                if (props.length == 0) {
+                    prop = new CityServiceDetail();
+                    prop.set("month", undefined);
+                    prop.set("year", undefined);
+                    prop.set("city", cityDb);
+                    prop.set("service", {
+                        "__type": "Pointer",
+                        "className": "Service",
+                        "objectId": service.id
+                    });
+                }
+                else
+                    prop = props[0];
+
+                prop.increment("total_review");
+                prop.increment("total_fee", request.object.get("fee")?request.object.get("fee"):0);
+                prop.increment("total_rating", request.object.get("rating")?request.object.get("rating"):0);
+                prop.increment("total_duration", request.object.get("duration")?request.object.get("duration"):0);
+                prop.save();
+            });
         },
         error: function (error) {
             console.error("Got an error " + error.code + " : " + error.message);

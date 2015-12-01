@@ -245,7 +245,7 @@ class ReviewAdd extends ParseComponent {
 
 
         return (
-            <section style={styles.info}>
+            <section className="row" style={styles.info}>
                 <form onSubmit={this._onClick.bind(this)}>
                     {provinceInput}
                     {cityInput}
