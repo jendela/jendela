@@ -43,8 +43,8 @@ class ReviewCity extends Component {
                     </div>
                     <div className="row">
                         <div className="large-4 columns">
-                            <div>Ulasan</div>
-                            <div>Total Biaya</div>
+                            <div>Total Ulasan: {city.total_review}</div>
+                            <div>Total Biaya: Rp. {city.total_fee}</div>
                         </div>
                         <div className="small-8 columns">
                             <div className="row">

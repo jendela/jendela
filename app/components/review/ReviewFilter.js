@@ -94,11 +94,9 @@ class ReviewFilter extends Component {
 
         return (
             <div>
-                {province}
-                {city}
-                {category}
-                {service}
-                {sortBy}
+                {this.props.reviewType == "location" ? [province, city] : <span></span>}
+                {this.props.reviewType == "others" ? [category, service, sortBy] : <span></span>}
+                {this.props.reviewType == "compact" ? [province, city, category, service, sortBy] : <span></span>}
             </div>
         );
     }

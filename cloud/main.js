@@ -7,6 +7,7 @@ var City = Parse.Object.extend("City");
 var Review = Parse.Object.extend("Review");
 var Statistic = Parse.Object.extend("Statistic");
 var Service = Parse.Object.extend("Service");
+var CityServiceDetail = Parse.Object.extend("CityServiceDetail");
 
 /**
  * Hook after saving Review.
@@ -16,16 +17,22 @@ var Service = Parse.Object.extend("Service");
  * * total_rating
  */
 Parse.Cloud.afterSave(Review, function (request) {
-    var cityQuery = new Parse.Query(City);
-    cityQuery.get(request.object.get("city").id, {
-        success: function (city) {
-            city.increment("total_review");
-            city.increment("total_fee", request.object.get("fee"));
-            city.increment("total_rating", request.object.get("rating"));
-            city.save();
 
+    var review = request.object;
+    var city = review.get("city");
+    var service = review.get("service");
+
+    var cityQuery = new Parse.Query(City);
+    cityQuery.get(city.id, {
+        success: function (cityDb) {
+
+            // update total for all time
+            cityDb.increment("total_review");
+            cityDb.increment("total_fee", request.object.get("fee"));
+            cityDb.increment("total_rating", request.object.get("rating"));
+            cityDb.save();
             var propinsiQuery = new Parse.Query(Province);
-            propinsiQuery.get(city.get("province").id, {
+            propinsiQuery.get(cityDb.get("province").id, {
                 success: function (prop) {
                     prop.increment("total_review");
                     prop.increment("total_fee", request.object.get("fee"));
@@ -35,6 +42,42 @@ Parse.Cloud.afterSave(Review, function (request) {
                 error: function (error) {
                     console.error("Got an error " + error.code + " : " + error.message);
                 }
+            });
+
+            var date = new Date();
+
+            // update total for each city and service
+            var cityServiceDetail = new Parse.Query("CityServiceDetail");
+            cityServiceDetail.equalTo("city", cityDb);
+            cityServiceDetail.equalTo("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
+            });
+            cityServiceDetail.equalTo("month", date.getMonth());
+            cityServiceDetail.equalTo("year", date.getFullYear());
+            cityServiceDetail.find().then(function (props) {
+
+                var prop = undefined;
+                if (props.length == 0) {
+                    prop = new CityServiceDetail();
+                    prop.set("month", date.getMonth());
+                    prop.set("year", date.getFullYear());
+                    prop.set("city", cityDb);
+                    prop.set("service", {
+                        "__type": "Pointer",
+                        "className": "Service",
+                        "objectId": service.id
+                    });
+                }
+                else
+                    prop = props[0];
+
+                prop.increment("total_review");
+                prop.increment("total_fee", request.object.get("fee")?request.object.get("fee"):0);
+                prop.increment("total_rating", request.object.get("rating")?request.object.get("rating"):0);
+                prop.increment("total_duration", request.object.get("duration")?request.object.get("duration"):0);
+                prop.save();
             });
         },
         error: function (error) {
@@ -52,9 +95,9 @@ Parse.Cloud.afterSave(Review, function (request) {
 Parse.Cloud.job("Statistic", function (request, status) {
 
     var statQuery = new Parse.Query(Statistic);
-    statQuery.find().then(function(list){
+    statQuery.find().then(function (list) {
         Parse.Object.destroyAll(list);
-    }).then(function() {
+    }).then(function () {
         statisticTotalFeeCity(request, status).then(function () {
             statisticTotalFeeProvince(request, status).then(function () {
                 statisticAvgFeeCity(request, status).then(function () {
@@ -69,7 +112,6 @@ Parse.Cloud.job("Statistic", function (request, status) {
 });
 
 // Utility functions
-
 function statisticTotalFeeCity(request, status) {
     return statisticTotal(status, City, "total_fee", "Top 10 Total Biaya per Kota", "Total Biaya", "Kota");
 }
