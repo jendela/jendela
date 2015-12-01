@@ -1,7 +1,9 @@
 # Jendela
 .DS_Store
 public/assets/app.js
-public/assets/app.js.map
+public/assets/vendor.js
+public/assets/app.css
+
 bower_components
 
 # Logs
