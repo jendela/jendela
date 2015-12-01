@@ -15,10 +15,23 @@ var Province = Parse.Object.extend("Province");
 
 const styles = {
     info: {
+        background: "#9DBBD0",
         paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    title: {
+        fontSize: "2em",
+        fontWeight: "bold"
+    },
+    content: {
+        paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    entry: {
         paddingBottom: "10px"
     }
 }
+
 
 const MAX_SHOWN_POST = 10;
 
@@ -138,6 +151,7 @@ class Review extends ParseComponent {
         // render pagination
 
         let contents = (
+
             <div>
                 {renderCity.call(this)}
                 {renderTitle.call(this)}
@@ -152,6 +166,20 @@ class Review extends ParseComponent {
 
         return (
             <div>
+                <section style={styles.info}>
+                    <div className="row">
+                        <div className="small-12 columns">
+                            <div style={styles.title}>Lihat Ulasan</div>
+                            <section>
+                                <div className="row">
+                                    <div className="large-12 columns">
+                                        Simak ulasan-ulasan teman kamu di sini!
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
                 {renderFilter.call(this, "location")}
                 {this.state.city ? contents : undefined}
             </div>

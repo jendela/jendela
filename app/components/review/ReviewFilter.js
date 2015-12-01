@@ -8,6 +8,12 @@ import StringConstants from '../../constants/StringConstants'
 
 import { Component } from 'react';
 
+const styles = {
+    content: {
+        paddingTop: "15px",
+    }
+}
+
 class ReviewFilter extends Component {
 
     constructor(props) {
@@ -32,7 +38,7 @@ class ReviewFilter extends Component {
         }
 
         return (
-            <div className="row">
+            <div style={styles.content} className="row">
                 {filters}
                 <div></div>
             </div>

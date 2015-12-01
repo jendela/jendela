@@ -2,7 +2,7 @@ import React from 'react'
 import Maps from '../maps/Maps'
 import Jendela from './Jendela'
 import Review from '../review/Review'
-import Services from '../Services'
+import Services from '../service/Service'
 
 class Home extends React.Component {
     render() {
