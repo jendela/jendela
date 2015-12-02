@@ -64,8 +64,8 @@ class MapSelection extends React.Component {
                     </div>
                     <div className="shrink columns">
                         <select id="filter-summary" style={styles.selection}>
-                            <option key="show.none" value="data.none">Semua data</option>
                             <option key="show.averageFee" value="data.averageFee">Rata-rata biaya</option>
+                            <option key="show.totalFee" value="data.totalFee">Total biaya</option>
                             <option key="show.averageTime" value="data.averageTime">Rata-rata waktu</option>
                         </select>
                     </div>

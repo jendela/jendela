@@ -4,7 +4,7 @@ import SummaryPanel from './SummaryPanel'
 import MapSelection from './MapSelection'
 import { m } from '../../helper.js'
 
-const height = 500
+const height = 520
 const width = 860
 const styles = {
     mapSection: {
@@ -35,9 +35,6 @@ const styles = {
 
 class Maps extends React.Component {
     render() {
-        const mapStyles = {
-        }
-
         return (
             <section id="mapSection" style={styles.mapSection} className="show-for-large">
                 <div style={styles.filter}>

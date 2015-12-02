@@ -1,24 +1,30 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const styles = {
     info: {
-        background: "#3B655C",
+        background: "#3b655d",
         color: "#FFF",
-        paddingTop: "25px",
-        paddingBottom: "10px"
+        paddingTop: "1rem"
     }
 }
 
 class JendelaCTA extends React.Component {
     render() {
         return (
-            <section style={styles.info}>
+            <section style={styles.info} className="show-for-large">
                 <div className="row">
-                    <div className="large-8 columns">
+                    <div className="shrink columns">
+                        <img src="img/icon-cta-question.png" />
+                    </div>
+                    <div className="columns" style={{ paddingBottom: "1rem" }}>
                         <strong>Jendela</strong> adalah wadah Anda untuk menyalurkan aspirasi, kritik dan saran untuk layanan publik di seluruh Indonesia dengan cepat dan mudah.
                     </div>
-                    <div className="large-4 columns">
-                        <button type="button" className="expanded button success">Saya mau memberi ulasan! &rarr;</button>
+                    <div className="shrink columns">
+                        <Link to="/addreview" className="expanded button success">
+                            <img src="/img/icon-pen.png" style={{ marginRight: '1em' }} />
+                            <strong>Saya mau memberi ulasan!</strong>
+                        </Link>
                     </div>
                 </div>
             </section>

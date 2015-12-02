@@ -39,7 +39,7 @@ class Navigation extends React.Component {
             menus: [
                 { link: '/addreview', title: 'Tulis Ulasan' },
                 { link: '/review', title: 'Lihat Ulasan' },
-                { link: '/statistic', title: 'Statistik Lengkap' },
+                { link: '/statistic', title: 'Statistik' },
                 { link: '/services', title: 'Informasi Layanan Publik' },
                 { link: '/faq', title: 'FAQ' },
             ]
@@ -69,8 +69,7 @@ class Navigation extends React.Component {
                                     <Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link>
                                 </li>
                                 {menus.map((menu, idx) => {
-                                    let style = styles.link
-                                    return <li key={idx}><Link to={menu.link} style={style}>{menu.title}</Link></li>
+                                    return <li key={idx}><Link to={menu.link} style={styles.link}>{menu.title}</Link></li>
                                 })}
                             </ul>
                         </div>
