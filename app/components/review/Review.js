@@ -134,6 +134,20 @@ class Review extends ParseComponent {
         // render contents
         return (
             <div>
+                <section style={styles.info}>
+                    <div className="row">
+                        <div className="small-12 columns">
+                            <div style={styles.title}>Lihat Ulasan</div>
+                            <section>
+                                <div className="row">
+                                    <div className="large-12 columns">
+                                        Simak ulasan-ulasan teman kamu di sini!
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
                 {renderTitle.call(this)}
                 {renderFilter.call(this, "compact")}
                 {renderContents.call(this)}

@@ -70,13 +70,13 @@ class ReviewContent extends Component {
                             <div style={styles.post_title}>{e.title}</div>
                             <div style={styles.post_rating}>{e.rating} bintang</div>
                             <div style={styles.post_rating}>{e.city.name}, {e.city.province.name} | {e.service.name} </div>
-                            <p style={styles.post_content}>
+                            <div style={styles.post_content}>
                                 {e.content}
                                 <div>
                                     <span style={styles.post_detail}></span>
                                     <span style={styles.post_detail}>Rp {e.fee},00</span>
                                 </div>
-                            </p>
+                            </div>
                         </div>
                     );
                 })}
