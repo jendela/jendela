@@ -1,5 +1,3 @@
-'use strict'
-
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
@@ -14,6 +12,9 @@ var ParseComponent = ParseReact.Component(React);
 var Province = Parse.Object.extend("Province");
 
 const styles = {
+    container: {
+        marginTop: "1em"
+    },
     info: {
         background: "#9DBBD0",
         paddingTop: "25px",
@@ -130,21 +131,7 @@ class Review extends ParseComponent {
         // render compact filter
         // render contents
         return (
-            <div>
-                <section style={styles.info}>
-                    <div className="row">
-                        <div className="small-12 columns">
-                            <div style={styles.title}>Lihat Ulasan</div>
-                            <section>
-                                <div className="row">
-                                    <div className="large-12 columns">
-                                        Simak ulasan-ulasan teman kamu di sini!
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </section>
+            <div style={styles.container}>
                 {renderTitle.call(this)}
                 {renderFilter.call(this, "compact")}
                 {renderContents.call(this)}
@@ -176,7 +163,7 @@ class Review extends ParseComponent {
         );
 
         return (
-            <div>
+            <div style={styles.container}>
                 <section style={styles.info}>
                     <div className="row">
                         <div className="small-12 columns">
@@ -219,10 +206,28 @@ class Review extends ParseComponent {
 }
 
 function renderTitle() {
+    let styles = {
+        pen: {
+            background: "#2d4771",
+            padding: "0.2em",
+            borderRadius: "50%",
+            marginRight: "0.3em",
+            marginTop: "-5px",
+            height: "1em",
+            width: "1em"
+        },
+        title: {
+            fontWeight: 900,
+            color: "#2d4771"
+        }
+    }
     return (
         <div className="row">
-            <div className="small-12 columns">
-                <h3>Ulasan Terakhir</h3>
+            <div className="columns">
+                <h2>
+                    <img src="img/icon-pen.png" style={styles.pen} />
+                    <span style={styles.title}>Ulasan Terakhir</span>
+                </h2>
             </div>
         </div>
     );

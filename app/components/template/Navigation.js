@@ -12,7 +12,6 @@ const styles = {
         widht: 'auto'
     },
     link: {
-        // color: "#9DBBD0",
         textTransform: "uppercase",
         fontSize: '0.8em',
         fontWeight: 900,

@@ -1,13 +1,10 @@
-'use strict'
-
 import React from 'react'
 import { Link } from 'react-router'
 import MapStore from '../../stores/MapStore'
 import SummaryStore from '../../stores/SummaryStore'
 import { m } from '../../helper'
-
-const jendelaBlue = '#368baf'
-const jendelaGreen = '#87BCB4'
+import Colors from '../../constants/JendelaColors'
+import Rating from '../template/Rating'
 
 const styles = {
     panel: {
@@ -16,16 +13,12 @@ const styles = {
     title: {
         textTransform: 'capitalize',
         fontWeight: 900,
-        color: jendelaBlue,
+        color: Colors.blue,
         fontSize: '1.4em'
     },
     list: {
         listStyleType: "none",
         paddingLeft: 0
-    },
-    rating: {
-        color: jendelaGreen,
-        fontSize: '1.4em'
     }
 }
 
@@ -59,20 +52,6 @@ class SummaryPanel extends React.Component {
 
     // render helpers
 
-    _starRating(rating) {
-        if (rating <= 0) { return '' }
-        return '★' + this._starRating(rating - 1)
-    }
-
-    _renderRating(rating) {
-        return (
-            <span>
-                <span style={styles.rating}>{this._starRating(rating)}</span>
-                <span style={m(styles.rating, {color: '#AAAAAA'})}>{this._starRating(5 - rating)}</span>
-            </span>
-        )
-    }
-
     _renderPanelInfo(icon, value, label) {
         let styles = {
             icon: {
@@ -86,13 +65,13 @@ class SummaryPanel extends React.Component {
                 paddingLeft: 0
             },
             text: {
-                color: jendelaBlue,
+                color: Colors.blue,
                 fontWeight: 900,
                 fontSize: '1.5em',
                 marginBottom: '-10px'
             },
             label: {
-                color: jendelaGreen,
+                color: Colors.green,
                 fontWeight: 900
             }
         }
@@ -150,8 +129,6 @@ class SummaryPanel extends React.Component {
     render() {
         const { province } = this.state
         const summary = SummaryStore.getSummaryForProvinceId(province)
-
-        const rating = this._renderRating(summary.rating)
         const totalReviewInfo = this._renderPanelInfo("img/icon-panel-review.png", summary.totalReviews, "Ulasan")
         const totalFeeInfo = this._renderPanelInfo("img/icon-panel-money.png", summary.total, "Total biaya")
 
@@ -169,7 +146,8 @@ class SummaryPanel extends React.Component {
             <div className="callout" style={styles.panel}>
 
                 <div style={styles.title}>{summary.title}</div>
-                {rating}
+
+                <Rating rating={summary.rating} />
 
                 <div style={{ marginBottom: '12px'}}>
                     {totalReviewInfo}
