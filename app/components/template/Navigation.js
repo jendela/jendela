@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { m } from '../../helper'
 
 const styles = {
     dark: {
@@ -7,17 +8,27 @@ const styles = {
         color: "#9DBBD0"
     },
     logo: {
-        height: '3.2em'
+        height: '2.5em',
+        widht: 'auto'
     },
     link: {
-        color: "#9DBBD0",
+        // color: "#9DBBD0",
         textTransform: "uppercase",
         fontSize: '0.8em',
         fontWeight: 900,
         letterSpacing: '1px'
     },
+    activeLink: {
+        color: "#9DBBD0"
+    },
     noPadding: {
         padding: 0
+    },
+    mobileNavbar: {
+        padding: '15px',
+        paddingRight: '15px',
+        paddingLeft: '15px',
+        paddingBottom: 0
     }
 
 }
@@ -43,25 +54,30 @@ class Navigation extends React.Component {
 
         return (
             <div style={styles.dark}>
+                <div className="title-bar clearfix"
+                    data-responsive-toggle="jendela-menu"
+                    data-hide-for="medium"
+                    style={styles.mobileNavbar}>
+
+                    <Link className="float-left" to="/"><img src="img/logo.png" style={styles.logo} /></Link>
+
+                    <a className="title-bar-title float-right" style={m(styles.link, { paddingTop: '10px' })}data-toggle>Menu</a>
+
+                </div>
                 <div className="row">
-
-                    <div className="title-bar" data-responsive-toggle="jendela-menu" data-hide-for="medium">
-                        <button className="menu-icon" type="button" data-toggle></button>
-                        <div className="title-bar-title">Menu</div>
-                    </div>
-
-                    <nav className="top-bar" style={styles.dark} id="jendela-menu">
+                    <div className="top-bar" style={styles.dark}>
                         <div className="top-bar-left">
-                            <ul className="dropdown menu" style={styles.dark}>
-                                <li className="menu-text">
+                            <ul className="menu vertical medium-horizontal" style={styles.dark} id="jendela-menu">
+                                <li className="menu-text show-for-medium">
                                     <Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link>
                                 </li>
                                 {menus.map((menu, idx) => {
-                                    return <li key={idx}><Link to={menu.link} style={styles.link}>{menu.title}</Link></li>
+                                    let style = styles.link
+                                    return <li key={idx}><Link to={menu.link} style={style}>{menu.title}</Link></li>
                                 })}
                             </ul>
                         </div>
-                    </nav>
+                    </div>
                 </div>
             </div>
         )
