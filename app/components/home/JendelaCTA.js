@@ -18,7 +18,7 @@ class JendelaCTA extends React.Component {
                         <strong>Jendela</strong> adalah wadah Anda untuk menyalurkan aspirasi, kritik dan saran untuk layanan publik di seluruh Indonesia dengan cepat dan mudah.
                     </div>
                     <div className="large-4 columns">
-                        <button type="button" className="expanded button" style={{background:'#31A694'}}>Saya mau memberi ulasan! &rarr;</button>
+                        <button type="button" className="expanded button success">Saya mau memberi ulasan! &rarr;</button>
                     </div>
                 </div>
             </section>

@@ -15,6 +15,10 @@ module.exports = {
     publicPath: "/assets/"
   },
 
+  externals: {
+      "jquery": "jQuery"
+  },
+
   module: {
     loaders: [
       {
@@ -36,19 +40,17 @@ module.exports = {
   },
 
   plugins: [
-
-    new ExtractTextPlugin('app.css', {
-        allChunks: true
-    }),
+    new ExtractTextPlugin('app.css', { allChunks: true }),
 
     // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
-    new webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-    })
+    new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' })
   ],
 
   resolve: {
-      root: path.resolve('./bower_components/foundation-sites/dist')
+      root: path.resolve('./bower_components/foundation-sites/dist'),
+      alias: {
+        jquery: path.resolve('./bower_components/jquery/dist/jquery.js')
+      }
   }
 
 }

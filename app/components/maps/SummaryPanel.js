@@ -152,7 +152,7 @@ class SummaryPanel extends React.Component {
 
                 <br />
 
-                <button type="button" className="expanded button" style={{background:'#31A694'}}>Lihat data selengkapnya &rarr;</button>
+                <button type="button" className="expanded button success">Lihat data selengkapnya &rarr;</button>
             </div>
         )
     }

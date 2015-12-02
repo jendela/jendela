@@ -118,9 +118,6 @@ class Review extends ParseComponent {
 
 
     render() {
-
-        console.log(this.state)
-
         if (this.props.reviewType == "lite")
             return this.renderLite();
         else

@@ -61,9 +61,9 @@ class Service extends React.Component {
                 </section>
                 <section style={styles.content} className="row">
                     <div className="small-12 columns">
-                        {this.state.services.map((service)=> {
+                        {this.state.services.map((service, idx)=> {
                             return (
-                                <Link to={"/services/"+service.id} className="button">{service.get("name")}</Link>
+                                <Link to={"/services/"+service.id} className="button" key={idx}>{service.get("name")}</Link>
                             );
                         })}
                     </div>

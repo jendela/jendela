@@ -44,10 +44,18 @@ class Navigation extends React.Component {
         return (
             <div style={styles.dark}>
                 <div className="row">
-                    <nav className="top-bar" style={styles.dark}>
+
+                    <div className="title-bar" data-responsive-toggle="jendela-menu" data-hide-for="medium">
+                        <button className="menu-icon" type="button" data-toggle></button>
+                        <div className="title-bar-title">Menu</div>
+                    </div>
+
+                    <nav className="top-bar" style={styles.dark} id="jendela-menu">
                         <div className="top-bar-left">
                             <ul className="dropdown menu" style={styles.dark}>
-                                <li className="menu-text"><Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link></li>
+                                <li className="menu-text">
+                                    <Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link>
+                                </li>
                                 {menus.map((menu, idx) => {
                                     return <li key={idx}><Link to={menu.link} style={styles.link}>{menu.title}</Link></li>
                                 })}
