@@ -36,11 +36,11 @@ class JendelaInfo extends React.Component {
         return (
             <section style={styles.container}>
                 <div className="row">
-                    <div className="large-12 columns">
+                    <div className="small-12 large-12 columns">
                         { this._renderTitle() }
                     </div>
 
-                    <div className="columns">
+                    <div className="small-12 large-12 columns">
                         <em>TODO: implement JendelaInfo page</em>
                     </div>
                 </div>

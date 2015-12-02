@@ -64,8 +64,8 @@ class Service extends React.Component {
                 marginBottom: "1em"
             },
             image: {
-                width: "131px",
-                height: "131px"
+                width: "100%",
+                height: "auto"
             },
             title: {
                 marginTop: "1em",
@@ -77,7 +77,7 @@ class Service extends React.Component {
             }
         }
         return (
-            <div className="shrink columns" style={styles.container} key={idx}>
+            <div className="small-6 large-2 columns" style={styles.container} key={idx}>
                 <Link to={"/services/"+service.id} >
                     <img src="img/icon-placeholder.png" style={styles.image} />
                     <div style={styles.title}>{service.get("name")} &raquo;</div>
