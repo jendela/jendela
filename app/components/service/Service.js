@@ -77,8 +77,8 @@ class Service extends React.Component {
             }
         }
         return (
-            <div className="shrink columns" style={styles.container}>
-                <Link to={"/services/"+service.id} key={idx}>
+            <div className="shrink columns" style={styles.container} key={idx}>
+                <Link to={"/services/"+service.id} >
                     <img src="img/icon-placeholder.png" style={styles.image} />
                     <div style={styles.title}>{service.get("name")} &raquo;</div>
                 </Link>

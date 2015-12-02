@@ -28,7 +28,7 @@ class GoMobile extends React.Component {
         return (
             <h2>
                 <img src="img/icon-go-mobile.png" style={styles.info} />
-                <span style={styles.title}>Kirim ulasan Anda melalui Mobile App</span>
+                <span style={styles.title}>Kirim ulasan dengan Mobile App</span>
             </h2>
         )
     }

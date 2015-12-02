@@ -6,6 +6,7 @@
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
     "babel-preset-airbnb": "^1.0.0",
+    "bower": "^1.6.8",
     "css-loader": "^0.23.0",
     "d3": "^3.5.9",
     "exports-loader": "^0.6.2",
