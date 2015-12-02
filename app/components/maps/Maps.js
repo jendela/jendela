@@ -4,8 +4,8 @@ import SummaryPanel from './SummaryPanel'
 import MapSelection from './MapSelection'
 import { m } from '../../helper.js'
 
-const height = 460
-const width = 840
+const height = 500
+const width = 860
 const styles = {
     mapSection: {
         width: '100%',
@@ -16,28 +16,30 @@ const styles = {
         background: '#2D3B54',
     },
     map: {
-        height: height
+        height: height,
+        paddingRight: 0
     },
     panel: {
-        height: height
+        height: height,
+        paddingLeft: 0,
+        paddingRight: 0,
+        minWidth: '200px'
+    },
+    customRow: {
+        maxWidth: '76rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        background: '#D5EEFF'
     }
 }
 
 class Maps extends React.Component {
     render() {
         const mapStyles = {
-            row: {
-                maxWidth: '75.5rem',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                background: '#D5EEFF'
-            },
-            map: { width: '69.5%' },
-            panel: { width: '30.5%' }
         }
 
         return (
-            <section id="mapSection" style={styles.mapSection}>
+            <section id="mapSection" style={styles.mapSection} className="show-for-large">
                 <div style={styles.filter}>
                     <div className="row">
                         <div className="large-12 columns">
@@ -46,15 +48,15 @@ class Maps extends React.Component {
                     </div>
                 </div>
 
-                <div className="row" style={mapStyles.row} >
-                    <div className="large-9 columns" style={m(styles.map, mapStyles.map)}>
+                <div className="row" style={styles.customRow} >
+                    <div className="shrink columns" style={styles.map}>
                         <Indonesia
-                            width={height * 2} height={height}
+                            width={width} height={height}
                             centerX={118} centerY={-3}
-                            scale={1050} />
+                            scale={1070} />
                     </div>
 
-                    <div className="large-3 columns" style={m(styles.panel, mapStyles.panel)}>
+                    <div className="columns" style={styles.panel}>
                         <SummaryPanel />
                     </div>
                 </div>

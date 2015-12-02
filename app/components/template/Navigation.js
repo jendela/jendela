@@ -18,9 +18,6 @@ const styles = {
         fontWeight: 900,
         letterSpacing: '1px'
     },
-    activeLink: {
-        color: "#9DBBD0"
-    },
     noPadding: {
         padding: 0
     },
@@ -56,7 +53,7 @@ class Navigation extends React.Component {
             <div style={styles.dark}>
                 <div className="title-bar clearfix"
                     data-responsive-toggle="jendela-menu"
-                    data-hide-for="medium"
+                    data-hide-for="large"
                     style={styles.mobileNavbar}>
 
                     <Link className="float-left" to="/"><img src="img/logo.png" style={styles.logo} /></Link>
@@ -67,8 +64,8 @@ class Navigation extends React.Component {
                 <div className="row">
                     <div className="top-bar" style={styles.dark}>
                         <div className="top-bar-left">
-                            <ul className="menu vertical medium-horizontal" style={styles.dark} id="jendela-menu">
-                                <li className="menu-text show-for-medium">
+                            <ul className="menu vertical large-horizontal" style={styles.dark} id="jendela-menu">
+                                <li className="menu-text show-for-large">
                                     <Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link>
                                 </li>
                                 {menus.map((menu, idx) => {

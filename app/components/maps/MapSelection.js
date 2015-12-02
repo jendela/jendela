@@ -14,7 +14,9 @@ const styles = {
         letterSpacing: '1px'
     },
     selection: {
-        marginTop: '6px'
+        marginTop: '6px',
+        paddingLeft: '10px',
+        paddingRight: '30px'
     }
 }
 
@@ -50,14 +52,21 @@ class MapSelection extends React.Component {
         return (
             <form style={styles.selection}>
                 <div className="row">
-                    <div className="large-1 small-4 columns">
-                        <label htmlFor="map-filter" className="middle" style={styles.selectionLabel}>Filter: </label>
+                    <div className="shrink columns">
+                        <label htmlFor="filter-map" className="middle" style={styles.selectionLabel}>Filter: </label>
                     </div>
-                    <div className="large-3 small-8 columns end">
-                        <select id="map-filter" style={styles.selection} onChange={this._selectProvince.bind(this)} value={selectedProvince}>
+                    <div className="shrink columns">
+                        <select id="filter-map" style={styles.selection} onChange={this._selectProvince.bind(this)} value={selectedProvince}>
                             {SummaryStore.getAllProvinces().map((province) => {
                                 return <option key={province.key} value={province.key}>{province.name}</option>
                             })}
+                        </select>
+                    </div>
+                    <div className="shrink columns">
+                        <select id="filter-summary" style={styles.selection}>
+                            <option key="show.none" value="data.none">Semua data</option>
+                            <option key="show.averageFee" value="data.averageFee">Rata-rata biaya</option>
+                            <option key="show.averageTime" value="data.averageTime">Rata-rata waktu</option>
                         </select>
                     </div>
                 </div>

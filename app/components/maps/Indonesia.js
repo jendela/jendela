@@ -134,7 +134,7 @@ class Indonesia extends React.Component {
         const { provinces, coasts, borders, selected, highlighted } = this.state
 
         if (provinces.length == 0) {
-            return <Loading />
+            return <div style={{ width: width }}><Loading /></div>
         }
 
         let provincesPaths = provinces
