@@ -6,28 +6,37 @@
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
     "babel-preset-airbnb": "^1.0.0",
+    "bower": "^1.6.8",
+    "css-loader": "^0.23.0",
     "d3": "^3.5.9",
     "exports-loader": "^0.6.2",
+    "expose-loader": "^0.7.1",
+    "extract-text-webpack-plugin": "^0.9.1",
     "flux": "^2.0.1",
     "history": "^1.13.1",
     "http-server": "^0.8.5",
     "imports-loader": "^0.6.5",
+    "moment": "~2.10.6",
+    "node-sass": "^3.4.2",
     "parse": "~1.6.9",
     "parse-react": "^0.5.0",
+    "postcss-loader": "^0.8.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-router": "^1.0.0",
+    "sass-loader": "^3.1.2",
+    "style-loader": "^0.13.0",
     "topojson": "^1.6.0",
     "webpack": "^1.12.8",
-    "whatwg-fetch": "^0.10.1",
-    "moment":"~2.10.6"
+    "whatwg-fetch": "^0.10.1"
   },
   "devDependencies": {
     "react-hot-loader": "^1.3.0",
     "webpack-dev-server": "^1.12.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --hot --inline --content-base public --port 8080",
+    "postinstall": "bower install",
+    "dev": "webpack-dev-server --hot --inline --progress --content-base public --port 8080",
     "start": "webpack --optimize-minimize --optimize-dedupe && http-server ./public"
   },
   "repository": {

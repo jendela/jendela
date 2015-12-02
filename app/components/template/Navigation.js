@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { m } from '../../helper'
 
 const styles = {
     dark: {
@@ -7,10 +8,10 @@ const styles = {
         color: "#9DBBD0"
     },
     logo: {
-        height: '3.2em'
+        height: '2.5em',
+        widht: 'auto'
     },
     link: {
-        color: "#9DBBD0",
         textTransform: "uppercase",
         fontSize: '0.8em',
         fontWeight: 900,
@@ -18,6 +19,12 @@ const styles = {
     },
     noPadding: {
         padding: 0
+    },
+    mobileNavbar: {
+        padding: '15px',
+        paddingRight: '15px',
+        paddingLeft: '15px',
+        paddingBottom: 0
     }
 
 }
@@ -31,7 +38,7 @@ class Navigation extends React.Component {
             menus: [
                 { link: '/addreview', title: 'Tulis Ulasan' },
                 { link: '/review', title: 'Lihat Ulasan' },
-                { link: '/statistic', title: 'Statistik Lengkap' },
+                { link: '/statistic', title: 'Statistik' },
                 { link: '/services', title: 'Informasi Layanan Publik' },
                 { link: '/faq', title: 'FAQ' },
             ]
@@ -43,17 +50,29 @@ class Navigation extends React.Component {
 
         return (
             <div style={styles.dark}>
+                <div className="title-bar clearfix"
+                    data-responsive-toggle="jendela-menu"
+                    data-hide-for="large"
+                    style={styles.mobileNavbar}>
+
+                    <Link className="float-left" to="/"><img src="img/logo.png" style={styles.logo} /></Link>
+
+                    <a className="title-bar-title float-right" style={m(styles.link, { paddingTop: '10px' })}data-toggle>Menu</a>
+
+                </div>
                 <div className="row">
-                    <nav className="top-bar" style={styles.dark}>
+                    <div className="top-bar" style={styles.dark}>
                         <div className="top-bar-left">
-                            <ul className="dropdown menu" style={styles.dark}>
-                                <li className="menu-text"><Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link></li>
+                            <ul className="menu vertical large-horizontal" style={styles.dark} id="jendela-menu">
+                                <li className="menu-text show-for-large">
+                                    <Link to="/" style={styles.noPadding}><img src="img/logo.png" style={styles.logo} /></Link>
+                                </li>
                                 {menus.map((menu, idx) => {
                                     return <li key={idx}><Link to={menu.link} style={styles.link}>{menu.title}</Link></li>
                                 })}
                             </ul>
                         </div>
-                    </nav>
+                    </div>
                 </div>
             </div>
         )

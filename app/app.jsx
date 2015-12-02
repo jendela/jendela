@@ -3,6 +3,8 @@ import { render } from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'
 import Parse from 'parse'
 
+import styles from '../foundation/app.scss'
+
 import Navigation from './components/template/Navigation'
 import Footer from './components/template/Footer'
 

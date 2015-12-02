@@ -40,7 +40,6 @@ class ReviewFilter extends Component {
         return (
             <div style={styles.content} className="row">
                 {filters}
-                <div></div>
             </div>
         );
     }
@@ -81,7 +80,7 @@ class ReviewFilter extends Component {
 
 function generateComboObj(type, list, onchange) {
     return (
-        <div className="large-2 columns">
+        <div className="small-12 large-expand columns">
             <select id="province" onChange={onchange}>
                 <option key="all" value="all">{StringConstants.ALL} {type}</option>
                 {list.map((e) => {

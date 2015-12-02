@@ -4,6 +4,8 @@ import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
 import Loading from '../template/Loading'
+import Colors from '../../constants/JendelaColors'
+import Rating from '../template/Rating'
 
 var moment = require('moment');
 moment.locale("id-ID");
@@ -11,43 +13,54 @@ moment.locale("id-ID");
 import { Component } from 'react';
 
 const styles = {
-    dark: {
-        background: "#010E25",
-        color: "#9DBBD0"
+    postPanel: {
+        marginTop: '1em',
+        marginBottom: '3em',
     },
-    logo: {
-        height: '3.2em'
-    },
-    link: {
-        color: "#9DBBD0",
-        textTransform: "uppercase",
+    postTime: {
         fontSize: '0.8em',
-        fontWeight: 900,
-        letterSpacing: '1px'
-    },
-    noPadding: {
-        padding: 0
-    },
-
-    post_panel: {
-        marginBottom: '1em',
-    },
-    post_rating: {},
-    post_time: {
-        fontSize: '0.8em',
+        fontWeight: '900',
+        color:'#b9b9b9',
         textTransform: "uppercase",
+        letterSpacing: "1px"
     },
-    post_title: {
+    postTitle: {
         fontSize: '1.5em',
         fontWeight: 900,
+        marginBottom: "-5px",
+        color: Colors.blue
     },
-    post_content: {},
-    post_detail: {}
+    postPlaceType: {
+        color: Colors.green,
+        fontWeight: 900,
+        fontSize: "1em"
+    },
+    postContent: {
+        marginTop: "1em",
+        fontSize: "16px",
+        color: "#6d6d6d"
+    },
+    postDetails: {
+        marginTop: "1em",
+        color: "#798eaf",
+        fontWeight: 900,
+        fontSize: "0.9em"
+    }
 }
+
 class ReviewContent extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    _renderDetails(imagePath, content) {
+        return (
+            <span style={{ marginRight: "2em" }}>
+                <img src={imagePath} style={{ marginRight: "8px" }} />
+                <span>{content}</span>
+            </span>
+        )
     }
 
     render() {
@@ -63,18 +76,31 @@ class ReviewContent extends Component {
 
         return (
             <div className="row">
-                {this.props.reviews.map((e)=> {
+                {this.props.reviews.map((review)=> {
+                    const strippedCity = review.city.name.replace('Kabupaten ', '')
+                    const strippedProvince = review.city.province.name.replace('Provinsi ', '')
+                    const info = `${strippedCity}, ${strippedProvince} | ${review.service.name}`
+                    const content = (review.content !== '') ? review.content : (<em>-- tidak ada komentar --</em>)
+
+                    const date = this._renderDetails("img/review-calendar.png", "12 Desember 2015")
+                    const fee = this._renderDetails("img/review-moneybag.png", (review.fee > 0 ? `Rp ${review.fee}` : "GRATIS"))
+                    const duration = this._renderDetails("img/review-duration.png", `${review.duration} JAM`)
+
                     return (
-                        <div style={styles.post_panel} className="small-12 large-6 columns" key={e.objectId}>
-                            <div style={styles.post_time}>Diulas {moment(e.createdAt).fromNow()}</div>
-                            <div style={styles.post_title}>{e.title}</div>
-                            <div style={styles.post_rating}>{e.rating} bintang</div>
-                            <div style={styles.post_rating}>{e.city.name}, {e.city.province.name} | {e.service.name} </div>
-                            <div style={styles.post_content}>
-                                {e.content}
-                                <div>
-                                    <span style={styles.post_detail}></span>
-                                    <span style={styles.post_detail}>Rp {e.fee},00</span>
+                        <div style={styles.postPanel} className="small-12 large-6 columns" key={review.objectId}>
+                            <div style={styles.postTime}>Diulas {moment(review.createdAt).fromNow()}</div>
+                            <div style={styles.postTitle}>{review.title}</div>
+
+                            <Rating rating={review.rating} />
+
+                            <div style={styles.postPlaceType}>{info}</div>
+
+                            <div style={styles.postContent}>
+                                { content }
+                                <div style={styles.postDetails}>
+                                    <span>{ date }</span>
+                                    <span>{ fee }</span>
+                                    <span>{ duration }</span>
                                 </div>
                             </div>
                         </div>

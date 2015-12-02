@@ -6,23 +6,12 @@ import { Link } from 'react-router'
 import StringConstants from '../../constants/StringConstants'
 
 const styles = {
-    info: {
-        background: "#9DBBD0",
-        paddingTop: "25px",
-        paddingBottom: "25px"
-    },
-    title: {
-        fontSize: "2em",
-        fontWeight: "bold"
-    },
-    content: {
-        paddingTop: "25px",
-        paddingBottom: "25px"
-    },
-    entry: {
-        paddingBottom: "10px"
+    serviceSection: {
+        paddingTop: "1em",
+        background: "#000e25 url('img/dark-bg-texture.png')"
     }
 }
+
 class Service extends React.Component {
 
     constructor(props) {
@@ -41,34 +30,72 @@ class Service extends React.Component {
         });
     }
 
+    _renderTitle() {
+        const styles = {
+            info: {
+                background: "#FFF",
+                padding: "0.2em",
+                borderRadius: "50%",
+                marginRight: "0.3em",
+                marginTop: "-5px",
+                height: "1em",
+                width: "1em"
+            },
+            title: {
+                fontWeight: 900,
+                color: "#FFF"
+            }
+        }
+
+        return (
+            <div className="columns">
+                <h2>
+                    <img src="img/icon-info-pemda.png" style={styles.info} />
+                    <span style={styles.title}>Informasi layanan Pemerintah Daerah</span>
+                </h2>
+            </div>
+        )
+    }
+
+    _renderServicesLink(service, idx) {
+        const styles = {
+            container: {
+                marginTop: "1em",
+                marginBottom: "1em"
+            },
+            image: {
+                width: "100%",
+                height: "auto"
+            },
+            title: {
+                marginTop: "1em",
+                color: "#67707c",
+                fontWeight: 900,
+                textAlign: "center",
+                fontSize: "0.9em",
+                textTransform: "uppercase"
+            }
+        }
+        return (
+            <div className="small-6 large-2 columns" style={styles.container} key={idx}>
+                <Link to={"/services/"+service.id} >
+                    <img src="img/icon-placeholder.png" style={styles.image} />
+                    <div style={styles.title}>{service.get("name")} &raquo;</div>
+                </Link>
+            </div>
+        )
+    }
+
     render() {
         return (
-            <div>
-                <section style={styles.info}>
-                    <div className="row">
-                        <div className="small-12 columns">
-                            <div style={styles.title}>Layanan Publik</div>
+            <div style={styles.serviceSection}>
 
-                            <section>
-                                <div className="row">
-                                    <div className="large-12 columns">
-                                        Berikut ini layanan publik di Indonesia
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </section>
+                <div className="row">
+                    { this._renderTitle() }
+                </div>
+
                 <section style={styles.content} className="row">
-                    <div className="small-12 columns">
-                        {this.state.services.map((service)=> {
-                            return (
-                                <Link to={"/services/"+service.id} className="button">{service.get("name")}</Link>
-                            );
-                        })}
-                    </div>
-                    <div className="small-6 medium-3 columns">
-                    </div>
+                    { this.state.services.map((service, idx) => this._renderServicesLink(service, idx)) }
                 </section>
             </div>
         );

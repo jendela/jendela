@@ -1,0 +1,17 @@
+{
+  "name": "jendela",
+  "version": "0.0.1",
+  "authors": "jendela",
+  "dependencies": {
+    "foundation-sites": "~6.0.0",
+    "motion-ui": "~1.1.0"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true
+}
