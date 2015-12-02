@@ -14,7 +14,8 @@ import { Component } from 'react';
 
 const styles = {
     postPanel: {
-        marginBottom: '4em',
+        marginTop: '1em',
+        marginBottom: '3em',
     },
     postTime: {
         fontSize: '0.8em',
