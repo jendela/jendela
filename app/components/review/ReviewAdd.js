@@ -8,11 +8,23 @@ var ParseComponent = ParseReact.Component(React);
 
 const styles = {
     info: {
-        color: "#FFF",
+        background: "#9DBBD0",
         paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    title: {
+        fontSize: "2em",
+        fontWeight: "bold"
+    },
+    content: {
+        paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    entry: {
         paddingBottom: "10px"
     }
 }
+
 
 class ReviewAdd extends ParseComponent {
 
@@ -20,7 +32,7 @@ class ReviewAdd extends ParseComponent {
         super(props);
         this.state = {
             province: "",
-            isAnon: false,
+            isAnon: true,
             isAgree: false
         }
         ;
@@ -181,7 +193,7 @@ class ReviewAdd extends ParseComponent {
         let isAnonInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <label><input value={this.state.isAnnon} type="checkbox" id="isAnon"
+                    <label><input checked={this.state.isAnon} type="checkbox" id="isAnon"
                                   onChange={(e)=>{this.setState({isAnon:e.target.checked})}}/> Saya mau mengirim ulasan
                         secara anonim</label>
                 </div>
@@ -238,30 +250,46 @@ class ReviewAdd extends ParseComponent {
         let sendButton = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <button type="submit">Kirim</button>
+                    <button className="button" type="submit">Kirim</button>
                 </div>
             </div>
         );
 
 
         return (
-            <section style={styles.info}>
-                <form onSubmit={this._onClick.bind(this)}>
-                    {provinceInput}
-                    {cityInput}
-                    {serviceInput}
-                    {ratingInput}
-                    {titleInput}
-                    {contentInput}
-                    {feeInput}
-                    {durationInput}
-                    {dateInput}
-                    {isAnonInput}
-                    {identitasInput}
-                    {isAgreeInput}
-                    {sendButton}
-                </form>
-            </section>
+            <div>
+                <section style={styles.info}>
+                    <div className="row">
+                        <div className="small-12 columns">
+                            <div style={styles.title}>Tulis Ulasan</div>
+                            <section>
+                                <div className="row">
+                                    <div className="large-12 columns">
+                                        Ojo ragu, berikan pendapatmu mengenai layanan publik yang kamu gunakan
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+                <section style={styles.content}>
+                    <form onSubmit={this._onClick.bind(this)}>
+                        {provinceInput}
+                        {cityInput}
+                        {serviceInput}
+                        {ratingInput}
+                        {titleInput}
+                        {contentInput}
+                        {feeInput}
+                        {durationInput}
+                        {dateInput}
+                        {isAnonInput}
+                        {identitasInput}
+                        {isAgreeInput}
+                        {sendButton}
+                    </form>
+                </section>
+            </div>
         );
     }
 

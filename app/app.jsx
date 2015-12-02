@@ -12,7 +12,8 @@ import Home from './components/home/Home'
 import Review from './components/review/Review'
 import ReviewAdd from './components/review/ReviewAdd'
 import Statistic from './components/Statistic'
-import Services from './components/Services'
+import Services from './components/service/Service'
+import ServicesDetail from './components/service/ServiceDetail'
 import FAQ from './components/FAQ'
 import NotFound from './components/NotFound'
 
@@ -37,6 +38,7 @@ const router = (
             <Route path="review" component={Review} />
             <Route path="addreview" component={ReviewAdd} />
             <Route path="statistic" component={Statistic} />
+            <Route path="services/:serviceId" component={ServicesDetail} />
             <Route path="services" component={Services} />
             <Route path="faq" component={FAQ} />
             <Route path="*" component={NotFound} />

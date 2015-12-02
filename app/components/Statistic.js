@@ -9,7 +9,19 @@ var ParseComponent = ParseReact.Component(React);
 
 const styles = {
     info: {
+        background: "#9DBBD0",
         paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    title: {
+        fontSize: "2em",
+        fontWeight: "bold"
+    },
+    content: {
+        paddingTop: "25px",
+        paddingBottom: "25px"
+    },
+    entry: {
         paddingBottom: "10px"
     }
 }
@@ -95,20 +107,36 @@ class Statistic extends ParseComponent {
             return (
                 <div className="row" key={e.name}>
                     <div className="small-12 large-6 columns">{e.name}</div>
-                    <div className="small-12 large-6 columns">{e.value==undefined?0:e.value}</div>
+                    <div className="small-12 large-6 columns">{e.value == undefined ? 0 : e.value}</div>
                 </div>
             )
         });
 
         // return
         return (
-            <section style={styles.info} className="row">
-                <div className="large-12 columns">
-                    {filter}
-                    <h4>{statToShow.title}</h4>
-                    <div className="callout">{tableToShow}</div>
-                </div>
-            </section>
+            <div>
+                <section style={styles.info}>
+                    <div className="row">
+                        <div className="small-12 columns">
+                            <div style={styles.title}>Statistik</div>
+                            <section>
+                                <div className="row">
+                                    <div className="large-12 columns">
+                                        Lihat gambaran besar ulasan teman teman kamu di sini
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+                <section style={styles.content} className="row">
+                    <div className="large-12 columns">
+                        {filter}
+                        <h4>{statToShow.title}</h4>
+                        <div className="callout">{tableToShow}</div>
+                    </div>
+                </section>
+            </div>
         )
     }
 
