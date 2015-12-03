@@ -22,7 +22,7 @@ const styles = {
     panel: {
         paddingLeft: 0,
         paddingRight: 0,
-        marginLeft: "-0.6em",
+        marginLeft: "-0.5em",
         minWidth: '200px'
     },
     customRow: {
