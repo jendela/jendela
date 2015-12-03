@@ -3,70 +3,33 @@
 import AppDispatcher from '../dispatcher/AppDispatcher'
 import { EventEmitter} from 'events'
 import assign from 'react/lib/Object.assign'
+import MapConstants from '../constants/MapConstants'
 
-const _raw = [
-    {key: "IDN", name: "Indonesia"},
-    {key: "ID.AC", name: "Aceh"},
-    {key: "ID.BA", name: "Bali"},
-    {key: "ID.BB", name: "Bangka-Belitung"},
-    {key: "ID.BE", name: "Bengkulu"},
-    {key: "ID.BT", name: "Banten"},
-    {key: "ID.GO", name: "Gorontalo"},
-    {key: "ID.IB", name: "Irian Jaya Barat"},
-    {key: "ID.JA", name: "Jambi"},
-    {key: "ID.JI", name: "Jawa Timur"},
-    {key: "ID.JK", name: "Jakarta Raya"},
-    {key: "ID.JR", name: "Jawa Barat"},
-    {key: "ID.JT", name: "Jawa Tengah"},
-    {key: "ID.KB", name: "Kalimantan Barat"},
-    {key: "ID.KI", name: "Kalimantan Timur"},
-    {key: "ID.KR", name: "Kepulauan Riau"},
-    {key: "ID.KS", name: "Kalimantan Selatan"},
-    {key: "ID.KT", name: "Kalimantan Tengah"},
-    {key: "ID.LA", name: "Lampung"},
-    {key: "ID.MA", name: "Maluku"},
-    {key: "ID.MU", name: "Maluku Utara"},
-    {key: "ID.NB", name: "Nusa Tenggara Barat"},
-    {key: "ID.NT", name: "Nusa Tenggara Timur"},
-    {key: "ID.PA", name: "Papua"},
-    {key: "ID.RI", name: "Riau"},
-    {key: "ID.SB", name: "Sumatera Barat"},
-    {key: "ID.SE", name: "Sulawesi Selatan"},
-    {key: "ID.SG", name: "Sulawesi Tenggara"},
-    {key: "ID.SL", name: "Sumatera Selatan"},
-    {key: "ID.SR", name: "Sulawesi Barat"},
-    {key: "ID.ST", name: "Sulawesi Tengah"},
-    {key: "ID.SU", name: "Sumatera Utara"},
-    {key: "ID.SW", name: "Sulawesi Utara"},
-    {key: "ID.YO", name: "Yogyakarta"}
-]
+import StatisticQuery from '../queries/StatisticQuery'
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-}
+const _info = {};
 
-const _summaries = _raw
-.reduce((acc, el) => {
-    let money = Math.floor(Math.random() * 100)
-    let total = 'Rp. ' + numberWithCommas(money * 10000000)
-    let total2 = 'Rp. ' + numberWithCommas(money * 1000000)
+let _nationInfo = undefined;
 
-    let summary = {
-        title: el.name,
-        rating: (money % 5) + 1,
-        total: total,
-        totalReviews: (money * 100),
-        avgKTP: total2,
-        avgKK: total2,
-        avgAkta: total2,
-        avgKawin: total2
-    }
+let _category = "data.averageFee";
 
-    acc[el.key] = summary
-    return acc
-}, {})
+const _raw = [];
+
+const CHANGE_EVENT = "change_event"
 
 const SummaryStore = assign(EventEmitter.prototype, {
+
+    emitChange() {
+        this.emit(CHANGE_EVENT)
+    },
+
+    addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback)
+    },
+
+    removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback)
+    },
 
     getAllProvinces() {
         return _raw
@@ -77,8 +40,128 @@ const SummaryStore = assign(EventEmitter.prototype, {
             return _summaries['IDN']
         }
         return _summaries[provinceId]
+    },
+
+    setSummary(provinceId, info) {
+        _info[provinceId] = info;
+        this.emitChange()
+    },
+
+    getSummary(provinceId) {
+        if (!_info.hasOwnProperty(provinceId)) {
+            return _nationInfo;
+        }
+        return _info[provinceId];
+    },
+
+    setCategory(category) {
+        _category = category;
+        this.emitChange()
+    },
+
+    getCategory() {
+        return _category;
+    },
+
+    isSummaryPopulated(provinceId) {
+        return _info.hasOwnProperty(provinceId);
+    },
+
+    init() {
+
+        if (_nationInfo)
+            return;
+
+        StatisticQuery.getProvinceNames().find().then((list)=> {
+            _raw.push({key:"IDN",name:"Indonesia"})
+            list.forEach((e)=> {
+                _raw.push({
+                    key: e.get('locale'),
+                    name: e.get('name')
+                })
+            })
+
+            StatisticQuery.getNationalServiceDetails().find().then((list)=> {
+
+                if (list.length == 0) {
+                    SummaryStore.emitChange()
+                    return;
+                }
+
+                _nationInfo = list.reduce((acc, e)=> {
+                    acc["totalRating"] += e.get('total_rating');
+                    acc["totalFee"] += e.get('total_fee');
+                    acc["totalReview"] += e.get('total_review');
+                    acc["stats"].push({
+                        "name": e.get('service').get('name'),
+                        "totalFee": e.get('total_fee'),
+                        "totalReview": e.get('total_review')
+                    });
+                    return acc;
+                }, {
+                    name: "Indonesia",
+                    totalRating: 0,
+                    totalFee: 0,
+                    totalReview: 0,
+                    stats: []
+                })
+
+                this.emitChange()
+            });
+        })
+
     }
 
+})
+
+AppDispatcher.register((action) => {
+    switch (action.actionType) {
+        case MapConstants.SELECT_CATEGORY:
+            SummaryStore.setCategory(action.category)
+            break;
+        case MapConstants.POPULATE_PROVINCE:
+
+            if (!action.province || SummaryStore.isSummaryPopulated(action.province))
+                break;
+
+            StatisticQuery.getProvince(action.province).first().then((province) => {
+                StatisticQuery.getProvinceServiceDetails(action.province).find().then((list)=> {
+
+                    let init = {
+                        name: province.get('name'),
+                        totalRating: 0,
+                        totalFee: 0,
+                        totalReview: 0,
+                        stats: []
+                    }
+
+                    if (list.length == 0) {
+                        SummaryStore.setSummary(action.province, init);
+                        return;
+                    }
+
+                    SummaryStore.setSummary(action.province, list.reduce((acc, e)=> {
+                        acc["totalRating"] += e.get('total_rating');
+                        acc["totalFee"] += e.get('total_fee');
+                        acc["totalReview"] += e.get('total_review');
+                        acc["stats"].push({
+                            "name": e.get('service').get('name'),
+                            "totalFee": e.get('total_fee'),
+                            "totalReview": e.get('total_review')
+                        });
+                        return acc;
+                    }, init))
+                });
+            })
+
+            break;
+
+        default:
+        // nothingness
+    }
+
+
+    return true
 })
 
 module.exports = SummaryStore

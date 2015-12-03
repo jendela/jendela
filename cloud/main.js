@@ -9,7 +9,70 @@ var Statistic = Parse.Object.extend("Statistic");
 var Service = Parse.Object.extend("Service");
 var CityServiceDetail = Parse.Object.extend("CityServiceDetail");
 var ProvinceServiceDetail = Parse.Object.extend("ProvinceServiceDetail");
+var NationServiceDetail = Parse.Object.extend("NationServiceDetail");
 
+/**
+ * Hook after saving Review.
+ *
+ * Updating values in Kota and Province based on the saved Review. The following fields are updated:
+ * * total_biaya
+ * * total_rating
+ */
+Parse.Cloud.afterSave(Review, function (request) {
+
+    var cityQuery = new Parse.Query(City);
+    cityQuery.include("province").get(request.object.get("city").id, {
+        success: function (cityDb) {
+
+            var date = new Date();
+
+            // update total for all time
+            updateCity(request, cityDb);
+
+            // update total for each city and service
+            updateCityService(request, cityDb);
+            updateCityService(request, cityDb, date.getMonth(), date.getFullYear());
+
+            // update total for each province and service
+            updateProvinceService(request, cityDb.get("province"));
+            updateProvinceService(request, cityDb.get("province"), date.getMonth(), date.getFullYear());
+
+            // update total for nationwide and service
+            updateNationService(request);
+            updateNationService(request, date.getMonth(), date.getFullYear());
+        },
+        error: function (error) {
+            console.error("Got an error " + error.code + " : " + error.message);
+        }
+    });
+});
+
+/**
+ * A schedullable job to produce a Statistic
+ *
+ * Calling this job will removes all existing statistic data
+ *
+ */
+Parse.Cloud.job("Statistic", function (request, status) {
+
+    var statQuery = new Parse.Query(Statistic);
+    statQuery.find().then(function (list) {
+        Parse.Object.destroyAll(list);
+    }).then(function () {
+        statisticTotalFeeCity(request, status).then(function () {
+            statisticTotalFeeProvince(request, status).then(function () {
+                statisticAvgFeeCity(request, status).then(function () {
+                    statisticAvgFeeProvince(request, status).then(function () {
+                        status.success("Statistic Generated");
+                    });
+                    ;
+                });
+            });
+        });
+    });
+});
+
+// Utility functions
 function updateCity(request, cityDb) {
 
     // update total for all time
@@ -107,64 +170,49 @@ function updateProvinceService(request, province, month, year) {
     });
 }
 
-/**
- * Hook after saving Review.
- *
- * Updating values in Kota and Province based on the saved Review. The following fields are updated:
- * * total_biaya
- * * total_rating
- */
-Parse.Cloud.afterSave(Review, function (request) {
 
-    var cityQuery = new Parse.Query(City);
-    cityQuery.include("province").get(request.object.get("city").id, {
-        success: function (cityDb) {
+function updateNationService(request, month, year) {
 
-            var date = new Date();
+    console.log("updateNationService")
 
-            // update total for all time
-            updateCity(request, cityDb);
+    var service = request.object.get("service");
 
-            // update total for each city and service
-            updateCityService(request, cityDb);
-            updateCityService(request, cityDb, date.getMonth(), date.getFullYear());
-
-            // update total for each province and service
-            updateProvinceService(request, cityDb.get("province"));
-            updateProvinceService(request, cityDb.get("province"), date.getMonth(), date.getFullYear());
-        },
-        error: function (error) {
-            console.error("Got an error " + error.code + " : " + error.message);
-        }
+    var nationServiceDetail = new Parse.Query("NationServiceDetail");
+    nationServiceDetail.equalTo("service", {
+        "__type": "Pointer",
+        "className": "Service",
+        "objectId": service.id
     });
-});
+    nationServiceDetail.equalTo("month", month);
+    nationServiceDetail.equalTo("year", year);
+    nationServiceDetail.find().then(function (props) {
 
-/**
- * A schedullable job to produce a Statistic
- *
- * Calling this job will removes all existing statistic data
- *
- */
-Parse.Cloud.job("Statistic", function (request, status) {
-
-    var statQuery = new Parse.Query(Statistic);
-    statQuery.find().then(function (list) {
-        Parse.Object.destroyAll(list);
-    }).then(function () {
-        statisticTotalFeeCity(request, status).then(function () {
-            statisticTotalFeeProvince(request, status).then(function () {
-                statisticAvgFeeCity(request, status).then(function () {
-                    statisticAvgFeeProvince(request, status).then(function () {
-                        status.success("Statistic Generated");
-                    });
-                    ;
-                });
+        var prop = undefined;
+        if (props.length == 0) {
+            prop = new NationServiceDetail();
+            prop.set("month", month);
+            prop.set("year", year);
+            prop.set("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
             });
-        });
-    });
-});
+        }
+        else
+            prop = props[0];
 
-// Utility functions
+        prop.increment("total_review");
+        prop.increment("total_fee", request.object.get("fee") ? request.object.get("fee") : 0);
+        prop.increment("total_rating", request.object.get("rating") ? request.object.get("rating") : 0);
+        prop.increment("total_duration", request.object.get("duration") ? request.object.get("duration") : 0);
+        prop.save().then(function(e) {
+            console.log("updateNationService successful");
+        });
+    }, function(error){
+        console.error("updateNationService failed: NationServiceDetail ");
+    });
+}
+
 function statisticTotalFeeCity(request, status) {
     return statisticTotal(status, City, "total_fee", "Top 10 Total Biaya per Kota", "Total Biaya", "Kota");
 }

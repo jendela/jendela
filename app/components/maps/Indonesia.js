@@ -4,6 +4,7 @@ import topojson from 'topojson'
 
 import { m } from '../../helper'
 import MapActions from '../../actions/MapActions'
+import SummaryActions from '../../actions/SummaryActions'
 import MapStore from '../../stores/MapStore'
 import Loading from '../template/Loading'
 
@@ -86,6 +87,7 @@ class Indonesia extends React.Component {
 
     _highlightProvince(provinceId) {
         MapActions.highlightProvince(provinceId)
+        SummaryActions.populateProvince(provinceId)
     }
 
     _selectProvince(provinceId) {
@@ -93,6 +95,7 @@ class Indonesia extends React.Component {
         let province = !isProvinceSelected ? provinceId : ''
 
         MapActions.selectProvince(province)
+        SummaryActions.populateProvince(province)
     }
 
     _onChange() {

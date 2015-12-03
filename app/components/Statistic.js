@@ -72,26 +72,24 @@ class Statistic extends ParseComponent {
         // render filter
         let filter = (
             <div className="row">
-                <form>
-                    <div className="large-6 columns">
-                        <label htmlFor="category">Kategori</label>
-                        <select id="category" onChange={this._onChangeCategory.bind(this)}>
-                            {categories.map((category) => {
-                                return <option key={category}
-                                               value={category}>{category}</option>
-                            })}
-                        </select>
-                    </div>
-                    <div className="large-6 columns">
-                        <label htmlFor="level">Level</label>
-                        <select id="level" onChange={this._onChangeLevel.bind(this)}>
-                            {levels.map((level) => {
-                                return <option key={level}
-                                               value={level}>{level}</option>
-                            })}
-                        </select>
-                    </div>
-                </form>
+                <div className="large-6 columns">
+                    <label htmlFor="category">Kategori</label>
+                    <select id="category" onChange={this._onChangeCategory.bind(this)}>
+                        {categories.map((category) => {
+                            return <option key={category}
+                                           value={category}>{category}</option>
+                        })}
+                    </select>
+                </div>
+                <div className="large-6 columns">
+                    <label htmlFor="level">Level</label>
+                    <select id="level" onChange={this._onChangeLevel.bind(this)}>
+                        {levels.map((level) => {
+                            return <option key={level}
+                                           value={level}>{level}</option>
+                        })}
+                    </select>
+                </div>
             </div>
         );
 
