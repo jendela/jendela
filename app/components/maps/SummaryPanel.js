@@ -105,7 +105,6 @@ class SummaryPanel extends React.Component {
             },
             title: {
                 fontWeight: 900,
-                letterSpacing: "1px",
                 textTransform: "uppercase",
                 color: "#88bcb4",
                 fontSize: '0.8em'
