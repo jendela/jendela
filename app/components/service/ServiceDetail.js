@@ -29,37 +29,41 @@ class ServiceDetail extends React.Component {
 
     render() {
 
-        if (!this.state.service) {
+        const { service } = this.state
+
+        if (!service) {
             return <Loading />
         }
 
         let fee = [];
-        for (var temp in this.state.service.get("fee")) {
-            fee.push(<div><strong>{temp}</strong>: Rp. {this.state.service.get("fee")[temp]}</div>);
+        for (var temp in service.get("fee")) {
+            fee.push(<div><strong>{temp}</strong>: Rp. {service.get("fee")[temp]}</div>);
         }
+        const requirement = service.get("procedures").requirement
+        const steps = service.get("procedures").steps
 
         return (
             <div>
                 <ServiceSummary
-                    iconPath={`img/${this.state.service.get('iconPath')}`}
-                    title={this.state.service.get("name")}
-                    summary={this.state.service.get("description")} />
+                    iconPath={`img/${service.get('iconPath')}`}
+                    title={service.get("name")}
+                    summary={service.get("description")} />
 
                 <div style={styles.content}>
                     <ServiceDetailRow title={"Lokasi Pembuatan"} >
-                        { this.state.service.get("location") }
+                        { service.get("location") }
                     </ServiceDetailRow>
 
                     <ServiceDetailRow title={"Biaya"} >
-                        { (fee.length > 0) ? fee : "-" }
+                        { (fee.length <= 0) ? "-" : fee }
                     </ServiceDetailRow>
 
                     <ServiceDetailRow title={"Persyaratan"} >
-                        { this.state.service.get("procedures").requirement.map((e)=> <li>{e}</li> ) }
+                        { (requirement.length <= 0) ? "-" : requirement.map((e)=> <li>{e}</li> ) }
                     </ServiceDetailRow>
 
                     <ServiceDetailRow title={"Langkah-langkah"} >
-                        { this.state.service.get("procedures").steps.map((e)=> <li>{e}</li> ) }
+                        { (steps.length <= 0) ? "-" : steps.map((e)=> <li>{e}</li> ) }
                     </ServiceDetailRow>
                 </div>
             </div>
