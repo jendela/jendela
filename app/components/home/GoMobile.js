@@ -11,30 +11,6 @@ const styles = {
     }
 }
 
-<!-- Begin MailChimp Signup Form -->
-<div id="mc_embed_signup">
-    <form action="//jende.us1.list-manage.com/subscribe/post?u=3a2c29fca637e81baaa0aef9f&amp;id=c424e8d863" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-        <div id="mc_embed_signup_scroll">
-
-            <div class="mc-field-group">
-            	<label for="mce-EMAIL">Email Address </label>
-            	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-            </div>
-
-        	<div id="mce-responses" class="clear">
-        		<div class="response" id="mce-error-response" style="display:none"></div>
-        		<div class="response" id="mce-success-response" style="display:none"></div>
-        	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-
-            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3a2c29fca637e81baaa0aef9f_c424e8d863" tabindex="-1" value=""></div>
-
-            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-        </div>
-    </form>
-</div>
-
-<!--End mc_embed_signup-->
-
 class GoMobile extends React.Component {
     render() {
         return (
