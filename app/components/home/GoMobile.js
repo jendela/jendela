@@ -27,37 +27,36 @@ class GoMobile extends React.Component {
 
                         <br />
 
-                        <div className="row align-center">
+                        <form action="//jende.us1.list-manage.com/subscribe/post?u=3a2c29fca637e81baaa0aef9f&amp;id=c424e8d863"
+                            method="post"
+                            id="mc-embedded-subscribe-form"
+                            name="mc-embedded-subscribe-form"
+                            target="_blank"
+                            noValidate >
 
-                            <form action="//jende.us1.list-manage.com/subscribe/post?u=3a2c29fca637e81baaa0aef9f&amp;id=c424e8d863"
-                                method="post"
-                                id="mc-embedded-subscribe-form"
-                                name="mc-embedded-subscribe-form"
-                                target="_blank"
-                                noValidate >
-
-                                <div className="large-12 columns">
-                                    <input type="email" placeholder="Isi alamat email Anda di sini..." value="" name="EMAIL" className="required email" id="mce-EMAIL" />
+                            <div className="row align-center">
+                                <div className="small-12 large-9 columns">
+                                    <input type="email" placeholder="Isi alamat email Anda di sini..." name="EMAIL" className="required email" id="mce-EMAIL" />
                                 </div>
 
-                                <div className="large-12 columns">
+                                <div className="small-12 large-9 columns">
                                     <input
                                         type="submit"
                                         value={ "Daftarkan saya sebagai pemakai Jendela App!" }
                                         name="subscribe"
                                         id="mc-embedded-subscribe"
-                                        className="button large success expanded"
+                                        className="button success expanded"
                                         style={{fontWeight: "bold", marginRight:0}} />
                                 </div>
 
-                                <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true"><input type="text" name="b_3a2c29fca637e81baaa0aef9f_c424e8d863" tabIndex="-1" value="" /></div>
-
-                            </form>
-
-                        </div>
+                                <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true">
+                                    <input type="text" name="b_3a2c29fca637e81baaa0aef9f_c424e8d863" tabIndex="-1" value="" />
+                                </div>
+                            </div>
+                        </form>
                     </div>
 
-                    <div className="shrink columns show-for-medium">
+                    <div className="shrink columns align-bottom show-for-medium">
                         <img src="img/phone.png" />
                     </div>
                 </div>
