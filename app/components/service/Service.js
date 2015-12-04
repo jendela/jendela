@@ -4,6 +4,7 @@ import Parse from 'parse'
 import { Link } from 'react-router'
 
 import StringConstants from '../../constants/StringConstants'
+import Title from '../template/Title'
 
 const styles = {
     serviceSection: {
@@ -30,33 +31,6 @@ class Service extends React.Component {
         });
     }
 
-    _renderTitle() {
-        const styles = {
-            info: {
-                background: "#FFF",
-                padding: "0.2em",
-                borderRadius: "50%",
-                marginRight: "0.3em",
-                marginTop: "-5px",
-                height: "1em",
-                width: "1em"
-            },
-            title: {
-                fontWeight: 900,
-                color: "#FFF"
-            }
-        }
-
-        return (
-            <div className="columns">
-                <h2>
-                    <img src="img/icon-info-pemda.png" style={styles.info} />
-                    <span style={styles.title}>Informasi layanan Pemerintah Daerah</span>
-                </h2>
-            </div>
-        )
-    }
-
     _renderServicesLink(service, idx) {
         const styles = {
             container: {
@@ -78,8 +52,8 @@ class Service extends React.Component {
         }
         return (
             <div className="small-6 medium-3 large-2 columns" style={styles.container} key={idx}>
-                <Link to={"/services/"+service.id} >
-                    <img src="img/icon-placeholder.png" style={styles.image} />
+                <Link to={`/services/${service.id}`} >
+                    <img src={`img/${service.get("iconPath")}`} style={styles.image} />
                     <div style={styles.title}>{service.get("name")} &raquo;</div>
                 </Link>
             </div>
@@ -90,9 +64,10 @@ class Service extends React.Component {
         return (
             <div style={styles.serviceSection}>
 
-                <div className="row">
-                    { this._renderTitle() }
-                </div>
+                <Title
+                    text="Informasi layanan Pemerintah Daerah"
+                    iconPath="img/icon-title-services.png"
+                    color="#FFF" />
 
                 <section style={styles.content} className="row">
                     { this.state.services.map((service, idx) => this._renderServicesLink(service, idx)) }
