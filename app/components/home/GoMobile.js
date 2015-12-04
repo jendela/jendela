@@ -33,15 +33,14 @@ class GoMobile extends React.Component {
                                 method="post"
                                 id="mc-embedded-subscribe-form"
                                 name="mc-embedded-subscribe-form"
-                                className="validate"
                                 target="_blank"
-                                novalidate >
+                                noValidate >
 
-                                <div className="small-12 medium-9 columns">
-                                    <input type="email" placeholder="Isi alamat email Anda di sini..." value="" name="EMAIL" class="required email" id="mce-EMAIL" />
+                                <div className="large-12 columns">
+                                    <input type="email" placeholder="Isi alamat email Anda di sini..." value="" name="EMAIL" className="required email" id="mce-EMAIL" />
                                 </div>
 
-                                <div className="small-12 medium-9 columns">
+                                <div className="large-12 columns">
                                     <input
                                         type="submit"
                                         value={ "Daftarkan saya sebagai pemakai Jendela App!" }
@@ -51,12 +50,7 @@ class GoMobile extends React.Component {
                                         style={{fontWeight: "bold", marginRight:0}} />
                                 </div>
 
-                                <div id="mce-responses" class="clear">
-                            		<div className="response" id="mce-error-response" style={{display:"none"}}></div>
-                            		<div className="response" id="mce-success-response" style={{display:"none"}}></div>
-                            	</div>
-
-                                <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_3a2c29fca637e81baaa0aef9f_c424e8d863" tabindex="-1" value=""></div>
+                                <div style={{ position: "absolute", left: "-5000px" }} aria-hidden="true"><input type="text" name="b_3a2c29fca637e81baaa0aef9f_c424e8d863" tabIndex="-1" value="" /></div>
 
                             </form>
 
