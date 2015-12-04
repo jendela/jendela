@@ -3,6 +3,11 @@
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
+import CommonQuery from '../../queries/CommonQuery'
+
+import DatePicker2 from 'react-datepicker'
+import moment from 'moment'
+require('react-datepicker/dist/react-datepicker.css');
 
 var ParseComponent = ParseReact.Component(React);
 
@@ -33,9 +38,17 @@ class ReviewAdd extends ParseComponent {
         this.state = {
             province: "",
             isAnon: true,
-            isAgree: false
+            isAgree: false,
+            date: moment()
         }
         ;
+
+        CommonQuery.getProvinceNames().find().then((list)=>{
+            this.state.provinces = list;
+        })
+        CommonQuery.getServiceNames().find().then((list)=>{
+            this.state.services = list;
+        })
     }
 
     observe(props, states) {
@@ -50,9 +63,7 @@ class ReviewAdd extends ParseComponent {
             };
 
         return {
-            provinces: new Parse.Query('Province').select(["objectId", "name"]),
-            cities: new Parse.Query('City').equalTo("province", province).select(["objectId", "name"]),
-            services: new Parse.Query('Service').select(["objectId", "name"]),
+            cities: CommonQuery.getCityNamesByProvince(province)
         };
     }
 
@@ -65,11 +76,11 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="province">Provinsi</label>
                 </div>
                 <div className="large-9 columns">
-                    <select id="province" value={this.state.province} onChange={this._onChange.bind(this)}>
+                    <select id="province" value={this.state.province} onChange={this._onChange.bind(this)} required>
                         <option key="" value="">Pilih Propinsi</option>
-                        {this.data.provinces.map((e)=> {
-                            return <option key={e.objectId} value={e.objectId}>{e.name}</option>
-                        })}
+                        {this.state.provinces?this.state.provinces.map((e)=> {
+                            return <option key={e.id} value={e.id}>{e.get('name')}</option>
+                        }):undefined}
                     </select>
                 </div>
             </div>
@@ -83,7 +94,7 @@ class ReviewAdd extends ParseComponent {
                 </div>
                 <div className="large-9 columns">
                     {this.state.cityError ? <small className="error">Kota harus di isi</small> : <span />}
-                    <select id="city" value={this.state.city} onChange={this._onChange.bind(this)}>
+                    <select id="city" value={this.state.city} onChange={this._onChange.bind(this)} required>
                         <option key="" value="">Pilih Kota</option>
                         {this.data.cities.map((e)=> {
                             return <option key={e.objectId} value={e.objectId}>{e.name}</option>
@@ -101,11 +112,11 @@ class ReviewAdd extends ParseComponent {
                 </div>
                 <div className="large-9 columns">
                     {this.state.serviceError ? <small className="error">Jenis layanan harus di isi</small> : <span />}
-                    <select id="service" value={this.state.service} onChange={this._onChange.bind(this)}>
+                    <select id="service" value={this.state.service} onChange={this._onChange.bind(this)} required>
                         <option key="" value="">Pilih Layanan</option>
-                        {this.data.services.map((e)=> {
-                            return <option key={e.objectId} value={e.objectId}>{e.name}</option>
-                        })}
+                        {this.state.services?this.state.services.map((e)=> {
+                            return <option key={e.id} value={e.id}>{e.get('name')}</option>
+                        }):undefined}
                     </select>
                 </div>
             </div>
@@ -118,7 +129,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="rating">Rating</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.rating} placeholder="Rating" id="rating"
+                    <input type="number" min="1" max="5" value={this.state.rating} placeholder="Rating" id="rating"
                            onChange={this._onChange.bind(this)}
                            required/>
                 </div>
@@ -160,7 +171,7 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="fee">Biaya</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.fee} placeholder="Biaya" id="fee"
+                    <input type="number" min="0" value={this.state.fee} placeholder="Biaya" id="fee"
                            onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
@@ -172,20 +183,32 @@ class ReviewAdd extends ParseComponent {
                     <label htmlFor="duration">Durasi Pelayanan</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="number" value={this.state.duration} placeholder="Durasi" id="duration"
+                    <input type="number" min="0" value={this.state.duration} placeholder="Durasi" id="duration"
                            onChange={this._onChange.bind(this)}/>
                 </div>
             </div>
         );
         // date
+        /*
+        * <DatePicker
+         hideFooter="true"
+         minDate={(date.getFullYear()-1)+"-"+(date.getMonth()+1)+"-"+date.getDate()}
+         maxDate={date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()}
+         date={this.state.date}
+         onChange={this._onChangeDate.bind(this)} />
+        * */
+        const date = new Date();
         let dateInput = (
             <div className="row">
                 <div className="large-3 columns">
                     <label htmlFor="date">Tanggal</label>
                 </div>
                 <div className="large-9 columns">
-                    <input type="text" value={this.state.date} placeholder="Date" id="date"
-                           onChange={this._onChange.bind(this)}/>
+                    <DatePicker2
+                        selected={this.state.date}
+                        maxDate={moment()}
+                        minDate={moment().subtract(1, 'year')}
+                        onChange={this._onChangeDate.bind(this)} />
                 </div>
             </div>
         );
@@ -296,6 +319,12 @@ class ReviewAdd extends ParseComponent {
     _onChange(e) {
         let newState = {};
         newState[e.target.id] = e.target.value;
+        this.setState(newState);
+    }
+
+    _onChangeDate(date, moment, e) {
+        let newState = {};
+        newState['date'] = date;
         this.setState(newState);
     }
 

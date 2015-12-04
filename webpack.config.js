@@ -34,7 +34,11 @@ module.exports = {
             + '&includePaths[]=' + path.resolve(__dirname, './bower_components/foundation-sites/scss')
             + '&includePaths[]=' + path.resolve(__dirname, './bower_components/motion-ui/src')
         )
-      }
+      },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      },
 
     ],
   },
