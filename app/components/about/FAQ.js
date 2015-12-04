@@ -49,7 +49,7 @@ class FAQ extends React.Component {
                 question: "Apa fungsi utama Jendela?",
                 answer: (
                     <div>
-                        <p>Menulis Ulasan</p>
+                        <p>1. Menulis Ulasan</p>
                         <p>Anda diminta uang suap ketika membuat KTP? Anda bertemu dengan pejabat baik di kantor kecamatan? Ceritakan pengalaman Anda di jendela agar bersama-sama kita bisa meningkatkan transparansi layanan publik</p>
                         <p>2. Melihat Visualisasi Data Layanan Publik Di Indonesia</p>
                         <p>Berapa rata-rata penduduk kota Solo harus mengeluarkan uang untuk membuat KTP (yang seharusnya gratis)? Di provinsi mana bisa didapati laporan uang suap paling banyak? Jendela menggabungkan semua laporan masyarakat yang masuk dan menampilkannya dalam bentuk visualisasi yang apik.</p>

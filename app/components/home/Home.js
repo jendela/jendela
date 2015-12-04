@@ -4,7 +4,7 @@ import Jendela from './JendelaCTA'
 import Mobile from './GoMobile'
 import Info from './JendelaInfo'
 import Review from '../review/Review'
-import Services from '../service/Service'
+import Services from '../service/Services'
 
 class Home extends React.Component {
     render() {
@@ -15,7 +15,7 @@ class Home extends React.Component {
                 <Review reviewType="lite" />
                 <Mobile />
                 <Info />
-                <Services />
+                <Services isOnHomepage="true" />
             </div>
         )
     }

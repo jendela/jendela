@@ -19,7 +19,7 @@ class JendelaInfo extends React.Component {
             <section style={styles.container}>
                 <Title
                     iconPath="img/icon-jendela-info.png"
-                    text="Apa fungsi Jendela"
+                    text="Apa fungsi Jendela?"
                     color="#2d4771" />
 
                 <div className="row">
