@@ -59,7 +59,7 @@ class Review extends ParseComponent {
             cities: CommonQuery.getCitiesByProvince(states.province),
             services: CommonQuery.getServiceNames(),
             reviews: CommonQuery.getReview(states.province, states.city, states.service, states.pageNum, states.sortBasedOn, props.reviewType),
-            city: CommonQuery.getCity(states.city),
+            city: CommonQuery.getCityById(states.city),
             details: StatisticQuery.getCityServiceDetails(states.city)
         };
     }

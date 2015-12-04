@@ -2,7 +2,7 @@
 
 import Parse from 'parse'
 
-var Query = {
+const Query = {
     getCityServiceDetails(cityId) {
         let cityQuery = new Parse.Query('City')
             .equalTo('objectId', cityId);
@@ -32,4 +32,4 @@ var Query = {
     }
 }
 
-module.exports = Query
+export default Query
