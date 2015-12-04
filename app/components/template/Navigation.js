@@ -53,7 +53,7 @@ class Navigation extends React.Component {
                 <div className="title-bar clearfix"
                     data-responsive-toggle="jendela-menu"
                     data-hide-for="large"
-                    style={styles.mobileNavbar}>
+                    style={m(styles.mobileNavbar, styles.dark)}>
 
                     <Link className="float-left" to="/"><img src="img/logo.png" style={styles.logo} /></Link>
 
