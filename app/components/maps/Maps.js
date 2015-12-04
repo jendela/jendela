@@ -4,8 +4,8 @@ import SummaryPanel from './SummaryPanel'
 import MapSelection from './MapSelection'
 import { m } from '../../helper.js'
 
-const height = 520
-const width = 860
+const height = 500
+const width = 900
 const styles = {
     mapSection: {
         width: '100%',
@@ -16,17 +16,17 @@ const styles = {
         background: '#2D3B54',
     },
     map: {
-        height: height,
+
         paddingRight: 0
     },
     panel: {
-        height: height,
         paddingLeft: 0,
         paddingRight: 0,
+        marginLeft: "-0.5em",
         minWidth: '200px'
     },
     customRow: {
-        maxWidth: '76rem',
+        maxWidth: '78rem',
         marginLeft: 'auto',
         marginRight: 'auto',
         background: '#D5EEFF'
@@ -46,14 +46,14 @@ class Maps extends React.Component {
                 </div>
 
                 <div className="row" style={styles.customRow} >
-                    <div className="shrink columns" style={styles.map}>
+                    <div className="large-9 columns" style={styles.map}>
                         <Indonesia
                             width={width} height={height}
                             centerX={118} centerY={-3}
-                            scale={1070} />
+                            scale={1100} />
                     </div>
 
-                    <div className="columns" style={styles.panel}>
+                    <div className="large-3 columns" style={styles.panel}>
                         <SummaryPanel />
                     </div>
                 </div>

@@ -87,7 +87,7 @@ class ReviewContent extends Component {
                     const duration = this._renderDetails("img/review-duration.png", `${review.duration} HARI`)
 
                     return (
-                        <div style={styles.postPanel} className="small-12 large-6 columns" key={review.objectId}>
+                        <div style={styles.postPanel} className="small-12 medium-6 large-6 columns" key={review.objectId}>
                             <div style={styles.postTime}>Diulas {moment(review.createdAt).fromNow()}</div>
                             <div style={styles.postTitle}>{review.title}</div>
 
@@ -99,7 +99,9 @@ class ReviewContent extends Component {
                                 { content }
                                 <div style={styles.postDetails}>
                                     <span>{ date }</span>
+                                    <br className="hide-for-medium" />
                                     <span>{ fee }</span>
+                                    <br className="hide-for-medium" />
                                     <span>{ duration }</span>
                                 </div>
                             </div>

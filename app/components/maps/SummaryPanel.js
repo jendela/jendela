@@ -61,7 +61,7 @@ class SummaryPanel extends React.Component {
             icon: {
                 width: '25%',
                 height: 'auto',
-                paddingRight: 0,
+                paddingBottom: '4px',
                 paddingTop: '4px'
             },
             info: {
@@ -105,7 +105,6 @@ class SummaryPanel extends React.Component {
             },
             title: {
                 fontWeight: 900,
-                letterSpacing: "1px",
                 textTransform: "uppercase",
                 color: "#88bcb4",
                 fontSize: '0.8em'
@@ -165,9 +164,17 @@ class SummaryPanel extends React.Component {
                 </div>
             )
         }
-        const category = SummaryStore.getCategory();
-        const totalReviewInfo = this._renderPanelInfo("img/icon-panel-review.png", summary.totalReview, "Ulasan")
-        const totalFeeInfo = this._renderPanelInfo("img/icon-panel-money.png", "Rp. "+numberWithCommas(summary.totalFee), "Total biaya")
+        const category = SummaryStore.getCategory()
+        const totalReviewInfo = this._renderPanelInfo(
+            "img/icon-panel-review.png",
+            summary.totalReview,
+            "Ulasan"
+        )
+        const totalFeeInfo = this._renderPanelInfo(
+            "img/icon-panel-money.png",
+            "Rp. "+numberWithCommas(summary.totalFee),
+            "Total biaya"
+        )
         const titleTable = summary.totalReview ? <div style={styles.title}>{this._getStatsName(category)}</div> : undefined;
         const averageTable = this._renderAverageTable(summary.stats.map((e)=> {
             return {'title': e.name, 'nominal': this._calculateNominal(e, category)};

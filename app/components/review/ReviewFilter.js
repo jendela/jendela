@@ -80,7 +80,7 @@ class ReviewFilter extends Component {
 
 function generateComboObj(type, list, onchange) {
     return (
-        <div className="small-12 large-expand columns">
+        <div className="small-12 large-3 columns" key={type}>
             <select id="province" onChange={onchange}>
                 <option key="all" value="all">{StringConstants.ALL} {type}</option>
                 {list.map((e) => {
@@ -93,7 +93,7 @@ function generateComboObj(type, list, onchange) {
 
 function generateComboStr(type, list, onchange) {
     return (
-        <div className="large-2 columns">
+        <div className="large-2 columns" key={type}>
             <select id="province" onChange={onchange}>
                 {list.map((e) => {
                     return <option key={e} value={e}>{e}</option>;

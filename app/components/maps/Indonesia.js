@@ -158,7 +158,7 @@ class Indonesia extends React.Component {
         })
 
         return (
-            <svg ref='svg' width={width} height={height}>
+            <svg ref='svg' width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio='xMidYMid meet'>
                 {provincesPaths}
                 <path className="coasts" style={styles.boundary} d={coasts} />
                 <path className="borders" style={m(styles.boundary, styles.boundaryBorder)} d={borders} />
