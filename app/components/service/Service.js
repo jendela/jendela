@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 
 import StringConstants from '../../constants/StringConstants'
 import Title from '../template/Title'
+import CommonQuery from '../../queries/CommonQuery'
 
 const styles = {
     serviceSection: {
@@ -26,7 +27,7 @@ class Service extends React.Component {
     }
 
     componentWillMount() {
-        new Parse.Query('Service').select(["name"]).find().then((services) => {
+        CommonQuery.getServiceNames().find().then((services) => {
             this.setState({"services": services});
         });
     }

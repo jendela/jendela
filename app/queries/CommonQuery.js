@@ -4,12 +4,12 @@ import Parse from 'parse'
 
 const MAX_SHOWN_POST = 6;
 
-var Query = {
-    getProvince(provinceLocale) {
+const Query = {
+    getProvinceByLocale(provinceLocale) {
         return new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
     },
-    getCity(cityId) {
+    getCityById(cityId) {
         return new Parse.Query('City')
             .equalTo('objectId', cityId);
     },
@@ -22,7 +22,7 @@ var Query = {
     getServiceNames() {
         return new Parse.Query('Service')
             .ascending('name')
-            .select('locale')
+            .select('iconPath')
             .select('name');
     },
     getCityNamesByProvince(province) {
@@ -95,4 +95,4 @@ var Query = {
     }
 }
 
-module.exports = Query
+export default Query

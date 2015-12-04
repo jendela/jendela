@@ -128,7 +128,7 @@ AppDispatcher.register((action) => {
             if (!action.province || SummaryStore.isSummaryPopulated(action.province))
                 break;
 
-            CommonQuery.getProvince(action.province).first().then((province) => {
+            CommonQuery.getProvinceByLocale(action.province).first().then((province) => {
                 StatisticQuery.getProvinceServiceDetails(action.province).find().then((list)=> {
 
                     let init = {
