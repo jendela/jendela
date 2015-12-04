@@ -3,6 +3,16 @@
 import Parse from 'parse'
 
 var Query = {
+    getCityServiceDetails(cityId) {
+        let cityQuery = new Parse.Query('City')
+            .equalTo('objectId', cityId);
+        let citySvcQuery = new Parse.Query('CityServiceDetail')
+            .matchesQuery('city', cityQuery)
+            .equalTo('month', undefined)
+            .equalTo('year', undefined)
+            .include('service');
+        return citySvcQuery;
+    },
     getProvinceServiceDetails(provinceLocale) {
         let provQuery = new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
@@ -19,16 +29,6 @@ var Query = {
             .equalTo('year', undefined)
             .include('service');
         return natSvcQuery;
-    },
-    getProvince(provinceLocale) {
-        return new Parse.Query('Province')
-            .equalTo('locale', provinceLocale);
-    },
-    getProvinceNames() {
-        return new Parse.Query('Province')
-            .ascending('name')
-            .select('locale')
-            .select('name');
     }
 }
 

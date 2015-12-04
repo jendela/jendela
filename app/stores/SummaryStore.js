@@ -5,6 +5,7 @@ import { EventEmitter} from 'events'
 import assign from 'react/lib/Object.assign'
 import MapConstants from '../constants/MapConstants'
 
+import CommonQuery from '../queries/CommonQuery'
 import StatisticQuery from '../queries/StatisticQuery'
 
 const _info = {};
@@ -72,7 +73,7 @@ const SummaryStore = assign(EventEmitter.prototype, {
         if (_nationInfo)
             return;
 
-        StatisticQuery.getProvinceNames().find().then((list)=> {
+        CommonQuery.getProvinceNames().find().then((list)=> {
             _raw.push({key:"IDN",name:"Indonesia"})
             list.forEach((e)=> {
                 _raw.push({
@@ -92,10 +93,12 @@ const SummaryStore = assign(EventEmitter.prototype, {
                     acc["totalRating"] += e.get('total_rating');
                     acc["totalFee"] += e.get('total_fee');
                     acc["totalReview"] += e.get('total_review');
+                    acc["totalDuration"] += e.get('total_duration');
                     acc["stats"].push({
                         "name": e.get('service').get('name'),
                         "totalFee": e.get('total_fee'),
-                        "totalReview": e.get('total_review')
+                        "totalReview": e.get('total_review'),
+                        "totalDuration": e.get('total_duration')
                     });
                     return acc;
                 }, {
@@ -103,6 +106,7 @@ const SummaryStore = assign(EventEmitter.prototype, {
                     totalRating: 0,
                     totalFee: 0,
                     totalReview: 0,
+                    totalDuration: 0,
                     stats: []
                 })
 
@@ -124,7 +128,7 @@ AppDispatcher.register((action) => {
             if (!action.province || SummaryStore.isSummaryPopulated(action.province))
                 break;
 
-            StatisticQuery.getProvince(action.province).first().then((province) => {
+            CommonQuery.getProvince(action.province).first().then((province) => {
                 StatisticQuery.getProvinceServiceDetails(action.province).find().then((list)=> {
 
                     let init = {
@@ -132,6 +136,7 @@ AppDispatcher.register((action) => {
                         totalRating: 0,
                         totalFee: 0,
                         totalReview: 0,
+                        totalDuration: 0,
                         stats: []
                     }
 
@@ -144,10 +149,12 @@ AppDispatcher.register((action) => {
                         acc["totalRating"] += e.get('total_rating');
                         acc["totalFee"] += e.get('total_fee');
                         acc["totalReview"] += e.get('total_review');
+                        acc["totalDuration"] += e.get('total_duration');
                         acc["stats"].push({
                             "name": e.get('service').get('name'),
                             "totalFee": e.get('total_fee'),
-                            "totalReview": e.get('total_review')
+                            "totalReview": e.get('total_review'),
+                            "totalDuration": e.get('total_duration')
                         });
                         return acc;
                     }, init))

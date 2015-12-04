@@ -84,7 +84,7 @@ class ReviewContent extends Component {
 
                     const date = this._renderDetails("img/review-calendar.png", "12 Desember 2015")
                     const fee = this._renderDetails("img/review-moneybag.png", (review.fee > 0 ? `Rp ${review.fee}` : "GRATIS"))
-                    const duration = this._renderDetails("img/review-duration.png", `${review.duration} JAM`)
+                    const duration = this._renderDetails("img/review-duration.png", `${review.duration} HARI`)
 
                     return (
                         <div style={styles.postPanel} className="small-12 medium-6 large-6 columns" key={review.objectId}>
