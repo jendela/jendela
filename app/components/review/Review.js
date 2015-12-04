@@ -7,6 +7,9 @@ import ReviewContent from './ReviewContent';
 import ReviewCity from './ReviewCity';
 import ReviewPage from './ReviewPage';
 
+import CommonQuery from '../../queries/CommonQuery';
+import StatisticQuery from '../../queries/StatisticQuery';
+
 var ParseComponent = ParseReact.Component(React);
 
 var Province = Parse.Object.extend("Province");
@@ -50,70 +53,13 @@ class Review extends ParseComponent {
 
     observe(props, states) {
 
-        // selected province
-        let province = undefined;
-        if (states.province)
-            province = {
-                "__type": "Pointer",
-                "className": "Province",
-                "objectId": states.province
-            };
-
-        // selected city
-        let city = undefined;
-        if (states.city)
-            city = {
-                "__type": "Pointer",
-                "className": "City",
-                "objectId": states.city
-            };
-
-        // selected service
-        let service = undefined;
-        if (states.service)
-            service = {
-                "__type": "Pointer",
-                "className": "Service",
-                "objectId": states.service
-            };
-
-        // review query
-        let reviewQuery = new Parse.Query('Review').include("service").include("city.province");
-        if (city != undefined)
-            reviewQuery.equalTo("city", city);
-        else if (province != undefined) {
-            let cityQuery = new Parse.Query('City');
-            cityQuery.equalTo("province", province);
-            reviewQuery.matchesQuery("city", cityQuery);
-        }
-        if (service != undefined) {
-            reviewQuery.equalTo("service", service);
-        }
-        if (states.sortBasedOn == "Waktu") {
-            reviewQuery.descending("createdAt");
-        } else if (states.sortBasedOn == "Biaya") {
-            reviewQuery.descending("fee");
-        } else if (states.sortBasedOn == "Bintang") {
-            reviewQuery.descending("rating");
-        }
-        if (props.reviewType == "lite")
-            reviewQuery.limit(6);
-        else
-            reviewQuery.limit(MAX_SHOWN_POST);
-
-        let cityServiceDetail = new Parse.Query('CityServiceDetail');
-        cityServiceDetail.equalTo("city", city);
-        cityServiceDetail.equalTo("year", undefined);
-        cityServiceDetail.equalTo("month", undefined);
-        cityServiceDetail.include("service");
-
         return {
-            provinces: new Parse.Query('Province').ascending("name").select(["objectId", "name"]),
-            cities: new Parse.Query('City').ascending("name").equalTo("province", province).select(["objectId", "name"]),
-            services: new Parse.Query('Service').ascending("name").select(["objectId", "name"]),
-            reviews: reviewQuery.skip(states.pageNum * 10),
-            city: new Parse.Query('City').equalTo("objectId", states.city),
-            details: cityServiceDetail
+            provinces: CommonQuery.getProvinceNames(),
+            cities: CommonQuery.getCitiesByProvince(states.province),
+            services: CommonQuery.getServiceNames(),
+            reviews: CommonQuery.getReview(states.province, states.city, states.service, states.pageNum, states.sortBasedOn, props.reviewType),
+            city: CommonQuery.getCity(states.city),
+            details: StatisticQuery.getCityServiceDetails(states.city)
         };
     }
 
@@ -134,7 +80,7 @@ class Review extends ParseComponent {
             <div style={styles.container}>
                 {renderTitle.call(this)}
                 {renderFilter.call(this, "compact")}
-                {renderContents.call(this)}
+                <ReviewContent reviews={this.data.reviews}/>
             </div>
         );
     }
@@ -151,12 +97,12 @@ class Review extends ParseComponent {
         let contents = (
 
             <div>
-                {renderCity.call(this)}
+                <ReviewCity city={this.data.city} details={this.data.details}/>
                 {renderTitle.call(this)}
                 {renderFilter.call(this, "others")}
                 <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
                             updatePage={this._updatePage.bind(this)}/>
-                {renderContents.call(this)}
+                <ReviewContent reviews={this.data.reviews}/>
                 <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
                             updatePage={this._updatePage.bind(this)}/>
             </div>
@@ -225,7 +171,7 @@ function renderTitle() {
         <div className="row">
             <div className="columns">
                 <h2>
-                    <img src="img/icon-pen.png" style={styles.pen} />
+                    <img src="img/icon-pen.png" style={styles.pen}/>
                     <span style={styles.title}>Ulasan Terakhir</span>
                 </h2>
             </div>
@@ -253,14 +199,6 @@ function renderFilter(newReviewType) {
                                submit={this._createItem.bind(this)}/>
 
     return review;
-}
-
-function renderCity() {
-    return <ReviewCity city={this.data.city} details={this.data.details}/>;
-}
-
-function renderContents() {
-    return <ReviewContent reviews={this.data.reviews}/>;
 }
 
 Review.defaultProps = {reviewType: undefined};

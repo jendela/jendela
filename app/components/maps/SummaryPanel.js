@@ -93,7 +93,7 @@ class SummaryPanel extends React.Component {
         )
     }
 
-    _renderAverageTable(values) {
+    _renderAverageTable(values, category) {
         let styles = {
             table: {
                 marginBottom: '1em'
@@ -116,13 +116,20 @@ class SummaryPanel extends React.Component {
                 fontSize: '0.9em'
             }
         }
+
+        let renderAverage;
+        if (category == "data.averageTime")
+            renderAverage = (e) => {return e + " Hari"};
+        else
+            renderAverage = (e) => {return "Rp. "+ numberWithCommas(e);};
+
         return (
             <div style={styles.table}>
                 {values.map((average, idx) => {
                     return (
                         <div className="row" key={idx} style={styles.row}>
                             <div className="columns" style={styles.title}>{average.title}</div>
-                            <div className="columns" style={styles.nominal}>Rp. {numberWithCommas(average.nominal)}</div>
+                            <div className="columns" style={styles.nominal}>{renderAverage(average.nominal)}</div>
                         </div>
                     )
                 })}
@@ -135,8 +142,8 @@ class SummaryPanel extends React.Component {
             return e.totalReview ? e.totalFee / e.totalReview : 0;
         } else if (category == "data.totalFee") {
             return e.totalFee;
-        } else
-            return e.totalFee;
+        } else if (category == "data.averageTime")
+            return e.totalReview ? e.totalDuration / e.totalReview : 0;
     }
 
     _getStatsName(category) {
@@ -164,7 +171,7 @@ class SummaryPanel extends React.Component {
         const titleTable = summary.totalReview ? <div style={styles.title}>{this._getStatsName(category)}</div> : undefined;
         const averageTable = this._renderAverageTable(summary.stats.map((e)=> {
             return {'title': e.name, 'nominal': this._calculateNominal(e, category)};
-        }))
+        }), category)
 
         return (
             <div className="callout" style={styles.panel}>
