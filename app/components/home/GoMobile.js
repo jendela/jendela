@@ -3,7 +3,7 @@ import Title from '../template/Title'
 
 const styles = {
     container: {
-        paddingTop: "2em",
+        paddingTop: "1em",
         background: "#368baf url('img/light-texture.png')"
     },
     info: {
