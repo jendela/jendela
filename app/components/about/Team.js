@@ -76,7 +76,7 @@ class Team extends React.Component {
 
                     <div className="row">
                         <div className="large-12 columns">
-                            <h4 style={{color: "#368baf"}}>Jendela adalah sebuah inisiatif untuk meningkatkan transparansi pelayanan publik dan melawan praktek suap dengan cara mengajak partisipasi masyarakat untuk menceritakan pengalaman mereka di portal ini.</h4>
+                            <h5 style={{color: "#368baf"}}>Jendela adalah sebuah inisiatif untuk meningkatkan transparansi pelayanan publik dan melawan praktek suap dengan cara mengajak partisipasi masyarakat untuk menceritakan pengalaman mereka di portal ini.</h5>
 
                             <p>Setiap orang bisa memberikan penilaian dan ulasan atas layanan publik yang diterimanya seperti proses pembuatan KTP, Kartu Keluarga, SIM, dll. Bahkan, masyarakat juga bisa melaporkan praktek korupsi yang dialaminya secara anonim.</p>
 
