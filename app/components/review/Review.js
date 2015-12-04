@@ -7,13 +7,14 @@ import ReviewContent from './ReviewContent';
 import ReviewCity from './ReviewCity';
 import ReviewPage from './ReviewPage';
 
+import Title from '../template/Title'
+
 var ParseComponent = ParseReact.Component(React);
 
 var Province = Parse.Object.extend("Province");
 
 const styles = {
     container: {
-        marginTop: "1em"
     },
     info: {
         background: "#9DBBD0",
@@ -132,7 +133,11 @@ class Review extends ParseComponent {
         // render contents
         return (
             <div style={styles.container}>
-                {renderTitle.call(this)}
+                <Title
+                    text="Ulasan Terakhir"
+                    iconPath="img/icon-title-last-reviews.png"
+                    color="#2d4771" />
+
                 {renderFilter.call(this, "compact")}
                 {renderContents.call(this)}
             </div>
@@ -152,7 +157,11 @@ class Review extends ParseComponent {
 
             <div>
                 {renderCity.call(this)}
-                {renderTitle.call(this)}
+                <Title
+                    text="Ulasan Terakhir"
+                    iconPath="img/icon-title-last-reviews.png"
+                    color="#2d4771" />
+                
                 {renderFilter.call(this, "others")}
                 <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
                             updatePage={this._updatePage.bind(this)}/>
@@ -203,34 +212,6 @@ class Review extends ParseComponent {
         this.setState(newState);
     }
 
-}
-
-function renderTitle() {
-    let styles = {
-        pen: {
-            background: "#2d4771",
-            padding: "0.2em",
-            borderRadius: "50%",
-            marginRight: "0.3em",
-            marginTop: "-5px",
-            height: "1em",
-            width: "1em"
-        },
-        title: {
-            fontWeight: 900,
-            color: "#2d4771"
-        }
-    }
-    return (
-        <div className="row">
-            <div className="columns">
-                <h2>
-                    <img src="img/icon-pen.png" style={styles.pen} />
-                    <span style={styles.title}>Ulasan Terakhir</span>
-                </h2>
-            </div>
-        </div>
-    );
 }
 
 function renderFilter(newReviewType) {

@@ -1,47 +1,48 @@
 import React from 'react'
+import Title from '../template/Title'
 
 const styles = {
     container: {
         paddingTop: "1em",
-        background: "#FFF"
+        background: "#FFF",
+        marginBottom: "1em"
+    },
+    points: {
+        color: "#368baf",
+        fontWeight: "700"
     }
 }
 
 class JendelaInfo extends React.Component {
-    _renderTitle() {
-        const styles = {
-            info: {
-                background: "#FFF",
-                borderRadius: "50%",
-                marginRight: "0.3em",
-                marginTop: "-5px",
-                height: "1.1em",
-                width: "1.1em"
-            },
-            title: {
-                fontWeight: 900,
-                color: "#2d4771"
-            }
-        }
-
-        return (
-            <h2>
-                <img src="img/icon-jendela-info.png" style={styles.info} />
-                <span style={styles.title}>Apa fungsi Jendela?</span>
-            </h2>
-        )
-    }
-
     render() {
         return (
             <section style={styles.container}>
-                <div className="row">
-                    <div className="small-12 large-12 columns">
-                        { this._renderTitle() }
-                    </div>
+                <Title
+                    iconPath="img/icon-jendela-info.png"
+                    text="Apa fungsi Jendela"
+                    color="#2d4771" />
 
-                    <div className="small-12 large-12 columns">
-                        <em>TODO: implement JendelaInfo page</em>
+                <div className="row">
+                    <div className="columns">
+                        <p>Jendela adalah sebuah inisiatif untuk meningkatkan transparansi pelayanan publik dan melawan praktek suap dengan cara mengajak partisipasi masyarakat untuk menyalurkan cerita pengalaman, aspirasi, kritik dan saran untuk layanan publik di seluruh Indonesia dengan cepat dan mudah.</p>
+
+                        <div className="row">
+                            <div className="small-12 medium-4 columns">
+                                <h5 style={styles.points}>Menulis Ulasan</h5>
+
+                                <p>Anda diminta uang suap ketika membuat KTP? Anda bertemu dengan pejabat baik di kantor kecamatan? Ceritakan pengalaman Anda di jendela agar bersama-sama kita bisa meningkatkan transparansi layanan publik</p>
+                            </div>
+                            <div className="small-12 medium-4 columns">
+                                <h5 style={styles.points}>Melihat Visualisasi Data Layanan Publik Di Indonesia</h5>
+
+                                <p>Berapa rata-rata penduduk kota Solo harus mengeluarkan uang untuk membuat KTP (yang seharusnya gratis)? Di provinsi mana bisa didapati laporan uang suap paling banyak? Jendela menggabungkan semua laporan masyarakat yang masuk dan menampilkannya dalam bentuk visualisasi yang apik.</p>
+                            </div>
+                            <div className="small-12 medium-4 columns">
+                                <h5 style={styles.points}>Membaca Informasi Mengenai Layanan Publik</h5>
+
+                                <p>Bagaimana prosedur pembuatan akta nikah? Berapa biaya pembuatan SIM A? Informasi penting mengenai layanan publik ini juga bisa Anda dapatkan di jendela</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
