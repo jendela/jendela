@@ -40,7 +40,7 @@ class Navigation extends React.Component {
                 { link: '/review', title: 'Lihat Ulasan' },
                 { link: '/statistic', title: 'Statistik' },
                 { link: '/services', title: 'Informasi Layanan Publik' },
-                { link: '/faq', title: 'FAQ' },
+                { link: '/about', title: 'Tentang Jendela' },
             ]
         }
     }

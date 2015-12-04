@@ -14,7 +14,7 @@ import ReviewAdd from './components/review/ReviewAdd'
 import Statistic from './components/Statistic'
 import Services from './components/service/Service'
 import ServicesDetail from './components/service/ServiceDetail'
-import FAQ from './components/FAQ'
+import About from './components/about/About'
 import NotFound from './components/NotFound'
 
 Parse.initialize("vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN", "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu")
@@ -40,7 +40,7 @@ const router = (
             <Route path="statistic" component={Statistic} />
             <Route path="services/:serviceId" component={ServicesDetail} />
             <Route path="services" component={Services} />
-            <Route path="faq" component={FAQ} />
+            <Route path="about" component={About} />
             <Route path="*" component={NotFound} />
         </Route>
     </Router>
