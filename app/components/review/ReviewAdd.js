@@ -60,7 +60,7 @@ class ReviewAdd extends ParseComponent {
     constructor(props) {
         super(props);
         this.state = {
-            province: "",
+            province: props.params.provinceId ? props.params.provinceId : "",
             isAnon: true,
             isAgree: false,
             date: moment()
@@ -184,7 +184,7 @@ class ReviewAdd extends ParseComponent {
             cityError,
             serviceError,
             services
-        } = this.state
+            } = this.state
 
         const selectionStyles = {
             text: {
@@ -204,15 +204,16 @@ class ReviewAdd extends ParseComponent {
         let locationSelection = (
             <div className="row" style={{ marginTop: "0.6em" }}>
                 <div className="small-12 medium-2 large-1 columns hide-for-small-only">
-                    <label style={m(selectionStyles.text, { marginLeft: "8px", paddingTop: "0.5rem", marginTop: "-1px" })}>
+                    <label
+                        style={m(selectionStyles.text, { marginLeft: "8px", paddingTop: "0.5rem", marginTop: "-1px" })}>
                         Untuk:
                     </label>
                 </div>
 
                 <div className="small-10 medium-4 large-3 columns">
                     <select id="province" value={province}
-                        onChange={this._onChange.bind(this)}
-                        style={m(selectionStyles.text, selectionStyles.select)} required >
+                            onChange={this._onChange.bind(this)}
+                            style={m(selectionStyles.text, selectionStyles.select)} required>
 
                         <option key="" value="">Pilih Propinsi</option>
                         { !provinces ? undefined : provinces.map((e)=> {
@@ -224,8 +225,8 @@ class ReviewAdd extends ParseComponent {
                 <div className="small-10 medium-4 large-3 columns">
                     {cityError ? <small className="error">Kota harus di isi</small> : <span />}
                     <select id="city" value={city}
-                        onChange={this._onChange.bind(this)}
-                        style={m(selectionStyles.text, selectionStyles.select)} required>
+                            onChange={this._onChange.bind(this)}
+                            style={m(selectionStyles.text, selectionStyles.select)} required>
 
                         <option key="" value="">Pilih Kota</option>
                         { this.data.cities.map((e) => {
@@ -253,7 +254,7 @@ class ReviewAdd extends ParseComponent {
             <ReviewInputRow title="Judul Ulasan">
                 <input
                     type="text" value={this.state.title}
-                    id="title" onChange={this._onChange.bind(this)} required />
+                    id="title" onChange={this._onChange.bind(this)} required/>
             </ReviewInputRow>
         )
 
@@ -262,7 +263,7 @@ class ReviewAdd extends ParseComponent {
                 <input
                     type="number" min="1" max="5"
                     value={this.state.rating} id="rating"
-                    onChange={this._onChange.bind(this)} required />
+                    onChange={this._onChange.bind(this)} required/>
             </ReviewInputRow>
         )
 
@@ -270,7 +271,7 @@ class ReviewAdd extends ParseComponent {
             <ReviewInputRow title="Isi Ulasan">
                 <textarea
                     rows="5" value={this.state.content} className="form-control" id="content"
-                    onChange={this._onChange.bind(this)} />
+                    onChange={this._onChange.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -279,7 +280,7 @@ class ReviewAdd extends ParseComponent {
             <ReviewInputRow title="Biaya">
                 <input
                     type="number" min="0" value={this.state.fee}
-                    id="fee" onChange={this._onChange.bind(this)} />
+                    id="fee" onChange={this._onChange.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -287,7 +288,7 @@ class ReviewAdd extends ParseComponent {
             <ReviewInputRow title="Durasi Pelayanan (Hari)">
                 <input
                     type="number" min="0" value={this.state.duration}
-                    id="duration" onChange={this._onChange.bind(this)} />
+                    id="duration" onChange={this._onChange.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -297,7 +298,7 @@ class ReviewAdd extends ParseComponent {
                     selected={this.state.date}
                     maxDate={moment()}
                     minDate={moment().subtract(1, 'year')}
-                    onChange={this._onChangeDate.bind(this)} />
+                    onChange={this._onChangeDate.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -320,14 +321,14 @@ class ReviewAdd extends ParseComponent {
                 <ReviewInputRow title="Name">
                     <input
                         value={this.state.name} required type="text" placeholder="Name" id="name"
-                        onChange={this._onChange.bind(this)} />
+                        onChange={this._onChange.bind(this)}/>
                 </ReviewInputRow>
             )
             let phoneInput = (
                 <ReviewInputRow title="Telepon">
                     <input
                         value={this.state.phone} required type="text" placeholder="Telepon" id="phone"
-                        onChange={this._onChange.bind(this)} />
+                        onChange={this._onChange.bind(this)}/>
                 </ReviewInputRow>
             )
 
@@ -335,7 +336,7 @@ class ReviewAdd extends ParseComponent {
                 <ReviewInputRow title="Email">
                     <input
                         value={this.state.email} required type="email" placeholder="Email" id="email"
-                        onChange={this._onChange.bind(this)} />
+                        onChange={this._onChange.bind(this)}/>
                 </ReviewInputRow>
             )
 
@@ -350,7 +351,7 @@ class ReviewAdd extends ParseComponent {
                     <label>
                         <input
                             required type="checkbox" id="isAgree"
-                            onChange={ (e) => { this.setState({isAgree:e.target.checked}) } } />
+                            onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
                         Saya menyetujui syarat dan ketentuan berlaku
                     </label>
                 </div>
@@ -370,7 +371,7 @@ class ReviewAdd extends ParseComponent {
             <div className="row">
                 <div className="small-12 columns">
                     <button style={submitStyles.button} className="button large success" type="submit">
-                        <img style={submitStyles.icon} src="img/icon-submit-review.png" />
+                        <img style={submitStyles.icon} src="img/icon-submit-review.png"/>
                         Kirim Ulasan
                     </button>
                 </div>
@@ -383,7 +384,7 @@ class ReviewAdd extends ParseComponent {
                     <Title
                         text="Tulis Ulasan"
                         iconPath="img/icon-title-last-reviews.png"
-                        color="#2d4771" />
+                        color="#2d4771"/>
                     { locationSelection }
                 </section>
 

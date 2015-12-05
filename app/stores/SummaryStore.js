@@ -131,7 +131,7 @@ AppDispatcher.register((action) => {
                 break;
 
             CommonQuery.getProvinceByLocale(action.province).first().then((province) => {
-                StatisticQuery.getProvinceServiceDetails(action.province).find().then((list)=> {
+                StatisticQuery.getProvinceServiceDetailsByLocale(action.province).find().then((list)=> {
 
                     let init = {
                         name: province.get('name'),

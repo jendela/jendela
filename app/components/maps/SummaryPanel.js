@@ -92,8 +92,6 @@ class SummaryPanel extends React.Component {
     }
 
     render() {
-        console.log("render")
-
         const { province } = this.state
         const summary = SummaryStore.getSummary(province)
         if (!summary) {
@@ -114,7 +112,7 @@ class SummaryPanel extends React.Component {
 
                 <div style={styles.title}>{summary.name}</div>
 
-                <Rating rating={summary.totalReview?summary.totalRating / summary.totalReview:0}/>
+                <Rating rating={Math.floor(summary.totalReview?summary.totalRating / summary.totalReview:0)}/>
 
                 <div style={{ marginBottom: '12px'}}>
                     <PanelInfo

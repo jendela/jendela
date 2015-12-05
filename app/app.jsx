@@ -36,6 +36,7 @@ const router = (
         <Route path="/" component={Application}>
             <IndexRoute component={Home} />
             <Route path="review" component={Review} />
+            <Route path="addreview/:provinceId" component={ReviewAdd} />
             <Route path="addreview" component={ReviewAdd} />
             <Route path="statistic" component={Statistic} />
             <Route path="services/:serviceId" component={ServicesDetail} />

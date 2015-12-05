@@ -2,7 +2,9 @@
 
 import Parse from 'parse'
 
-const MAX_SHOWN_POST = 6;
+import StringConstants from '../constants/StringConstants'
+
+const MAX_SHOWN_POST = 10;
 
 const Query = {
     getNation(){
@@ -11,6 +13,9 @@ const Query = {
     getProvinceByLocale(provinceLocale) {
         return new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
+    },
+    getProvince() {
+        return new Parse.Query('Province');
     },
     getCityById(cityId) {
         return new Parse.Query('City')
@@ -82,11 +87,11 @@ const Query = {
         if (service != undefined) {
             reviewQuery.equalTo("service", service);
         }
-        if (statesSortBasedOn == "Waktu") {
+        if (statesSortBasedOn == StringConstants.TIME) {
             reviewQuery.descending("createdAt");
-        } else if (statesSortBasedOn == "Biaya") {
+        } else if (statesSortBasedOn == StringConstants.FEE) {
             reviewQuery.descending("fee");
-        } else if (statesSortBasedOn == "Bintang") {
+        } else if (statesSortBasedOn == StringConstants.RATING) {
             reviewQuery.descending("rating");
         }
         if (reviewType == "lite")

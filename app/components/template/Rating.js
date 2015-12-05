@@ -24,7 +24,7 @@ class Rating extends React.Component {
         return (
             <span>
                 <span style={m(styles.rating, { fontSize: size })}>{this._starRating(rating)}</span>
-                <span style={m(styles.rating, { fontSize: size, color: '#AAAAAA' })}>{this._starRating(5 - rating)}</span>
+                <span style={m(5 - rating, { fontSize: size, color: '#EEEEEE' })}>{this._starRating(5 - rating)}</span>
             </span>
         )
     }
