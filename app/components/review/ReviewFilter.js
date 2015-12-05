@@ -1,16 +1,24 @@
-'use strict'
-
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
-
-import StringConstants from '../../constants/StringConstants'
-
 import { Component } from 'react';
 
+import StringConstants from '../../constants/StringConstants'
+import { m } from '../../helper'
+
 const styles = {
-    content: {
-        paddingTop: "15px",
+    text: {
+        color: '#7385A2',
+        textTransform: 'uppercase',
+        fontWeight: 900,
+        fontSize: '0.9em',
+        letterSpacing: '1px'
+    },
+    select: {
+        backgroundColor: "inherit",
+        border: "none",
+        marginBottom: "1em",
+        cursor: "pointer"
     }
 }
 
@@ -38,10 +46,10 @@ class ReviewFilter extends Component {
         }
 
         return (
-            <div style={styles.content} className="row">
+            <div className="row">
                 {filters}
             </div>
-        );
+        )
     }
 
     _onChangeProvince(e) {
@@ -81,7 +89,7 @@ class ReviewFilter extends Component {
 function generateComboObj(type, list, onchange) {
     return (
         <div className="small-12 large-3 columns" key={type}>
-            <select id="province" onChange={onchange}>
+            <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
                 <option key="all" value="all">{StringConstants.ALL} {type}</option>
                 {list.map((e) => {
                     return <option key={e.objectId} value={e.objectId}>{e.name}</option>;
@@ -94,7 +102,7 @@ function generateComboObj(type, list, onchange) {
 function generateComboStr(type, list, onchange) {
     return (
         <div className="large-2 columns" key={type}>
-            <select id="province" onChange={onchange}>
+            <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
                 {list.map((e) => {
                     return <option key={e} value={e}>{e}</option>;
                 })}

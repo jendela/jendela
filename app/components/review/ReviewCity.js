@@ -1,33 +1,23 @@
-'use strict'
-
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
 import Loading from '../template/Loading'
 
-var moment = require('moment');
-moment.locale("id-ID");
+// do we need this 'moment'?
+var moment = require('moment')
+moment.locale("id-ID")
 
-import { Component } from 'react';
-
-class ReviewCity extends Component {
-
-    constructor(props) {
-        super(props);
-    }
+class ReviewCity extends React.Component {
 
     render() {
 
-        if (this.props.city.length == 0)
-            return (
-                <section className="row">
-                    <div className="small-12 columns">
-                        <p>Tidak ada kota yang dipilih</p>
-                    </div>
-                </section>
-            );
+        let { city } = this.props
 
-        let city = this.props.city[0];
+        if (city.length == 0) {
+            return null
+        }
+
+        city = this.props.city[0]
 
         return (
             <section className="row">
@@ -66,7 +56,8 @@ class ReviewCity extends Component {
             </section>
         );
     }
-
 }
-ReviewCity.defaultProps = {reviews: []};
+
+ReviewCity.defaultProps = { reviews: [] }
+
 export default ReviewCity
