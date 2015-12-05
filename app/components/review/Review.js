@@ -19,7 +19,8 @@ var Province = Parse.Object.extend("Province");
 const styles = {
     container: {
         background: "#f2faff",
-        paddingTop: "25px"
+        paddingTop: "25px",
+        paddingBottom: "1px"
     },
     title: {
         fontSize: "2em",
