@@ -17,7 +17,7 @@ const authors = [
         name: "Cyndy Messah",
         title: "Visual Designer",
         location: "Singapura",
-        twitter: "cyndy"
+        twitter: "cyndymessah"
     },
     {
         avatar: "ikhsan.png",
@@ -28,10 +28,10 @@ const authors = [
     },
     {
         avatar: "yoel.png",
-        name: "Yoelian Sumitro",
+        name: "Yoel Sumitro",
         title: "UX Designer",
         location: "Nuremberg, Jerman",
-        twitter: "yoel"
+        twitter: "yoelkrisnanda"
     },
 ]
 
