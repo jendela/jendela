@@ -20,7 +20,7 @@ const styles = {
     postTime: {
         fontSize: '0.8em',
         fontWeight: '900',
-        color:'#b9b9b9',
+        color: '#b9b9b9',
         textTransform: "uppercase",
         letterSpacing: "1px"
     },
@@ -57,7 +57,7 @@ class ReviewContent extends Component {
     _renderDetails(imagePath, content) {
         return (
             <span style={{ marginRight: "2em" }}>
-                <img src={imagePath} style={{ marginRight: "8px" }} />
+                <img src={imagePath} style={{ marginRight: "8px" }}/>
                 <span>{content}</span>
             </span>
         )
@@ -68,8 +68,10 @@ class ReviewContent extends Component {
         if (this.props.reviews.length == 0)
             return (
                 <div className="row">
-                    <div className="small-12 columns">
-                        <p>Tidak ada review berdasarkan filter</p>
+                    <div style={styles.postPanel} className="small-9 small-centered columns">
+                        <div style={styles.postContent}>
+                            <p>Belum ada ulasan untuk pilihan ini. Jadilah yang pertama dalam mengulas lokasi ini!</p>
+                        </div>
                     </div>
                 </div>
             );
@@ -87,11 +89,12 @@ class ReviewContent extends Component {
                     const duration = this._renderDetails("img/review-duration.png", `${review.duration} HARI`)
 
                     return (
-                        <div style={styles.postPanel} className="small-12 medium-6 large-6 columns" key={review.objectId}>
+                        <div style={styles.postPanel} className="small-12 medium-6 large-6 columns"
+                             key={review.objectId}>
                             <div style={styles.postTime}>Diulas {moment(review.createdAt).fromNow()}</div>
                             <div style={styles.postTitle}>{review.title}</div>
 
-                            <Rating rating={review.rating} />
+                            <Rating rating={review.rating}/>
 
                             <div style={styles.postPlaceType}>{info}</div>
 
@@ -99,9 +102,9 @@ class ReviewContent extends Component {
                                 { content }
                                 <div style={styles.postDetails}>
                                     <span>{ date }</span>
-                                    <br className="hide-for-medium" />
+                                    <br className="hide-for-medium"/>
                                     <span>{ fee }</span>
-                                    <br className="hide-for-medium" />
+                                    <br className="hide-for-medium"/>
                                     <span>{ duration }</span>
                                 </div>
                             </div>

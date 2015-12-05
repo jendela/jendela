@@ -88,7 +88,7 @@ class ReviewFilter extends Component {
 
 function generateComboObj(type, list, onchange) {
     return (
-        <div className="small-12 large-3 columns" key={type}>
+        <div className="small-12 medium-6 large-3 columns" key={type}>
             <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
                 <option key="all" value="all">{StringConstants.ALL} {type}</option>
                 {list.map((e) => {
@@ -101,7 +101,7 @@ function generateComboObj(type, list, onchange) {
 
 function generateComboStr(type, list, onchange) {
     return (
-        <div className="large-2 columns" key={type}>
+        <div className="large-3 columns" key={type}>
             <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
                 {list.map((e) => {
                     return <option key={e} value={e}>{e}</option>;
@@ -114,9 +114,7 @@ function generateComboStr(type, list, onchange) {
 ReviewFilter.defaultProps = {
     provinces: [],
     cities: [],
-    categories: ["Total Biaya", "Rata-rata Biaya"],
     services: [],
-    sortBasedOn: ["Waktu", "Biaya", "Bintang"],
-    sortBys: ["Terurut Mengecil"],
+    sortBasedOn: [StringConstants.TIME, StringConstants.FEE, StringConstants.RATING]
 };
 export default ReviewFilter

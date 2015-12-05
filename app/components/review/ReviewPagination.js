@@ -28,11 +28,11 @@ class ReviewPagination extends React.Component {
 
         let pages = [];
         for (var pageNum = 0; pageNum < page; pageNum++) {
-            pages.push(<li style={styles.pagination}>
+            pages.push(<li key={pageNum} style={styles.pagination}>
                 <a id={pageNum} href="#" onClick={this._onClicked.bind(this)}>{ pageNum + 1 }</a>
             </li>);
         }
-        pages.push(<li className="current" style={styles.pagination}>
+        pages.push(<li key={page + 1} className="current" style={styles.pagination}>
             { page + 1 }
         </li>);
 
