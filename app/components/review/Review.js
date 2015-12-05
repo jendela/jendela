@@ -5,6 +5,7 @@ import React from 'react'
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
 import ReviewCity from './ReviewCity';
+import ReviewLocation from './ReviewLocation';
 import ReviewPagination from './ReviewPagination';
 
 import Title from '../template/Title'
@@ -109,11 +110,11 @@ class Review extends ParseComponent {
     }
 
     renderFull() {
-        const { city, details, reviews } = this.data
-        const { pageNum } = this.state
+        const { city, reviews } = this.data
+        const { pageNum, province } = this.state
 
         const isCityExist = (city !== null)
-        const cityPanel = <ReviewCity city={ city } details={ details } />
+        const cityPanel = <ReviewLocation provinceId={province} />
         const content = ( isCityExist ? <ReviewContent reviews={ reviews } /> : <em>Pilih provinsi atau kota...</em>)
         const pagination = ( !isCityExist ? null :
             <ReviewPagination
