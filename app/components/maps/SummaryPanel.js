@@ -7,6 +7,9 @@ import Colors from '../../constants/JendelaColors'
 import Rating from '../template/Rating'
 import Loading from '../template/Loading'
 
+import PanelInfo from '../panel/PanelInfo'
+import PanelDetailRow from '../panel/PanelDetailRow'
+
 const styles = {
     panel: {
         marginTop: '1em'
@@ -55,82 +58,16 @@ class SummaryPanel extends React.Component {
 
     // render helpers
 
-    _renderPanelInfo(icon, value, label) {
-        let styles = {
-            icon: {
-                width: '25%',
-                height: 'auto',
-                paddingBottom: '4px',
-                paddingTop: '4px'
-            },
-            info: {
-                width: '75%',
-                paddingLeft: 0
-            },
-            text: {
-                color: Colors.blue,
-                fontWeight: 900,
-                fontSize: '1.5em',
-                marginBottom: '-10px'
-            },
-            label: {
-                color: Colors.green,
-                fontWeight: 900
-            }
-        }
-
-        return (
-            <div className="row" style={styles.panel}>
-                <div className="shrink columns" style={styles.icon}>
-                    <img src={icon}/>
-                </div>
-                <div className="columns" style={styles.info}>
-                    <div style={styles.text}>{value}</div>
-                    <div style={styles.label}>{label}</div>
-                </div>
-            </div>
-        )
-    }
-
     _renderAverageTable(values, category) {
-        let styles = {
-            table: {
-                marginBottom: '1em'
-            },
-            row: {
-                borderTop: "1px solid #EEE",
-                paddingTop: "2px",
-                paddingBottom: "2px"
-            },
-            title: {
-                fontWeight: 900,
-                textTransform: "uppercase",
-                color: "#88bcb4",
-                fontSize: '0.8em'
-            },
-            nominal: {
-                fontWeight: 900,
-                color: "#8c9db8",
-                fontSize: '0.9em'
-            }
-        }
-
-        let renderAverage;
-        if (category == "data.averageTime")
-            renderAverage = (e) => {return e + " Hari"};
-        else
-            renderAverage = (e) => {return "Rp. "+ numberWithCommas(e);};
+        const renderAverage = (category == "data.averageTime") ? 
+            (e) => {return e + " Hari"} :
+            (e) => {return "Rp. "+ numberWithCommas(e)}
 
         return (
-            <div style={styles.table}>
-                {values.map((average, idx) => {
-                    return (
-                        <div className="row" key={idx} style={styles.row}>
-                            <div className="columns" style={styles.title}>{average.title}</div>
-                            <div className="columns" style={styles.nominal}>{renderAverage(average.nominal)}</div>
-                        </div>
-                    )
-                })}
+            <div style={{ marginBottom: '1em' }}>
+                { values.map((average, idx) => {
+                    return <PanelDetailRow key={idx} title={average.title} nominal={renderAverage(average.nominal)} />
+                }) }
             </div>
         )
     }
@@ -145,12 +82,13 @@ class SummaryPanel extends React.Component {
     }
 
     _getStatsName(category) {
-        if (category == "data.averageFee") {
-            return "Informasi Rata-Rata Biaya";
-        } else if (category == "data.totalFee") {
-            return "Informasi Total Biaya";
-        } else
-            return "Informasi Rata-Rata Waktu";
+        if (category === "data.averageFee") {
+            return "Informasi Rata-Rata Biaya"
+        } else if (category === "data.totalFee") {
+            return "Informasi Total Biaya"
+        } else {
+            return "Informasi Rata-Rata Waktu"
+        }
     }
 
     render() {
@@ -166,16 +104,6 @@ class SummaryPanel extends React.Component {
             )
         }
         const category = SummaryStore.getCategory()
-        const totalReviewInfo = this._renderPanelInfo(
-            "img/icon-panel-review.png",
-            summary.totalReview,
-            "Ulasan"
-        )
-        const totalFeeInfo = this._renderPanelInfo(
-            "img/icon-panel-money.png",
-            "Rp. "+numberWithCommas(summary.totalFee),
-            "Total biaya"
-        )
         const titleTable = summary.totalReview ? <div style={styles.title}>{this._getStatsName(category)}</div> : undefined;
         const averageTable = this._renderAverageTable(summary.stats.map((e)=> {
             return {'title': e.name, 'nominal': this._calculateNominal(e, category)};
@@ -189,8 +117,14 @@ class SummaryPanel extends React.Component {
                 <Rating rating={summary.totalReview?summary.totalRating / summary.totalReview:0}/>
 
                 <div style={{ marginBottom: '12px'}}>
-                    {totalReviewInfo}
-                    {totalFeeInfo}
+                    <PanelInfo
+                        icon={ "img/icon-panel-review.png" }
+                        text={ summary.totalReview }
+                        label={ "Ulasan" } />
+                    <PanelInfo
+                        icon={ "img/icon-panel-money.png" }
+                        text={ `Rp. ${numberWithCommas(summary.totalFee)}` }
+                        label={ "Total biaya" } />
                 </div>
 
                 {titleTable}

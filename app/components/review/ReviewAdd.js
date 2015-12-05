@@ -197,7 +197,8 @@ class ReviewAdd extends ParseComponent {
             select: {
                 backgroundColor: "inherit",
                 border: "none",
-                marginBottom: "1em"
+                marginBottom: "1em",
+                cursor: "pointer"
             }
         }
         let locationSelection = (

@@ -5,8 +5,7 @@ const styles = {
     info: {
         background: "#3b655d",
         color: "#FFF",
-        paddingTop: "1rem",
-        marginBottom: "1em"
+        paddingTop: "1rem"
     }
 }
 

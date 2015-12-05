@@ -5,7 +5,7 @@ import React from 'react'
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
 import ReviewCity from './ReviewCity';
-import ReviewPage from './ReviewPage';
+import ReviewPagination from './ReviewPagination';
 
 import Title from '../template/Title'
 import CommonQuery from '../../queries/CommonQuery';
@@ -18,11 +18,9 @@ var Province = Parse.Object.extend("Province");
 
 const styles = {
     container: {
-    },
-    info: {
-        background: "#9DBBD0",
+        background: "#f2faff",
         paddingTop: "25px",
-        paddingBottom: "25px"
+        paddingBottom: "1px"
     },
     title: {
         fontSize: "2em",
@@ -53,7 +51,6 @@ class Review extends ParseComponent {
     }
 
     observe(props, states) {
-
         return {
             provinces: CommonQuery.getProvinceNames(),
             cities: CommonQuery.getCitiesByProvince(states.province),
@@ -61,82 +58,7 @@ class Review extends ParseComponent {
             reviews: CommonQuery.getReview(states.province, states.city, states.service, states.pageNum, states.sortBasedOn, props.reviewType),
             city: CommonQuery.getCityById(states.city),
             details: StatisticQuery.getCityServiceDetails(states.city)
-        };
-    }
-
-
-    render() {
-        if (this.props.reviewType == "lite")
-            return this.renderLite();
-        else
-            return this.renderFull();
-
-    }
-
-    renderLite() {
-        // render title
-        // render compact filter
-        // render contents
-        return (
-            <div style={styles.container}>
-                <Title
-                    text="Ulasan Terakhir"
-                    iconPath="img/icon-title-last-reviews.png"
-                    color="#2d4771" />
-
-                {renderFilter.call(this, "compact")}
-                <ReviewContent reviews={this.data.reviews}/>
-            </div>
-        );
-    }
-
-    renderFull() {
-        // render location filter
-        // render city
-        // render title
-        // render others filter
-        // render pagination
-        // render contents
-        // render pagination
-
-        let contents = (
-
-            <div>
-
-                <ReviewCity city={this.data.city} details={this.data.details}/>
-
-                <Title
-                    text="Ulasan Terakhir"
-                    iconPath="img/icon-title-last-reviews.png"
-                    color="#2d4771" />
-
-                {renderFilter.call(this, "others")}
-                <ReviewContent reviews={this.data.reviews}/>
-                <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-                            updatePage={this._updatePage.bind(this)}/>
-            </div>
-        );
-
-        return (
-            <div style={styles.container}>
-                <section style={styles.info}>
-                    <div className="row">
-                        <div className="small-12 columns">
-                            <div style={styles.title}>Lihat Ulasan</div>
-                            <section>
-                                <div className="row">
-                                    <div className="large-12 columns">
-                                        Simak ulasan-ulasan teman kamu di sini!
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </section>
-                {renderFilter.call(this, "location")}
-                {this.state.city ? contents : undefined}
-            </div>
-        );
+        }
     }
 
     _updatePage(newPageNum) {
@@ -144,42 +66,83 @@ class Review extends ParseComponent {
     }
 
     _createItem(filterState) {
+        var newState = {}
 
-        var newState = {};
         for (var prop in filterState) {
             if (filterState[prop]) {
-                if (filterState[prop] == "all")
-                    newState[prop] = undefined;
-                else
-                    newState[prop] = filterState[prop];
+                if (filterState[prop] == "all") {
+                    newState[prop] = undefined
+                } else {
+                    newState[prop] = filterState[prop]
+                }
             }
         }
 
-        this.setState(newState);
+        this.setState(newState)
     }
 
-}
+    renderFilter() {
+        const { provinces, cities, services } = this.data
+        return (
+            <ReviewFilter
+                reviewType={ "compact" }
+                provinces={ provinces }
+                cities={ cities }
+                services={ services }
+                submit={ this._createItem.bind(this) } />
+        )
+    }
 
-function renderFilter(newReviewType) {
-    let review = undefined;
+    renderLite() {
+        return (
+            <div style={styles.container}>
+                <Title
+                    text="Ulasan Terakhir"
+                    iconPath="img/icon-title-last-reviews.png"
+                    color="#2d4771" />
 
-    if (newReviewType == "location")
-        review = <ReviewFilter reviewType={newReviewType}
-                               provinces={this.data.provinces}
-                               cities={this.data.cities}
-                               submit={this._createItem.bind(this)}/>;
-    else if (newReviewType == "others")
-        review = <ReviewFilter reviewType={newReviewType}
-                               services={this.data.services}
-                               submit={this._createItem.bind(this)}/>
-    else
-        review = <ReviewFilter reviewType={newReviewType}
-                               provinces={this.data.provinces}
-                               cities={this.data.cities}
-                               services={this.data.services}
-                               submit={this._createItem.bind(this)}/>
+                { this.renderFilter() }
 
-    return review;
+                <ReviewContent reviews={this.data.reviews}/>
+            </div>
+        );
+    }
+
+    renderFull() {
+        const { city, details, reviews } = this.data
+        const { pageNum } = this.state
+
+        const isCityExist = (city !== null)
+        const cityPanel = <ReviewCity city={ city } details={ details } />
+        const content = ( isCityExist ? <ReviewContent reviews={ reviews } /> : <em>Pilih provinsi atau kota...</em>)
+        const pagination = ( !isCityExist ? null :
+            <ReviewPagination
+                page={ pageNum }
+                showNext={ (reviews.length == MAX_SHOWN_POST) }
+                updatePage={ this._updatePage.bind(this) } />
+        )
+
+        return (
+            <div>
+                <section style={styles.container}>
+                    <Title
+                        text="Lihat Ulasan"
+                        iconPath="img/icon-title-last-reviews.png"
+                        color="#2d4771" />
+                    { this.renderFilter() }
+                    { cityPanel }
+                </section>
+
+                { content }
+                { pagination }
+            </div>
+        );
+    }
+
+    render() {
+        const { reviewType } = this.props
+        return (reviewType === "lite") ? this.renderLite() : this.renderFull()
+    }
 }
 
 Review.defaultProps = {reviewType: undefined};
