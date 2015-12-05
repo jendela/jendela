@@ -1,22 +1,60 @@
 const webpack = require('webpack')
-const isLive = (process.env.NODE_ENV === 'production' | process.env.NODE_ENV === 'staging')
+const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 module.exports = {
-  context: __dirname + "/app",
-  entry: "./app.jsx",
+
+  entry: {
+    app: "./app/app.jsx",
+    vendor: "./foundation/vendor.js"
+  },
 
   output: {
-    filename: "app.js",
-    path: __dirname + "/public"
+    filename: "[name].js",
+    path: "./public/assets",
+    publicPath: "/assets/"
+  },
+
+  externals: {
+      "jquery": "jQuery"
   },
 
   module: {
     loaders: [
       {
-        test: [/\.jsx$/, /\.js$/],
+        test: /\.(js|jsx)$/,
         exclude: [/node_modules/],
-        loaders: (isLive ? ["babel?presets[]=airbnb"] : ["react-hot", "babel?presets[]=airbnb"])
-      }
+        loaders: ["babel?presets[]=airbnb"]
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(
+            'style-loader',
+            'css!sass?outputStyle=expanded'
+            + '&includePaths[]=' + path.resolve(__dirname, './bower_components/foundation-sites/scss')
+            + '&includePaths[]=' + path.resolve(__dirname, './bower_components/motion-ui/src')
+        )
+      },
+      {
+        test: /\.css$/,
+        loader: "style-loader!css-loader"
+      },
+
     ],
   },
+
+  plugins: [
+    new ExtractTextPlugin('app.css', { allChunks: true }),
+
+    // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
+    new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' })
+  ],
+
+  resolve: {
+      root: path.resolve('./bower_components/foundation-sites/dist'),
+      alias: {
+        jquery: path.resolve('./bower_components/jquery/dist/jquery.js')
+      }
+  }
 
 }

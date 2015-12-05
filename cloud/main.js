@@ -2,40 +2,44 @@
  * Copyright (c) 2015 Jendela
  */
 
-var Propinsi = Parse.Object.extend("Propinsi");
-var Kota = Parse.Object.extend("Kota");
-var Ulasan = Parse.Object.extend("Ulasan");
-var Statistik = Parse.Object.extend("Statistik");
-var Layanan = Parse.Object.extend("Layanan");
+var Province = Parse.Object.extend("Province");
+var City = Parse.Object.extend("City");
+var Review = Parse.Object.extend("Review");
+var Statistic = Parse.Object.extend("Statistic");
+var Service = Parse.Object.extend("Service");
+var CityServiceDetail = Parse.Object.extend("CityServiceDetail");
+var ProvinceServiceDetail = Parse.Object.extend("ProvinceServiceDetail");
+var NationServiceDetail = Parse.Object.extend("NationServiceDetail");
 
 /**
- * Hook after saving Ulasan.
+ * Hook after saving Review.
  *
- * Updating values in Kota and Propinsi based on the saved Ulasan. The following fields are updated:
+ * Updating values in Kota and Province based on the saved Review. The following fields are updated:
  * * total_biaya
  * * total_rating
  */
-Parse.Cloud.afterSave(Ulasan, function (request) {
-    var kotaQuery = new Parse.Query(Kota);
-    kotaQuery.get(request.object.get("kota").id, {
-        success: function (kota) {
-            kota.increment("total_ulasan");
-            kota.increment("total_biaya", request.object.get("biaya"));
-            kota.increment("total_rating", request.object.get("rating"));
-            kota.save();
+Parse.Cloud.afterSave(Review, function (request) {
 
-            var propinsiQuery = new Parse.Query(Propinsi);
-            propinsiQuery.get(kota.get("propinsi").id, {
-                success: function (prop) {
-                    prop.increment("total_ulasan");
-                    prop.increment("total_biaya", request.object.get("biaya"));
-                    prop.increment("total_rating", request.object.get("rating"));
-                    prop.save();
-                },
-                error: function (error) {
-                    console.error("Got an error " + error.code + " : " + error.message);
-                }
-            });
+    var cityQuery = new Parse.Query(City);
+    cityQuery.include("province").get(request.object.get("city").id, {
+        success: function (cityDb) {
+
+            var date = new Date();
+
+            // update total for all time
+            updateCity(request, cityDb);
+
+            // update total for each city and service
+            updateCityService(request, cityDb);
+            updateCityService(request, cityDb, date.getMonth(), date.getFullYear());
+
+            // update total for each province and service
+            updateProvinceService(request, cityDb.get("province"));
+            updateProvinceService(request, cityDb.get("province"), date.getMonth(), date.getFullYear());
+
+            // update total for nationwide and service
+            updateNationService(request);
+            updateNationService(request, date.getMonth(), date.getFullYear());
         },
         error: function (error) {
             console.error("Got an error " + error.code + " : " + error.message);
@@ -44,27 +48,22 @@ Parse.Cloud.afterSave(Ulasan, function (request) {
 });
 
 /**
- * A schedullable job to produce a Statistik
+ * A schedullable job to produce a Statistic
  *
- * Calling this job will removes all existing statistik data
+ * Calling this job will removes all existing statistic data
  *
- * Currently it procudes the following information:
- * * Top 10 Total Biaya per Propinsi
- * * Top 10 Total Biaya per Kota
- * * Top 10 Rata Biaya per Propinsi
- * * Top 10 Rata Biaya per Kota
  */
-Parse.Cloud.job("Statistik", function (request, status) {
+Parse.Cloud.job("Statistic", function (request, status) {
 
-    var statQuery = new Parse.Query(Statistik);
-    statQuery.find().then(function(list){
+    var statQuery = new Parse.Query(Statistic);
+    statQuery.find().then(function (list) {
         Parse.Object.destroyAll(list);
-    }).then(function() {
-        statistikTotalBiayaKota(request, status).then(function () {
-            statistikTotalBiayaPropinsi(request, status).then(function () {
-                statistikRataBiayaKota(request, status).then(function () {
-                    statistikRataBiayaPropinsi(request, status).then(function () {
-                        status.success("Statistik Generated");
+    }).then(function () {
+        statisticTotalFeeCity(request, status).then(function () {
+            statisticTotalFeeProvince(request, status).then(function () {
+                statisticAvgFeeCity(request, status).then(function () {
+                    statisticAvgFeeProvince(request, status).then(function () {
+                        status.success("Statistic Generated");
                     });
                     ;
                 });
@@ -74,76 +73,219 @@ Parse.Cloud.job("Statistik", function (request, status) {
 });
 
 // Utility functions
+function updateCity(request, cityDb) {
 
-function statistikTotalBiayaKota(request, status) {
-    return statistikTotal(request, status, Kota, "total_biaya", "Top 10 Total Biaya per Kota");
-}
-
-function statistikTotalBiayaPropinsi(request, status) {
-    return statistikTotal(request, status, Propinsi, "total_biaya", "Top 10 Total Biaya per Propinsi");
-}
-
-function statistikRataBiayaKota(request, status) {
-    return statistikTotal(request, status, Kota, "total_biaya", "Top 10 Rata Biaya per Kota");
-}
-
-function statistikRataBiayaPropinsi(request, status) {
-    return statistikTotal(request, status, Propinsi, "total_biaya", "Top 10 Rata Biaya per Propinsi");
-}
-
-function statistikTotal(request, status, parseClass, field, title) {
-    // Kota
-    var kotaQuery = new Parse.Query(parseClass);
-    return kotaQuery.descending(field).limit(10).find().then(function (kotas) {
-        var jsonData = kotas.map(function (kota) {
-            return {
-                "name": kota.get("name"),
-                "nilai": kota.get(field)
-            };
-        });
-        var statistik = new Statistik();
-        statistik.set("judul", title);
-        statistik.set("data", jsonData);
-        statistik.save();
-    }, function (error) {
-        console.error("Got an error " + error.code + " : " + error.message);
-        status.error("Statistik failed to be generated");
+    // update total for all time
+    cityDb.increment("total_review");
+    cityDb.increment("total_fee", request.object.get("fee"));
+    cityDb.increment("total_rating", request.object.get("rating"));
+    cityDb.save();
+    var propinsiQuery = new Parse.Query(Province);
+    propinsiQuery.get(cityDb.get("province").id, {
+        success: function (prop) {
+            prop.increment("total_review");
+            prop.increment("total_fee", request.object.get("fee"));
+            prop.increment("total_rating", request.object.get("rating"));
+            prop.save();
+        },
+        error: function (error) {
+            console.error("Got an error " + error.code + " : " + error.message);
+        }
     });
 }
 
-function statistikRata(request, status, parseClass, field, title) {
+function updateCityService(request, cityDb, month, year) {
+
+    var service = request.object.get("service");
+
+    var cityServiceDetail = new Parse.Query("CityServiceDetail");
+    cityServiceDetail.equalTo("city", cityDb);
+    cityServiceDetail.equalTo("service", {
+        "__type": "Pointer",
+        "className": "Service",
+        "objectId": service.id
+    });
+    cityServiceDetail.equalTo("month", month);
+    cityServiceDetail.equalTo("year", year);
+    cityServiceDetail.find().then(function (props) {
+
+        var prop = undefined;
+        if (props.length == 0) {
+            prop = new CityServiceDetail();
+            prop.set("month", month);
+            prop.set("year", year);
+            prop.set("city", cityDb);
+            prop.set("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
+            });
+        }
+        else
+            prop = props[0];
+
+        prop.increment("total_review");
+        prop.increment("total_fee", request.object.get("fee") ? request.object.get("fee") : 0);
+        prop.increment("total_rating", request.object.get("rating") ? request.object.get("rating") : 0);
+        prop.increment("total_duration", request.object.get("duration") ? request.object.get("duration") : 0);
+        prop.save();
+    });
+}
+
+function updateProvinceService(request, province, month, year) {
+
+    var service = request.object.get("service");
+
+    var provinceServiceDetail = new Parse.Query("ProvinceServiceDetail");
+    provinceServiceDetail.equalTo("province", province);
+    provinceServiceDetail.equalTo("service", {
+        "__type": "Pointer",
+        "className": "Service",
+        "objectId": service.id
+    });
+    provinceServiceDetail.equalTo("month", month);
+    provinceServiceDetail.equalTo("year", year);
+    provinceServiceDetail.find().then(function (props) {
+
+        var prop = undefined;
+        if (props.length == 0) {
+            prop = new ProvinceServiceDetail();
+            prop.set("month", month);
+            prop.set("year", year);
+            prop.set("province", province);
+            prop.set("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
+            });
+        }
+        else
+            prop = props[0];
+
+        prop.increment("total_review");
+        prop.increment("total_fee", request.object.get("fee") ? request.object.get("fee") : 0);
+        prop.increment("total_rating", request.object.get("rating") ? request.object.get("rating") : 0);
+        prop.increment("total_duration", request.object.get("duration") ? request.object.get("duration") : 0);
+        prop.save();
+    });
+}
+
+
+function updateNationService(request, month, year) {
+
+    console.log("updateNationService")
+
+    var service = request.object.get("service");
+
+    var nationServiceDetail = new Parse.Query("NationServiceDetail");
+    nationServiceDetail.equalTo("service", {
+        "__type": "Pointer",
+        "className": "Service",
+        "objectId": service.id
+    });
+    nationServiceDetail.equalTo("month", month);
+    nationServiceDetail.equalTo("year", year);
+    nationServiceDetail.find().then(function (props) {
+
+        var prop = undefined;
+        if (props.length == 0) {
+            prop = new NationServiceDetail();
+            prop.set("month", month);
+            prop.set("year", year);
+            prop.set("service", {
+                "__type": "Pointer",
+                "className": "Service",
+                "objectId": service.id
+            });
+        }
+        else
+            prop = props[0];
+
+        prop.increment("total_review");
+        prop.increment("total_fee", request.object.get("fee") ? request.object.get("fee") : 0);
+        prop.increment("total_rating", request.object.get("rating") ? request.object.get("rating") : 0);
+        prop.increment("total_duration", request.object.get("duration") ? request.object.get("duration") : 0);
+        prop.save().then(function(e) {
+            console.log("updateNationService successful");
+        });
+    }, function(error){
+        console.error("updateNationService failed: NationServiceDetail ");
+    });
+}
+
+function statisticTotalFeeCity(request, status) {
+    return statisticTotal(status, City, "total_fee", "Daftar 10 kota dengan total biaya layanan publik tertinggi", "Total Biaya", "Kota");
+}
+
+function statisticTotalFeeProvince(request, status) {
+    return statisticTotal(status, Province, "total_fee", "Daftar 10 propinsi dengan total biaya layanan publik tertinggi", "Total Biaya", "Propinsi");
+}
+
+function statisticAvgFeeCity(request, status) {
+    return statisticAverage(status, City, "total_fee", "Daftar 10 kota dengan rata2 biaya layanan publik tertinggi", "Rata-rata Biaya", "Kota");
+}
+
+function statisticAvgFeeProvince(request, status) {
+    return statisticAverage(status, Province, "total_fee", "Daftar 10 propinsi dengan rata2 biaya layanan publik tertinggi", "Rata-rata Biaya", "Propinsi");
+}
+
+function statisticTotal(status, parseClass, field, title, category, level) {
     // Kota
-    var kotaQuery = new Parse.Query(parseClass);
-    return kotaQuery.find().then(function (kotas) {
-        var jsonData = kotas.map(function (kota) {
-            if (kota.get("total_ulasan") != undefined && !kota.get("total_ulasan") == 0) {
-                var avg = Math.round(kota.get(field) * 100.0 / kota.get("total_ulasan")) / 100;
-                kota.set("nilai", avg);
+    var cityQuery = new Parse.Query(parseClass);
+    return cityQuery.descending(field).limit(10).find().then(function (cities) {
+        var jsonData = cities.map(function (city) {
+            return {
+                "name": city.get("name"),
+                "value": city.get(field)
+            };
+        });
+        var statistic = new Statistic();
+        statistic.set("title", title);
+        statistic.set("data", jsonData);
+        statistic.set("level", level);
+        statistic.set("category", category);
+        statistic.save();
+    }, function (error) {
+        console.error("Got an error " + error.code + " : " + error.message);
+        status.error("Statistic failed to be generated");
+    });
+}
+
+function statisticAverage(status, parseClass, field, title, category, level) {
+    // Kota
+    var cityQuery = new Parse.Query(parseClass);
+    return cityQuery.limit(1000).find().then(function (citys) {
+        var jsonData = citys.map(function (city) {
+            if (city.get("total_review") != undefined && !city.get("total_review") == 0) {
+                var avg = Math.round(city.get(field) * 100.0 / city.get("total_review")) / 100;
+                city.set("value", avg);
             }
             else
-                kota.set("nilai", 0);
-            return kota;
+                city.set("value", 0);
+            return city;
         }).sort(function (a, b) {
-            if (a.get("nilai") > b.get("nilai")) {
-                return 1;
-            }
-            if (a.get("nilai") < b.get("nilai")) {
+            if (a.get("value") > b.get("value")) {
                 return -1;
+            }
+            if (a.get("value") < b.get("value")) {
+                return 1;
             }
             // a must be equal to b
             return 0;
-        }).slice(0, 10).map(function (kota) {
+        }).slice(0, 10).map(function (city) {
             return {
-                "name": kota.get("name"),
-                "nilai": kota.get(field)
+                "name": city.get("name"),
+                "value": city.get(field)
             };
         });
-        var statistik = new Statistik();
-        statistik.set("judul", title);
-        statistik.set("data", jsonData);
-        statistik.save();
+        var statistic = new Statistic();
+        statistic.set("title", title);
+        statistic.set("data", jsonData);
+        statistic.set("level", level);
+        statistic.set("category", category);
+        statistic.save();
     }, function (error) {
         console.error("Got an error " + error.code + " : " + error.message);
-        status.error("Statistik failed to be generated");
+        status.error("Statistic failed to be generated");
     });
 }
