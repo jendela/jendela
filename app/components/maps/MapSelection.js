@@ -73,7 +73,7 @@ class MapSelection extends React.Component {
             <form>
                 <div className="row">
                     <div className="shrink columns">
-                        <label htmlFor="filter-map" style={m(styles.label, { marginTop: "13px" })}>Filter: </label>
+                        <label htmlFor="filter-map" style={m(styles.label, { marginTop: "13px" })}>Pilih Lokasi: </label>
                     </div>
                     <div className="shrink columns">
                         <select id="filter-map"
@@ -84,6 +84,9 @@ class MapSelection extends React.Component {
                                 return <option key={province.key} value={province.key}>{province.name}</option>
                             })}
                         </select>
+                    </div>
+                    <div className="shrink columns">
+                        <label htmlFor="filter-map" style={m(styles.label, { marginTop: "13px" })}>Kategori: </label>
                     </div>
                     <div className="shrink columns">
                         <select id="filter-summary"
