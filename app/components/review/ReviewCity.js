@@ -24,10 +24,6 @@ const styles = {
         textTransform: 'capitalize',
         fontWeight: 900,
         color: Colors.blue,
-    },
-    info: {
-        color: "#9DBBD0",
-        fontWeight: 600
     }
 }
 
@@ -46,8 +42,6 @@ class ReviewCity extends React.Component {
         const totalFee = `Rp. ${city.total_fee ? city.total_fee : 0}`
         const name = city.name
         const rating = city.rating
-        const leader = "Ridwan Kamil"
-        const link = "http://www.jakarta.go.id"
 
         return (
             <section className="row" style={styles.container}>
@@ -56,8 +50,6 @@ class ReviewCity extends React.Component {
                         <span style={{ marginRight: "0.6em" }}>{ name }</span>
                         <Rating rating={rating} size="0.8em" />
                     </h3>
-                    <div style={styles.info}>{leader}</div>
-                    <div style={styles.info}><a href={link}>{link}</a></div>
                 </div>
                 <div className="small-12 medium-4 columns">
                     <Link to="/addreview" className="button large success expanded" style={{ marginRight: 0 }}>
