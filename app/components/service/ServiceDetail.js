@@ -35,10 +35,7 @@ class ServiceDetail extends React.Component {
             return <Loading />
         }
 
-        let fee = [];
-        for (var temp in service.get("fee")) {
-            fee.push(<div><strong>{temp}</strong>: Rp. {service.get("fee")[temp]}</div>);
-        }
+        const fee = formatFee(service.get("fee"))
         const requirement = service.get("procedures").requirement
         const steps = service.get("procedures").steps
 
@@ -58,12 +55,21 @@ class ServiceDetail extends React.Component {
                         { (fee.length <= 0) ? "-" : fee }
                     </ServiceDetailRow>
 
-                    <ServiceDetailRow title={"Persyaratan"} >
-                        { (requirement.length <= 0) ? "-" : requirement.map((e)=> <li>{e}</li> ) }
-                    </ServiceDetailRow>
+                    { (requirement.length <= 0) ? undefined :
+                        <ServiceDetailRow title={"Persyaratan"} >
+                            { requirement.map((e)=> <li>{e}</li> ) }
+                        </ServiceDetailRow>
+                    }
 
-                    <ServiceDetailRow title={"Langkah-langkah"} >
-                        { (steps.length <= 0) ? "-" : steps.map((e)=> <li>{e}</li> ) }
+                    { (steps.length <= 0) ? undefined :
+                        <ServiceDetailRow title={"Prosedur"} >
+                            { steps.map((e)=> <li>{e}</li> ) }
+                        </ServiceDetailRow>
+                    }
+
+
+                    <ServiceDetailRow title={"Durasi Pembuatan"} >
+                        { service.get("duration") }
                     </ServiceDetailRow>
                 </div>
             </div>
@@ -73,6 +79,22 @@ class ServiceDetail extends React.Component {
 
 ServiceDetail.defaultProps = {
     params: { "serviceId": undefined }
+}
+
+function formatFee(inputFee) {
+    if (Object.keys(inputFee).length == 1)
+        return getPriceString(inputFee[1])
+    else {
+        let fee = [];
+        for (var temp in inputFee) {
+            fee.push(<div><strong>{temp}</strong>: {getPriceString(inputFee[temp])}</div>);
+        }
+        return fee
+    }
+}
+
+function getPriceString(price) {
+    return price ? "Rp. " + price : "GRATIS";
 }
 
 export default ServiceDetail
