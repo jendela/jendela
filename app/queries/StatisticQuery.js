@@ -13,9 +13,19 @@ const Query = {
             .include('service');
         return citySvcQuery;
     },
-    getProvinceServiceDetails(provinceLocale) {
+    getProvinceServiceDetailsByLocale(provinceLocale) {
         let provQuery = new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
+        let provSvcQuery = new Parse.Query('ProvinceServiceDetail')
+            .matchesQuery('province', provQuery)
+            .equalTo('month', undefined)
+            .equalTo('year', undefined)
+            .include('service');
+        return provSvcQuery;
+    },
+    getProvinceServiceDetails(provinceId) {
+        let provQuery = new Parse.Query('Province')
+            .equalTo('objectId', provinceId);
         let provSvcQuery = new Parse.Query('ProvinceServiceDetail')
             .matchesQuery('province', provQuery)
             .equalTo('month', undefined)

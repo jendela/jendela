@@ -12,6 +12,9 @@ const Query = {
         return new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
     },
+    getProvince() {
+        return new Parse.Query('Province');
+    },
     getCityById(cityId) {
         return new Parse.Query('City')
             .equalTo('objectId', cityId);
