@@ -53,8 +53,8 @@ class ReviewCity extends Component {
                                     <p>Kota ini belum memiliki statistik, saatnya berkontribusi!</p>
                                     : undefined}
                                 {this.props.details.map((e)=> {
-                                    return <div className="large-3 columns">
-                                        <div>Rata {e.service.name} Rp. {e.total_fee / e.total_review}</div>
+                                    return <div key={e.objectId} className="large-3 columns">
+                                        <div>Rata {e.service.name} Rp. {(e.total_fee / e.total_review).toFixed(2)}</div>
                                     </div>;
                                 })}
                                 <div className="large-3 columns">

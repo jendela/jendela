@@ -111,8 +111,6 @@ class Review extends ParseComponent {
                     color="#2d4771" />
 
                 {renderFilter.call(this, "others")}
-                <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
-                            updatePage={this._updatePage.bind(this)}/>
                 <ReviewContent reviews={this.data.reviews}/>
                 <ReviewPage page={this.state.pageNum} showNext={this.data.reviews.length==MAX_SHOWN_POST}
                             updatePage={this._updatePage.bind(this)}/>

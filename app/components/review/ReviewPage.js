@@ -14,19 +14,21 @@ class ReviewPage extends Component {
 
     render() {
 
-        let prev = <span></span>;
+        let prev = <li className="pagination-previous disabled">Sebelum</li>;
         if (this.props.page != 0)
-            prev = <button style={{background:'#31A694'}} onClick={this._onPrevClicked.bind(this)}>Sebelumnya</button>;
-        let next = <span></span>;
+            prev = <li className="pagination-previous"><a href="#" onClick={this._onPrevClicked.bind(this)}>Sebelum</a></li>;
+        let next = <li className="pagination-next disabled">Setelah</li>;
         if (this.props.showNext)
-            next = <button style={{background:'#31A694'}} onClick={this._onNextClicked.bind(this)}>Selanjutnya</button>
+            next = <li className="pagination-next"><a href="#" onClick={this._onNextClicked.bind(this)}>Setelah</a></li>;
 
         return (
             <div className="row">
-                <div className="small-4 small-centered columns">
-                    {prev}
-                    <span> Halaman {this.props.page + 1} </span>
-                    {next}
+                <div className="small-12 columns">
+                    <ul className="pagination text-center">
+                        {prev}
+                        <li className="current"><span className="show-for-sr">Anda di halaman</span> {this.props.page + 1} </li>
+                        {next}
+                    </ul>
                 </div>
             </div>
 
