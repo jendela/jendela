@@ -73,46 +73,48 @@ const SummaryStore = assign(EventEmitter.prototype, {
         if (_nationInfo)
             return;
 
-        CommonQuery.getProvinceNames().find().then((list)=> {
-            _raw.push({key:"IDN",name:"Indonesia"})
-            list.forEach((e)=> {
-                _raw.push({
-                    key: e.get('locale'),
-                    name: e.get('name')
+        CommonQuery.getNation().first().then((nation) => {
+
+            CommonQuery.getProvinceNames().find().then((list)=> {
+                _raw.push({key:"IDN",name:"Indonesia"})
+                list.forEach((e)=> {
+                    _raw.push({
+                        key: e.get('locale'),
+                        name: e.get('name')
+                    })
                 })
+
+                StatisticQuery.getNationalServiceDetails().find().then((list)=> {
+
+                    if (list.length == 0) {
+                        SummaryStore.emitChange()
+                        return;
+                    }
+
+                    _nationInfo = list.reduce((acc, e)=> {
+                        acc["totalDuration"] += e.get('total_duration');
+                        acc["stats"].push({
+                            "name": e.get('service').get('name'),
+                            "totalFee": e.get('total_fee'),
+                            "totalReview": e.get('total_review'),
+                            "totalDuration": e.get('total_duration')
+                        });
+                        return acc;
+                    }, {
+                        name: "Indonesia",
+                        totalRating: nation.get('total_rating'),
+                        totalFee:  nation.get('total_fee'),
+                        totalReview:  nation.get('total_review'),
+                        totalDuration: 0,
+                        stats: []
+                    })
+
+                    this.emitChange()
+                });
             })
-
-            StatisticQuery.getNationalServiceDetails().find().then((list)=> {
-
-                if (list.length == 0) {
-                    SummaryStore.emitChange()
-                    return;
-                }
-
-                _nationInfo = list.reduce((acc, e)=> {
-                    acc["totalRating"] += e.get('total_rating');
-                    acc["totalFee"] += e.get('total_fee');
-                    acc["totalReview"] += e.get('total_review');
-                    acc["totalDuration"] += e.get('total_duration');
-                    acc["stats"].push({
-                        "name": e.get('service').get('name'),
-                        "totalFee": e.get('total_fee'),
-                        "totalReview": e.get('total_review'),
-                        "totalDuration": e.get('total_duration')
-                    });
-                    return acc;
-                }, {
-                    name: "Indonesia",
-                    totalRating: 0,
-                    totalFee: 0,
-                    totalReview: 0,
-                    totalDuration: 0,
-                    stats: []
-                })
-
-                this.emitChange()
-            });
         })
+
+
 
     }
 
@@ -133,9 +135,9 @@ AppDispatcher.register((action) => {
 
                     let init = {
                         name: province.get('name'),
-                        totalRating: 0,
-                        totalFee: 0,
-                        totalReview: 0,
+                        totalRating: province.get('total_rating'),
+                        totalFee: province.get('total_fee'),
+                        totalReview: province.get('total_review'),
                         totalDuration: 0,
                         stats: []
                     }
@@ -146,9 +148,6 @@ AppDispatcher.register((action) => {
                     }
 
                     SummaryStore.setSummary(action.province, list.reduce((acc, e)=> {
-                        acc["totalRating"] += e.get('total_rating');
-                        acc["totalFee"] += e.get('total_fee');
-                        acc["totalReview"] += e.get('total_review');
                         acc["totalDuration"] += e.get('total_duration');
                         acc["stats"].push({
                             "name": e.get('service').get('name'),
