@@ -30,16 +30,15 @@ class SummaryPanel extends React.Component {
 
         this._onChange = this._onChange.bind(this)
         this.state = {province: ''}
-    }
 
-    componentDidMount() {
-        MapStore.addChangeListener(this._onChange)
-        SummaryStore.addChangeListener(this._onChange)
         SummaryStore.init()
     }
 
+    componentDidMount() {
+        SummaryStore.addChangeListener(this._onChange)
+    }
+
     componentWillUnmount() {
-        MapStore.removeChangeListener(this._onChange)
         SummaryStore.removeChangeListener(this._onChange)
     }
 
@@ -155,6 +154,8 @@ class SummaryPanel extends React.Component {
     }
 
     render() {
+        console.log("render")
+
         const { province } = this.state
         const summary = SummaryStore.getSummary(province)
         if (!summary) {
