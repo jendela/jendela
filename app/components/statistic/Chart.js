@@ -43,7 +43,7 @@ class Chart extends React.Component {
         const height = (data.length * barHeight)
 
         const xNominal = 150
-        const xBar = 380
+        const xBar = 400
         const x = d3.scale.linear()
             .domain([0, d3.max(data, (d) => { return d.value })])
             .range([0, (width-xBar-20)])
