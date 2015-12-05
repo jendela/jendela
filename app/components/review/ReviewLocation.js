@@ -109,7 +109,7 @@ class ReviewLocation extends React.Component {
                     </h3>
                 </div>
                 <div className="small-12 medium-4 columns">
-                    <Link to="/addreview" className="button large success expanded" style={{ marginRight: 0 }}>
+                    <Link to={"/addreview/"+location.id} className="button large success expanded" style={{ marginRight: 0 }}>
                         <img src="/img/icon-pen.png" style={{ marginRight: '0.8em' }}/>
                         <strong>Tulis ulasan</strong>
                     </Link>
