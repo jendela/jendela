@@ -17,7 +17,8 @@ class ReviewPagination extends React.Component {
 
         let prev = <li className="pagination-previous disabled">Sebelum</li>;
         if (page != 0) {
-            prev = <li className="pagination-previous"><a href="#" onClick={this._onPrevClicked.bind(this)}>Sebelum</a></li>
+            prev = <li className="pagination-previous"><a href="#" onClick={this._onPrevClicked.bind(this)}>Sebelum</a>
+            </li>
         }
 
         let next = <li className="pagination-next disabled">Setelah</li>;
@@ -25,17 +26,22 @@ class ReviewPagination extends React.Component {
             next = <li className="pagination-next"><a href="#" onClick={this._onNextClicked.bind(this)}>Setelah</a></li>
         }
 
+        let pages = [];
+        for (var pageNum = 0; pageNum < page; pageNum++) {
+            pages.push(<li style={styles.pagination}>
+                <a id={pageNum} href="#" onClick={this._onClicked.bind(this)}>{ pageNum + 1 }</a>
+            </li>);
+        }
+        pages.push(<li className="current" style={styles.pagination}>
+            { page + 1 }
+        </li>);
+
         return (
             <div className="row">
                 <div className="small-12 columns">
                     <ul className="pagination text-center">
                         {prev}
-
-                        <li className="current" style={styles.pagination}>
-                            <span className="show-for-sr">Anda di halaman</span>
-                            { page + 1 }
-                        </li>
-
+                        {pages}
                         {next}
                     </ul>
                 </div>
@@ -45,11 +51,19 @@ class ReviewPagination extends React.Component {
     }
 
     _onPrevClicked(e) {
+        e.preventDefault();
         this.props.updatePage(this.props.page - 1);
     }
 
     _onNextClicked(e) {
+        e.preventDefault();
         this.props.updatePage(this.props.page + 1);
+    }
+
+    _onClicked(e) {
+        console.log(e.target.id)
+        e.preventDefault();
+        this.props.updatePage(Number(e.target.id));
     }
 }
 

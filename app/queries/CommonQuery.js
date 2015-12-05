@@ -2,7 +2,7 @@
 
 import Parse from 'parse'
 
-const MAX_SHOWN_POST = 6;
+const MAX_SHOWN_POST = 10;
 
 const Query = {
     getNation(){

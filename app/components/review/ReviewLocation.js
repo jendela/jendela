@@ -66,10 +66,10 @@ class ReviewLocation extends React.Component {
             })
         } else {
             CommonQuery.getNation().first().then((nation)=> {
-                StatisticQuery.getNationalServiceDetails().first().then((detail) => {
+                StatisticQuery.getNationalServiceDetails().find().then((details) => {
                     nation.set('name', 'Indonesia')
                     nation.set('rating', Math.floor(nation.get('total_rating') / nation.get('total_review')))
-                    this.setState({location: nation, details: [detail]})
+                    this.setState({location: nation, details: details})
                 }, () => {
                     this.setState({isNotFound: true})
                 })
