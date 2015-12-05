@@ -214,19 +214,19 @@ function updateNationService(request, month, year) {
 }
 
 function statisticTotalFeeCity(request, status) {
-    return statisticTotal(status, City, "total_fee", "Top 10 Total Biaya per Kota", "Total Biaya", "Kota");
+    return statisticTotal(status, City, "total_fee", "Daftar 10 kota dengan total biaya layanan publik tertinggi", "Total Biaya", "Kota");
 }
 
 function statisticTotalFeeProvince(request, status) {
-    return statisticTotal(status, Province, "total_fee", "Top 10 Total Biaya per Province", "Total Biaya", "Propinsi");
+    return statisticTotal(status, Province, "total_fee", "Daftar 10 propinsi dengan total biaya layanan publik tertinggi", "Total Biaya", "Propinsi");
 }
 
 function statisticAvgFeeCity(request, status) {
-    return statisticAverage(status, City, "total_fee", "Top 10 Rata Biaya per Kota", "Rata-rata Biaya", "Kota");
+    return statisticAverage(status, City, "total_fee", "Daftar 10 kota dengan rata2 biaya layanan publik tertinggi", "Rata-rata Biaya", "Kota");
 }
 
 function statisticAvgFeeProvince(request, status) {
-    return statisticAverage(status, Province, "total_fee", "Top 10 Rata Biaya per Province", "Rata-rata Biaya", "Propinsi");
+    return statisticAverage(status, Province, "total_fee", "Daftar 10 propinsi dengan rata2 biaya layanan publik tertinggi", "Rata-rata Biaya", "Propinsi");
 }
 
 function statisticTotal(status, parseClass, field, title, category, level) {
