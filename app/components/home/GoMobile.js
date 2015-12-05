@@ -23,7 +23,8 @@ class GoMobile extends React.Component {
                             text="Kirim ulasan dengan Mobile App"
                             color="#FFF" />
 
-                        <p style={styles.info}>Jendela App akan segera diluncurkan! Mempermudah Anda untuk mendapatkan informasi tentang layanan public, menulis ulasan, dan melihat ulasan dengan cepat bahkan ketika Anda sedang berada di kantor layanan publik!</p>
+                        <p style={styles.info}>Jendela App akan segera diluncurkan!</p>
+                        <p style={styles.info}>Mempermudah Anda untuk mendapatkan informasi tentang layanan public, menulis ulasan, dan melihat ulasan dengan cepat bahkan ketika Anda sedang berada di kantor layanan publik!</p>
 
                         <br />
 
