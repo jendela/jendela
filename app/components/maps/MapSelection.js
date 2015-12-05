@@ -87,7 +87,7 @@ class MapSelection extends React.Component {
                         </select>
                     </div>
                     <div className="shrink columns">
-                        <label htmlFor="filter-map" style={m(styles.label, { marginTop: "13px" })}>Kategori: </label>
+                        <label htmlFor="filter-summary" style={m(styles.label, { marginTop: "13px" })}>Kategori: </label>
                     </div>
                     <div className="shrink columns">
                         <select id="filter-summary"
