@@ -4,13 +4,13 @@ import React from 'react'
 
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
-import ReviewCity from './ReviewCity';
 import ReviewLocation from './ReviewLocation';
 import ReviewPagination from './ReviewPagination';
 
 import Title from '../template/Title'
 import CommonQuery from '../../queries/CommonQuery';
 import StatisticQuery from '../../queries/StatisticQuery';
+import StringConstants from '../../constants/StringConstants';
 
 
 var ParseComponent = ParseReact.Component(React);
@@ -47,7 +47,7 @@ class Review extends ParseComponent {
             "sortDir": "ascending",
             "sortBy": "createdAt",
             "pageNum": 0,
-            "sortBasedOn": "Waktu"
+            "sortBasedOn": StringConstants.TIME
         }
     }
 
@@ -56,9 +56,7 @@ class Review extends ParseComponent {
             provinces: CommonQuery.getProvinceNames(),
             cities: CommonQuery.getCitiesByProvince(states.province),
             services: CommonQuery.getServiceNames(),
-            reviews: CommonQuery.getReview(states.province, states.city, states.service, states.pageNum, states.sortBasedOn, props.reviewType),
-            city: CommonQuery.getCityById(states.city),
-            details: StatisticQuery.getCityServiceDetails(states.city)
+            reviews: CommonQuery.getReview(states.province, states.city, states.service, states.pageNum, states.sortBasedOn, props.reviewType)
         }
     }
 
@@ -110,18 +108,17 @@ class Review extends ParseComponent {
     }
 
     renderFull() {
-        const { city, reviews } = this.data
+        const { reviews } = this.data
         const { pageNum, province } = this.state
 
-        const isCityExist = (city !== null)
-        const cityPanel = <ReviewLocation provinceId={province} />
-        const content = ( isCityExist ? <ReviewContent reviews={ reviews } /> : <em>Pilih provinsi atau kota...</em>)
-        const pagination = ( !isCityExist ? null :
+        const locationPanel = <ReviewLocation provinceId={province} />
+        const content = ( <ReviewContent reviews={ reviews } /> )
+        const pagination = reviews.length ? (
             <ReviewPagination
                 page={ pageNum }
                 showNext={ (reviews.length == MAX_SHOWN_POST) }
                 updatePage={ this._updatePage.bind(this) } />
-        )
+        ) : undefined
 
         return (
             <div>
@@ -131,7 +128,7 @@ class Review extends ParseComponent {
                         iconPath="img/icon-title-last-reviews.png"
                         color="#2d4771" />
                     { this.renderFilter() }
-                    { cityPanel }
+                    { locationPanel }
                 </section>
 
                 { content }

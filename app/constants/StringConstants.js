@@ -3,10 +3,10 @@ module.exports = {
   CITY: "Kota",
   SERVICE: "Layanan",
   SORT_BY: "Urut",
-  SORT_BASED_ON: "Urut Berdasarkan",
-  TIME: "Waktu",
-  FEE: "Biaya",
-  RATING: "Bintang",
+  SORT_BASED_ON: "Urutan:",
+  TIME: "Ulasan Terakhir",
+  FEE: "Biaya Termahal",
+  RATING: "Bintang Terbanyak",
   TOTAL_FEE: "Total Biaya",
   ALL: "Semua"
 }

@@ -2,6 +2,8 @@
 
 import Parse from 'parse'
 
+import StringConstants from '../constants/StringConstants'
+
 const MAX_SHOWN_POST = 10;
 
 const Query = {
@@ -85,11 +87,11 @@ const Query = {
         if (service != undefined) {
             reviewQuery.equalTo("service", service);
         }
-        if (statesSortBasedOn == "Waktu") {
+        if (statesSortBasedOn == StringConstants.TIME) {
             reviewQuery.descending("createdAt");
-        } else if (statesSortBasedOn == "Biaya") {
+        } else if (statesSortBasedOn == StringConstants.FEE) {
             reviewQuery.descending("fee");
-        } else if (statesSortBasedOn == "Bintang") {
+        } else if (statesSortBasedOn == StringConstants.RATING) {
             reviewQuery.descending("rating");
         }
         if (reviewType == "lite")
