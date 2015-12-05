@@ -6,6 +6,7 @@ import React from 'react'
 import Loading from '../template/Loading'
 import Title from '../template/Title'
 import { m } from '../../helper'
+import Maps from '../maps/Maps'
 
 import StatisticFilter from './StatisticFilter'
 import Chart from './Chart'
@@ -109,6 +110,8 @@ class Statistic extends ParseComponent {
 
         return (
             <div>
+                <Maps />
+
                 <section style={styles.container}>
                     <Title
                         text="Daftar Top 10 Pemerintahan Daerah"

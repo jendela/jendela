@@ -23,7 +23,8 @@ const styles = {
         backgroundImage: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"32\" height=\"24\" viewBox=\"0 0 32 24\"><polygon points=\"0,0 32,0 16,24\" style=\"fill: rgb(115, 133, 161)\"></polygon></svg>')",
         backgroundSize: "9px 6px",
         backgroundPosition: "right 0.5rem center",
-        backgroundRepeat: "no-repeat"
+        backgroundRepeat: "no-repeat",
+        cursor: "pointer"
     }
 }
 
