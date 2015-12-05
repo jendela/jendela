@@ -5,6 +5,9 @@ import Parse from 'parse'
 const MAX_SHOWN_POST = 6;
 
 const Query = {
+    getNation(){
+        return new Parse.Query('Nation');
+    },
     getProvinceByLocale(provinceLocale) {
         return new Parse.Query('Province')
             .equalTo('locale', provinceLocale);
