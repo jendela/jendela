@@ -8,6 +8,7 @@ import Rating from '../template/Rating'
 import Loading from '../template/Loading'
 
 import PanelInfo from '../panel/PanelInfo'
+import PanelDetailRow from '../panel/PanelDetailRow'
 
 const styles = {
     panel: {
@@ -59,44 +60,15 @@ class SummaryPanel extends React.Component {
     // render helpers
 
     _renderAverageTable(values, category) {
-        let styles = {
-            table: {
-                marginBottom: '1em'
-            },
-            row: {
-                borderTop: "1px solid #EEE",
-                paddingTop: "2px",
-                paddingBottom: "2px"
-            },
-            title: {
-                fontWeight: 900,
-                textTransform: "uppercase",
-                color: "#88bcb4",
-                fontSize: '0.8em'
-            },
-            nominal: {
-                fontWeight: 900,
-                color: "#8c9db8",
-                fontSize: '0.9em'
-            }
-        }
-
-        let renderAverage;
-        if (category == "data.averageTime")
-            renderAverage = (e) => {return e + " Hari"};
-        else
-            renderAverage = (e) => {return "Rp. "+ numberWithCommas(e);};
+        const renderAverage = (category == "data.averageTime") ? 
+            (e) => {return e + " Hari"} :
+            (e) => {return "Rp. "+ numberWithCommas(e)}
 
         return (
-            <div style={styles.table}>
-                {values.map((average, idx) => {
-                    return (
-                        <div className="row" key={idx} style={styles.row}>
-                            <div className="columns" style={styles.title}>{average.title}</div>
-                            <div className="columns" style={styles.nominal}>{renderAverage(average.nominal)}</div>
-                        </div>
-                    )
-                })}
+            <div style={{ marginBottom: '1em' }}>
+                { values.map((average, idx) => {
+                    return <PanelDetailRow key={idx} title={average.title} nominal={renderAverage(average.nominal)} />
+                }) }
             </div>
         )
     }

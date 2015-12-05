@@ -115,7 +115,7 @@ class Review extends ParseComponent {
         const isCityExist = (city !== null)
         const cityPanel = <ReviewCity city={ city } details={ details } />
         const content = ( isCityExist ? <ReviewContent reviews={ reviews } /> : <em>Pilih provinsi atau kota...</em>)
-        const pagination = (
+        const pagination = ( !isCityExist ? null :
             <ReviewPagination
                 page={ pageNum }
                 showNext={ (reviews.length == MAX_SHOWN_POST) }
