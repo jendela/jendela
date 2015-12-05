@@ -8,7 +8,7 @@ const styles = {
         color: "#9DBBD0"
     },
     logo: {
-        height: '2.5em',
+        height: '2.2em',
         widht: 'auto'
     },
     link: {
