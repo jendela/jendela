@@ -92,8 +92,6 @@ class SummaryPanel extends React.Component {
     }
 
     render() {
-        console.log("render")
-
         const { province } = this.state
         const summary = SummaryStore.getSummary(province)
         if (!summary) {
