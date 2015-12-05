@@ -138,11 +138,11 @@ class SummaryPanel extends React.Component {
 
     _calculateNominal(e, category) {
         if (category == "data.averageFee") {
-            return e.totalReview ? e.totalFee / e.totalReview : 0;
+            return e.totalReview ? (e.totalFee / e.totalReview).toFixed(2) : 0;
         } else if (category == "data.totalFee") {
             return e.totalFee;
         } else if (category == "data.averageTime")
-            return e.totalReview ? e.totalDuration / e.totalReview : 0;
+            return e.totalReview ? (e.totalDuration / e.totalReview).toFixed(2) : 0;
     }
 
     _getStatsName(category) {
