@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker'
 
 require('react-datepicker/dist/react-datepicker.css');
 
+import RatingInput from '../template/RatingInput'
 import CommonQuery from '../../queries/CommonQuery'
 import Title from '../template/Title'
 import { m } from '../../helper'
@@ -80,6 +81,12 @@ class ReviewAdd extends ParseComponent {
         this.setState(newState);
     }
 
+    _onChangeRating(star) {
+        let newState = {};
+        newState.rating = star;
+        this.setState(newState);
+    }
+
     _onChangeDate(date, moment, e) {
         let newState = {};
         newState['date'] = date;
@@ -124,7 +131,7 @@ class ReviewAdd extends ParseComponent {
                 content: this.state.content,
                 fee: Number(this.state.fee),
                 duration: Number(this.state.duration),
-                date: this.state.date
+                date: this.state.date.toDate()
             }
             if (!this.state.isAnon) {
                 newReview["name"] = this.state.name;
@@ -259,11 +266,8 @@ class ReviewAdd extends ParseComponent {
         )
 
         let ratingInput = (
-            <ReviewInputRow title="Rating">
-                <input
-                    type="number" min="1" max="5"
-                    value={this.state.rating} id="rating"
-                    onChange={this._onChange.bind(this)} required/>
+            <ReviewInputRow title="Penilaian">
+                <RatingInput size="1.8em" onChange={this._onChangeRating.bind(this)} />
             </ReviewInputRow>
         )
 
