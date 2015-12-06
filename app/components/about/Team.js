@@ -32,7 +32,7 @@ const authors = [
         name: "Yoel Sumitro",
         title: "UX Designer",
         location: "Nuremberg, Jerman",
-        twitter: "yoelkrisnanda"
+        twitter: "yoel_krisnanda"
     },
 ]
 
