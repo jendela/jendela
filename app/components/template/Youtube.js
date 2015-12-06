@@ -9,7 +9,7 @@ class Youtube extends React.Component {
                 <div className="small-12 large-8 columns">
                     <div className="flex-video" style={{ paddingBottom: '52%' }}>
                         <iframe width={width} height={height}
-                            src={src} frameborder="0" allowfullscreen></iframe>
+                            src={src} frameBorder="0" allowFullScreen></iframe>
                     </div>
                 </div>
             </div>

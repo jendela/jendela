@@ -36,13 +36,6 @@ const SummaryStore = assign(EventEmitter.prototype, {
         return _raw
     },
 
-    getSummaryForProvinceId(provinceId) {
-        if (!_summaries.hasOwnProperty(provinceId)) {
-            return _summaries['IDN']
-        }
-        return _summaries[provinceId]
-    },
-
     setSummary(provinceId, info) {
         _info[provinceId] = info;
         this.emitChange()

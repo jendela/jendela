@@ -1,16 +1,17 @@
 import React from 'react'
 import d3 from 'd3'
 import topojson from 'topojson'
+import CommonQuery from '../../queries/CommonQuery'
 
 import { m } from '../../helper'
 import MapActions from '../../actions/MapActions'
 import SummaryActions from '../../actions/SummaryActions'
 import MapStore from '../../stores/MapStore'
 import Loading from '../template/Loading'
+import SummaryStore from '../../stores/SummaryStore'
 
 const styles = {
     province: {
-        fill: "#B2CBDC",
         cursor: "pointer"
     },
     provinceHighlighted: {
@@ -21,10 +22,10 @@ const styles = {
     },
     boundary: {
         fill: "none",
-        stroke: "#BBB",
-        strokeLinejoin: "round"
+        stroke: "none"
     },
     boundaryBorder: {
+        strokeWidth: "1px",
         stroke: '#FFF'
     },
     loadingText: {
@@ -38,17 +39,55 @@ class Indonesia extends React.Component {
     constructor(props) {
         super(props)
 
-        this._onChange = this._onChange.bind(this)
+        this._onMapChange = this._onMapChange.bind(this)
+        this._onCategoryChange = this._onCategoryChange.bind(this)
         this.state = {
             provinces: [],
-            coasts: null,
-            borders: null,
             highlighted: null,
-            selected: null
+            selected: null,
+            provincesData: [],
+            category: SummaryStore.getCategory()
         }
+
+        this.coasts = null
+        this.borders = null
+        this.ranges = []
     }
 
     // helper functions
+
+    _getRangeProvinceData(provincesData) {
+        let totalFees = []
+        let averageFees = []
+
+        provincesData.forEach((p) => {
+            totalFees.push( p.get('total_fee') )
+            averageFees.push( (p.get('total_fee') / p.get('total_review')) )
+        })
+
+        return {
+            "data.totalFee": [d3.min(totalFees), d3.max(totalFees)],
+            "data.averageFee": [d3.min(averageFees), d3.max(averageFees)],
+            "data.averageTime": [1, 1]
+        }
+    }
+
+    _getProvincesValue(provincesData, locale) {
+        const { category } = this.state
+
+        const mappers = {
+            "data.totalFee": (p) => { return p.get('total_fee') },
+            "data.averageFee": (p) => { return (p.get('total_fee') / p.get('total_review')) },
+            "data.averageTime": (p) => 1
+        }
+
+        const f = mappers[category]
+        const values = provincesData
+        .filter((p) => { return p.get('locale') === locale})
+        .map((p) => { return f(p) })
+
+        return values[0]
+    }
 
     _constructPath(d) {
         let { width, height, centerX, centerY, scale } = this.props
@@ -83,7 +122,17 @@ class Indonesia extends React.Component {
         }
     }
 
-    // actions
+    // map listeners
+
+    _onCategoryChange() {
+        if (this.mounted) {
+            this.setState({
+                category: SummaryStore.getCategory()
+            })
+        }
+    }
+
+    // map actions
 
     _highlightProvince(provinceId) {
         MapActions.highlightProvince(provinceId)
@@ -98,11 +147,13 @@ class Indonesia extends React.Component {
         SummaryActions.populateProvince(province)
     }
 
-    _onChange() {
-        this.setState({
-            highlighted: MapStore.highlightedProvince(),
-            selected: MapStore.selectedProvince()
-        })
+    _onMapChange() {
+        if (this.mounted) {
+            this.setState({
+                highlighted: MapStore.highlightedProvince(),
+                selected: MapStore.selectedProvince()
+            })
+        }
     }
 
     // overrides
@@ -115,38 +166,57 @@ class Indonesia extends React.Component {
                 let provincePaths = this._getProvinces(json)
                 let boundaries = this._getBoundaries(json)
 
-                this.setState({
-                    provinces: provincePaths,
-                    coasts: boundaries.coasts,
-                    borders: boundaries.borders
+                this.coasts = boundaries.coasts
+                this.borders = boundaries.borders
+
+                CommonQuery.getProvince().find()
+                .then((provincesData) => {
+                    this.setState({
+                        provinces: provincePaths,
+                        provincesData: provincesData
+                    })
                 })
             }
         })
 
-        MapStore.addChangeListener(this._onChange)
+        MapStore.addChangeListener(this._onMapChange)
+        SummaryStore.addChangeListener(this._onCategoryChange)
+
         this.mounted = true;
     }
 
     componentWillUnmount() {
-        MapStore.removeChangeListener(this._onChange)
+        MapStore.removeChangeListener(this._onMapChange)
+        SummaryStore.removeChangeListener(this._onCategoryChange)
+
         this.mounted = false;
     }
 
     render() {
         const { width, height } = this.props
-        const { provinces, coasts, borders, selected, highlighted } = this.state
+        const { provinces, provincesData, selected, highlighted, category } = this.state
+        const { coasts, borders } = this
 
-        if (provinces.length == 0) {
+        if (provinces.length == 0 || provincesData.length == 0) {
             return <div style={{ width: width }}><Loading /></div>
         }
 
+        const ranges = this._getRangeProvinceData(provincesData)
+        const color = d3.scale.linear()
+            .domain(ranges[category])
+            .range(["#A1B9CB", "#253B4B"])
+
         let provincesPaths = provinces
         .map((province) => {
-            let style = m(
+
+            const value = this._getProvincesValue(provincesData, province.key)
+            const style = m(
                 styles.province,
+                { fill: color(value) },
                 highlighted === province.key && styles.provinceHighlighted,
                 selected === province.key && styles.provinceSelected
             )
+
             return (
                 <path
                     style={style} key={province.key}
