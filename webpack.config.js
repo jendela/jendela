@@ -6,7 +6,8 @@ module.exports = {
 
   entry: {
     app: "./app/app.jsx",
-    vendor: "./foundation/vendor.js"
+    vendor: "./styles/vendor.js",
+    analytics: "./analytics/tracker.js"
   },
 
   output: {
@@ -51,7 +52,8 @@ module.exports = {
 
     new webpack.DefinePlugin({
         PARSE_APP_ID: JSON.stringify(process.env.PARSE_APP_ID || "vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN"),
-        PARSE_KEY: JSON.stringify(process.env.PARSE_KEY || "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu")
+        PARSE_KEY: JSON.stringify(process.env.PARSE_KEY || "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu"),
+        GOOGLE_ANALYTICS_TRACKING_ID: JSON.stringify(process.env.GOOGLE_ANALYTICS_TRACKING_ID || "UA-71038246-1")
     })
   ],
 
