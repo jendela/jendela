@@ -59,12 +59,12 @@ class SummaryPanel extends React.Component {
     // render helpers
 
     _renderAverageTable(values, category) {
-        const renderAverage = (category == "data.averageTime") ? 
+        const renderAverage = (category == "data.averageTime") ?
             (e) => {return e + " Hari"} :
             (e) => {return "Rp. "+ numberWithCommas(e)}
 
         return (
-            <div style={{ marginBottom: '1em' }}>
+            <div style={{ marginBottom: '1em', minHeight: "182px" }}>
                 { values.map((average, idx) => {
                     return <PanelDetailRow key={idx} title={average.title} nominal={renderAverage(average.nominal)} />
                 }) }
