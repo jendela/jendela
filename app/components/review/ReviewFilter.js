@@ -19,6 +19,10 @@ const styles = {
         border: "none",
         marginBottom: "1em",
         cursor: "pointer"
+    },
+    label: {
+        paddingTop: "0.45em",
+        paddingLeft: "1.7em"
     }
 }
 
@@ -42,6 +46,10 @@ class ReviewFilter extends Component {
 
         if (reviewType == "others" || reviewType == "compact") {
             filters.push(generateComboObj(StringConstants.SERVICE, this.props.services, this._onChangeService.bind(this)))
+            filters.push(
+                <div style={styles.label} className="large-1 columns" key={StringConstants.SORT_BASED_ON+"Label"}>
+                    <span style={styles.text}>{StringConstants.SORT_BASED_ON}</span>
+                </div>)
             filters.push(generateComboStr(StringConstants.SORT_BASED_ON, this.props.sortBasedOn, this._onChangeSortBasedOn.bind(this)));
         }
 
@@ -101,7 +109,7 @@ function generateComboObj(type, list, onchange) {
 
 function generateComboStr(type, list, onchange) {
     return (
-        <div className="large-3 columns" key={type}>
+        <div className="large-2 columns" key={type}>
             <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
                 {list.map((e) => {
                     return <option key={e} value={e}>{e}</option>;

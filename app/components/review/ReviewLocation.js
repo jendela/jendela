@@ -3,6 +3,7 @@ import ParseReact from 'parse-react';
 import React from 'react'
 import Loading from '../template/Loading'
 import { Link } from 'react-router'
+import { numberWithCommas } from '../../helper'
 
 import Colors from '../../constants/JendelaColors'
 import Rating from '../template/Rating'
@@ -96,7 +97,7 @@ class ReviewLocation extends React.Component {
         }
 
         const totalReview = location.get('total_review') ? location.get('total_review') : 0
-        const totalFee = `Rp. ${location.get('total_fee') ? location.get('total_fee') : 0}`
+        const totalFee = `Rp. ${location.get('total_fee') ? numberWithCommas(location.get('total_fee')) : 0}`
         const name = location.get('name')
         const rating = location.get('rating')
 
@@ -109,7 +110,8 @@ class ReviewLocation extends React.Component {
                     </h3>
                 </div>
                 <div className="small-12 medium-4 columns">
-                    <Link to={"/addreview/"+location.id} className="button large success expanded" style={{ marginRight: 0 }}>
+                    <Link to={"/addreview/"+location.id} className="button large success expanded"
+                          style={{ marginRight: 0 }}>
                         <img src="/img/icon-pen.png" style={{ marginRight: '0.8em' }}/>
                         <strong>Tulis ulasan</strong>
                     </Link>
@@ -126,30 +128,26 @@ class ReviewLocation extends React.Component {
                         label={ "Total Biaya" }/>
                 </div>
                 <div className="small-12 medium-4 columns">
-                    {details
-                        .filter((e, idx) => (idx % 2 == 0))
-                        .map((e, idx) => {
-                            const nominal = `Rp. ${(e.get('total_fee') / e.get('total_review')).toFixed(2)}`
-                            return <PanelDetailRow
-                                key={e.id}
-                                title={e.get('service').get('name')}
-                                nominal={nominal}/>
-                        })}
+                    {createRow(details, 0)}
                 </div>
                 <div className="small-12 medium-4 columns">
-                    {details
-                        .filter((e, idx) => (idx % 2 == 1))
-                        .map((e, idx) => {
-                            const nominal = `Rp. ${(e.get('total_fee') / e.get('total_review')).toFixed(2)}`
-                            return <PanelDetailRow
-                                key={e.id}
-                                title={e.get('service').get('name')}
-                                nominal={nominal}/>
-                        })}
+                    {createRow(details, 1)}
                 </div>
             </section>
         )
     }
+}
+
+function createRow(details, row) {
+    return details
+        .filter((e, idx) => (idx % 2 == row))
+        .map((e, idx) => {
+            const nominal = `Rp. ${numberWithCommas((e.get('total_fee') / e.get('total_review')).toFixed(2))}`
+            return <PanelDetailRow
+                key={e.id}
+                title={e.get('service').get('name')}
+                nominal={nominal}/>
+        });
 }
 
 ReviewLocation.defaultProps = {serviceId: undefined}
