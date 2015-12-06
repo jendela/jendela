@@ -7,7 +7,7 @@ class Youtube extends React.Component {
         return (
             <div className="row align-center">
                 <div className="small-12 large-8 columns">
-                    <div className="flex-video" style={{ paddingBottom: '53%' }}>
+                    <div className="flex-video" style={{ paddingBottom: '52%' }}>
                         <iframe width={width} height={height}
                             src={src} frameborder="0" allowfullscreen></iframe>
                     </div>
