@@ -1,6 +1,7 @@
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
+import { Link } from 'react-router'
 
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
@@ -107,6 +108,21 @@ class Review extends ParseComponent {
                 { this.renderFilter() }
 
                 <ReviewContent reviews={this.data.reviews}/>
+
+                <div className="row" style={{ marginBottom: "1em" }}>
+                    <div className="small-12 medium-4 columns">
+                        <Link to="/review" className="button expanded success">
+                            <img src="/img/icon-eye.png" style={{ marginRight: '1em', paddingTop:"5px", paddingBottom:"5px" }} />
+                            <strong>Lihat ulasan lengkap</strong>
+                        </Link>
+                    </div>
+                    <div className="small-12 medium-4 columns">
+                        <Link to="/addreview" className="button expanded success">
+                            <img src="/img/icon-pen.png" style={{ marginRight: '1em' }} />
+                            <strong>Saya mau memberi ulasan!</strong>
+                        </Link>
+                    </div>
+                </div>
             </div>
         );
     }
