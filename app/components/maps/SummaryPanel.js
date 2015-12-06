@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import MapStore from '../../stores/MapStore'
 import SummaryStore from '../../stores/SummaryStore'
-import { m } from '../../helper'
+import { m, numberWithCommas } from '../../helper'
 import Colors from '../../constants/JendelaColors'
 import Rating from '../template/Rating'
 import Loading from '../template/Loading'
@@ -135,10 +135,6 @@ class SummaryPanel extends React.Component {
             </div>
         )
     }
-}
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 }
 
 export default SummaryPanel
