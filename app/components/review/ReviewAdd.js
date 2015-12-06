@@ -33,6 +33,9 @@ const styles = {
     },
     modal: {
         marginTop: "5px"
+    },
+    disclaimer: {
+        paddingBottom: "15px"
     }
 }
 
@@ -65,7 +68,7 @@ class ReviewAdd extends ParseComponent {
         super(props);
         this.state = {
             province: props.params.provinceId ? props.params.provinceId : "",
-            isAnon: true,
+            isAnon: false,
             isAgree: false,
             date: moment()
         }
@@ -358,6 +361,7 @@ class ReviewAdd extends ParseComponent {
                 </ReviewInputRow>
             )
 
+            identitasInput.push(<div style={styles.disclaimer}>Data personal dibawah ini tidak akan dipublikasikan di portal Jendela dan hanya akan dipakai untuk proses verifikasi</div>)
             identitasInput.push(nameInput);
             identitasInput.push(phoneInput);
             identitasInput.push(emailInput);
@@ -432,11 +436,8 @@ class ReviewAdd extends ParseComponent {
 
                                 <hr />
 
-                                {isAnonInput}
                                 {identitasInput}
-
-                                <hr />
-
+                                {isAnonInput}
                                 {isAgreeInput}
                                 {sendButton}
 
