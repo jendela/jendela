@@ -77,6 +77,10 @@ class Review extends ParseComponent {
             }
         }
 
+        // checking for prop and city
+        if (!newState.province)
+            newState.city = "";
+
         this.setState(newState)
     }
 
