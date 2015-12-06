@@ -127,6 +127,7 @@ AppDispatcher.register((action) => {
                 StatisticQuery.getProvinceServiceDetailsByLocale(action.province).find().then((list)=> {
 
                     let init = {
+                        id: province.id,
                         name: province.get('name'),
                         totalRating: province.get('total_rating'),
                         totalFee: province.get('total_fee'),
