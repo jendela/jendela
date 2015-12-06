@@ -1,5 +1,6 @@
 # Jendela
 .DS_Store
+.env
 public/assets/app.js
 public/assets/vendor.js
 public/assets/app.css

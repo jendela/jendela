@@ -47,7 +47,12 @@ module.exports = {
     new ExtractTextPlugin('app.css', { allChunks: true }),
 
     // Using webpack with shims and polyfills: http://mts.io/2015/04/08/webpack-shims-polyfills/
-    new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' })
+    new webpack.ProvidePlugin({ 'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch' }),
+
+    new webpack.DefinePlugin({
+        PARSE_APP_ID: JSON.stringify(process.env.PARSE_APP_ID || "vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN"),
+        PARSE_KEY: JSON.stringify(process.env.PARSE_KEY || "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu")
+    })
   ],
 
   resolve: {
