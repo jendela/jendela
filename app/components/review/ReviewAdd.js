@@ -30,6 +30,9 @@ const styles = {
     },
     entry: {
         paddingBottom: "10px"
+    },
+    modal: {
+        marginTop: "5px"
     }
 }
 
@@ -358,8 +361,16 @@ class ReviewAdd extends ParseComponent {
                         <input
                             required type="checkbox" id="isAgree"
                             onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
-                        Saya menyetujui syarat dan ketentuan berlaku
+                        Saya menyetujui <a data-open="snk">syarat dan ketentuan</a> berlaku
                     </label>
+
+                    <div className="tiny reveal" id="snk" style={styles.modal} data-reveal>
+                        <h3>Syarat dan Ketentuan</h3>
+                        {this._getTerms()}
+                        <button className="close-button" aria-label="Close reveal" type="button" data-close="snk">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -425,6 +436,47 @@ class ReviewAdd extends ParseComponent {
                 </form>
             </div>
         );
+    }
+
+    _getTerms() {
+        return <ol>
+            <li>Di Jendela kami menerima segala macam pandangan, input, saran, kritik, dan cerita
+                pengalaman tentang layanan publik di Indonesia. Namun kami mengharapkan bahwa Anda akan
+                menuliskan juga masukan yang konstruktif dan dengan cara dan bahasa yang santun
+            </li>
+            <li>Pengguna bertanggung jawab akan semua konten yang ditulis oleh mereka dan Jendela tidak
+                bertanggung jawab akan keakuratan atau kelegalan dari setiap materi yang dituliskan di
+                website
+            </li>
+            <li>Harap jangan menulis ulasan yang tidak akurat, berisi fitnah, kasar, mengancam,
+                berbahaya, porno, atau kotor.
+            </li>
+            <li>Ulasan yang bisa membayahakan reputasi perseorangan atau organisasi bisa di moderasi
+                oleh kami.
+            </li>
+            <li>Jika ada tuntutan akan materi yang dituliskan oleh pengguna, pengguna bisa diminta
+                pertanggung jawabannya secara hukum
+            </li>
+            <li>Jendela tidak akan menggunakan atau membuka informasi personal pengguna untuk keperluan
+                lain selain untuk tujuan dari portal Jendela
+            </li>
+            <li>Kami hanya menyalurkan informasi yang Anda berikan di portal ini pada pihak ketiga
+                dengan dua ketentuan:
+                <ol>
+                    <li>Pengguna telah memberi izin kepada kami untuk melakukannya</li>
+                    <li>Informasi yang diberikan oleh seorang pengguna telah digabungkan dengan data dari
+                        pengguna lain sehingga pembaca dari data kumulatif ini tidak akan bisa melacak hubungan
+                        antara data dan siapa pengguna yang menuliskannya
+                    </li>
+                </ol>
+            </li>
+            <li> Untuk keamanan data, Jendela melakukan segala macam cara untuk mengamankan data Anda.
+            </li>
+            <li> Jendela juga menyimpan data kunjungan Anda melalui cookies</li>
+            <li> Syarat dan ketentuan ini berlaku mulai Desember tanggal 6 tahun 2015. Jendela bisa
+                memutakhirkan dokumen ini kapan saja
+            </li>
+        </ol>;
     }
 
 }
