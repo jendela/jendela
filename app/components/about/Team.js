@@ -1,6 +1,7 @@
 import React from 'react'
 import Title from '../template/Title'
 import Colors from '../../constants/JendelaColors'
+import Youtube from '../template/Youtube'
 
 import Author from './Author'
 
@@ -31,7 +32,7 @@ const authors = [
         name: "Yoel Sumitro",
         title: "UX Designer",
         location: "Nuremberg, Jerman",
-        twitter: "yoelkrisnanda"
+        twitter: "yoel_krisnanda"
     },
 ]
 
@@ -39,6 +40,9 @@ class AuthorSection extends React.Component {
     render() {
         return (
             <section className="row">
+                <div className="small-12 columns">
+                    <h3 style={{color: "#368baf", marginBottom: "1em"}}>Tim Jendela</h3>
+                </div>
                 {authors.map((author, idx) => {
                     return (
                         <div className="small-6 medium-6 large-3 columns" key={idx}>
@@ -91,6 +95,11 @@ class Team extends React.Component {
                     </div>
 
                     <br />
+
+                    <Youtube videoID="gg_wcLIH4RA" />
+
+                    <br />
+
                     <AuthorSection />
                 </div>
             </div>
