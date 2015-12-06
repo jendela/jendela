@@ -154,6 +154,7 @@ class ReviewAdd extends ParseComponent {
                     name: "",
                     phone: "",
                     email: "",
+                    isAgree: false,
                 });
 
             })
@@ -218,6 +219,7 @@ class ReviewAdd extends ParseComponent {
                 </div>
 
                 <div className="small-10 medium-4 large-3 columns">
+                    {serviceError ? <small className="error">Propinsi harus di isi</small> : <span />}
                     <select id="province" value={province}
                             onChange={this._onChange.bind(this)}
                             style={m(selectionStyles.text, selectionStyles.select)} required>
@@ -267,7 +269,7 @@ class ReviewAdd extends ParseComponent {
 
         let ratingInput = (
             <ReviewInputRow title="Penilaian">
-                <RatingInput size="1.8em" onChange={this._onChangeRating.bind(this)} />
+                <RatingInput size="1.8em" onChange={this._onChangeRating.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -384,16 +386,16 @@ class ReviewAdd extends ParseComponent {
 
         return (
             <div>
-                <section style={styles.container}>
-                    <Title
-                        text="Tulis Ulasan"
-                        iconPath="img/icon-title-last-reviews.png"
-                        color="#2d4771"/>
-                    { locationSelection }
-                </section>
+                <form onSubmit={this._onClick.bind(this)}>
+                    <section style={styles.container}>
+                        <Title
+                            text="Tulis Ulasan"
+                            iconPath="img/icon-title-last-reviews.png"
+                            color="#2d4771"/>
+                        { locationSelection }
+                    </section>
 
-                <section style={styles.content}>
-                    <form onSubmit={this._onClick.bind(this)}>
+                    <section style={styles.content}>
                         <div className="row align-center">
                             <div className="small-12 large-10 columns">
                                 {serviceInput}
@@ -419,8 +421,8 @@ class ReviewAdd extends ParseComponent {
 
                             </div>
                         </div>
-                    </form>
-                </section>
+                    </section>
+                </form>
             </div>
         );
     }

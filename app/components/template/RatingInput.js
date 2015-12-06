@@ -22,7 +22,7 @@ class Rating extends React.Component {
         super(props)
 
         this.state = {
-            star: 0,
+            star: 3,
             description: ""
         }
     }
