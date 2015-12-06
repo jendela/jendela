@@ -45,6 +45,7 @@ class Review extends ParseComponent {
     constructor(props) {
         super(props);
         this.state = {
+            province: props.params && props.params.provinceId ? props.params.provinceId : "",
             "sortDir": "ascending",
             "sortBy": "createdAt",
             "pageNum": 0,
@@ -86,6 +87,7 @@ class Review extends ParseComponent {
     }
 
     renderFilter() {
+        const { province } = this.state
         const { provinces, cities, services } = this.data
         return (
             <ReviewFilter
@@ -93,6 +95,7 @@ class Review extends ParseComponent {
                 provinces={ provinces }
                 cities={ cities }
                 services={ services }
+                province={ province }
                 submit={ this._createItem.bind(this) } />
         )
     }

@@ -83,11 +83,11 @@ class SummaryPanel extends React.Component {
 
     _getStatsName(category) {
         if (category === "data.averageFee") {
-            return "Informasi Rata-Rata Biaya"
+            return "Informasi Rata-Rata Biaya Pembuatan"
         } else if (category === "data.totalFee") {
-            return "Informasi Total Biaya"
+            return "Informasi Total Biaya Pembuatan"
         } else {
-            return "Informasi Rata-Rata Waktu"
+            return "Informasi Rata-Rata Waktu Pembuatan"
         }
     }
 
@@ -128,9 +128,9 @@ class SummaryPanel extends React.Component {
                 {titleTable}
                 {averageTable}
 
-                <Link to="/statistic" className="expanded button success">
+                <Link to={summary.id?"/review/"+summary.id:"/review"} className="expanded button success">
                     <img src="/img/icon-eye.png" style={{ marginRight: '1em' }}/>
-                    <strong>Lihat statistik selengkapnya</strong>
+                    <strong>Lihat ulasan selengkapnya</strong>
                 </Link>
             </div>
         )

@@ -31,7 +31,8 @@ class ReviewFilter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            "sortBasedOn": StringConstants.TIME
+            "sortBasedOn": StringConstants.TIME,
+            "province": props.province ? props.province : undefined
         }
     }
 
@@ -40,7 +41,7 @@ class ReviewFilter extends Component {
         let filters = [];
 
         if (reviewType == "location" || reviewType == "compact") {
-            filters.push(generateComboObj(StringConstants.PROVINCE, this.props.provinces, this._onChangeProvince.bind(this)))
+            filters.push(generateComboObj(StringConstants.PROVINCE, this.props.provinces, this._onChangeProvince.bind(this), this.state.province))
             filters.push(generateComboObj(StringConstants.CITY, this.props.cities, this._onChangeCity.bind(this)));
         }
 
@@ -94,10 +95,10 @@ class ReviewFilter extends Component {
 
 }
 
-function generateComboObj(type, list, onchange) {
+function generateComboObj(type, list, onchange, value) {
     return (
         <div className="small-12 medium-6 large-3 columns" key={type}>
-            <select id="province" onChange={onchange} style={ m(styles.text, styles.select) }>
+            <select id="province" onChange={onchange} style={ m(styles.text, styles.select) } value={value}>
                 <option key="all" value="all">{StringConstants.ALL} {type}</option>
                 {list.map((e) => {
                     return <option key={e.objectId} value={e.objectId}>{e.name}</option>;
