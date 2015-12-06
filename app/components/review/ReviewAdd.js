@@ -140,6 +140,7 @@ class ReviewAdd extends ParseComponent {
                 newReview["name"] = this.state.name;
                 newReview["phone"] = this.state.phone;
                 newReview["email"] = this.state.email;
+                newReview["idnumber"] = this.state.idnumber;
             }
             ParseReact.Mutation.Create('Review', newReview).dispatch().then(()=> {
                 alert('Terima kasih atas ulasan anda');
@@ -153,10 +154,10 @@ class ReviewAdd extends ParseComponent {
                     content: "",
                     fee: "",
                     duration: "",
-                    date: "",
                     name: "",
                     phone: "",
                     email: "",
+                    idnumber: "",
                     isAgree: false,
                 });
 
@@ -327,9 +328,9 @@ class ReviewAdd extends ParseComponent {
         let identitasInput = [];
         if (!this.state.isAnon) {
             let nameInput = (
-                <ReviewInputRow title="Name">
+                <ReviewInputRow title="Nama">
                     <input
-                        value={this.state.name} required type="text" placeholder="Name" id="name"
+                        value={this.state.name} required type="text" placeholder="Nama" id="name"
                         onChange={this._onChange.bind(this)}/>
                 </ReviewInputRow>
             )
@@ -349,9 +350,18 @@ class ReviewAdd extends ParseComponent {
                 </ReviewInputRow>
             )
 
+            let idnumberInput = (
+                <ReviewInputRow title="NIK">
+                    <input
+                        value={this.state.idnumber} required type="text" placeholder="Nomer Induk Kependudukan (KTP / SIM)" id="idnumber"
+                        onChange={this._onChange.bind(this)}/>
+                </ReviewInputRow>
+            )
+
             identitasInput.push(nameInput);
             identitasInput.push(phoneInput);
             identitasInput.push(emailInput);
+            identitasInput.push(idnumberInput);
         }
 
         let isAgreeInput = (
