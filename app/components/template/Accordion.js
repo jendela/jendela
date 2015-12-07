@@ -1,4 +1,5 @@
 import React from 'react'
+import Colors from '../../constants/JendelaColors'
 
 class Accordion extends React.Component {
     constructor() {
