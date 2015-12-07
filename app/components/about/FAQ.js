@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from '../template/Title'
 import Colors from '../../constants/JendelaColors'
-import Accordion from '../tempate/Accordion'
+import Accordion from '../template/Accordion'
 
 class FAQ extends React.Component {
     constructor() {
