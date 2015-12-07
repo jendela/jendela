@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'
 import Parse from 'parse'
 
-import styles from '../foundation/app.scss'
+import styles from '../styles/app.scss'
 
 import Navigation from './components/template/Navigation'
 import Footer from './components/template/Footer'
@@ -17,10 +17,7 @@ import ServicesDetail from './components/service/ServiceDetail'
 import About from './components/about/About'
 import NotFound from './components/NotFound'
 
-
-var parseAppID = process.env.PARSE_APP_ID || "vcgh38EkiuIrke6l8pW30xokpp708lO07rR1CeqN"
-var parseKey = process.env.PARSE_KEY || "LZWollLVAf5rOTziIulxhIq4atdkN4k5TaKu7BJu"
-Parse.initialize(parseAppID, parseKey)
+Parse.initialize(PARSE_APP_ID, PARSE_KEY)
 
 class Application extends React.Component {
     render() {
@@ -38,6 +35,7 @@ const router = (
     <Router>
         <Route path="/" component={Application}>
             <IndexRoute component={Home} />
+            <Route path="review/:provinceId" component={Review} />
             <Route path="review" component={Review} />
             <Route path="addreview/:provinceId" component={ReviewAdd} />
             <Route path="addreview" component={ReviewAdd} />

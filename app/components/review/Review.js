@@ -1,6 +1,7 @@
 import Parse from 'parse'
 import ParseReact from 'parse-react';
 import React from 'react'
+import { Link } from 'react-router'
 
 import ReviewFilter from './ReviewFilter';
 import ReviewContent from './ReviewContent';
@@ -44,6 +45,7 @@ class Review extends ParseComponent {
     constructor(props) {
         super(props);
         this.state = {
+            province: props.params && props.params.provinceId ? props.params.provinceId : "",
             "sortDir": "ascending",
             "sortBy": "createdAt",
             "pageNum": 0,
@@ -77,10 +79,15 @@ class Review extends ParseComponent {
             }
         }
 
+        // checking for prop and city
+        if (!newState.province)
+            newState.city = "";
+
         this.setState(newState)
     }
 
     renderFilter() {
+        const { province } = this.state
         const { provinces, cities, services } = this.data
         return (
             <ReviewFilter
@@ -88,6 +95,7 @@ class Review extends ParseComponent {
                 provinces={ provinces }
                 cities={ cities }
                 services={ services }
+                province={ province }
                 submit={ this._createItem.bind(this) } />
         )
     }
@@ -103,6 +111,21 @@ class Review extends ParseComponent {
                 { this.renderFilter() }
 
                 <ReviewContent reviews={this.data.reviews}/>
+
+                <div className="row" style={{ marginBottom: "1em" }}>
+                    <div className="small-12 medium-4 columns">
+                        <Link to="/review" className="button expanded success">
+                            <img src="/img/icon-eye.png" style={{ marginRight: '1em', paddingTop:"5px", paddingBottom:"5px" }} />
+                            <strong>Lihat ulasan lengkap</strong>
+                        </Link>
+                    </div>
+                    <div className="small-12 medium-4 columns">
+                        <Link to="/addreview" className="button expanded success">
+                            <img src="/img/icon-pen.png" style={{ marginRight: '1em' }} />
+                            <strong>Saya mau memberi ulasan!</strong>
+                        </Link>
+                    </div>
+                </div>
             </div>
         );
     }

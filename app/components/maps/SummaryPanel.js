@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import MapStore from '../../stores/MapStore'
 import SummaryStore from '../../stores/SummaryStore'
-import { m } from '../../helper'
+import { m, numberWithCommas } from '../../helper'
 import Colors from '../../constants/JendelaColors'
 import Rating from '../template/Rating'
 import Loading from '../template/Loading'
@@ -59,12 +59,12 @@ class SummaryPanel extends React.Component {
     // render helpers
 
     _renderAverageTable(values, category) {
-        const renderAverage = (category == "data.averageTime") ? 
+        const renderAverage = (category == "data.averageTime") ?
             (e) => {return e + " Hari"} :
             (e) => {return "Rp. "+ numberWithCommas(e)}
 
         return (
-            <div style={{ marginBottom: '1em' }}>
+            <div style={{ marginBottom: '1em', minHeight: "182px" }}>
                 { values.map((average, idx) => {
                     return <PanelDetailRow key={idx} title={average.title} nominal={renderAverage(average.nominal)} />
                 }) }
@@ -83,11 +83,11 @@ class SummaryPanel extends React.Component {
 
     _getStatsName(category) {
         if (category === "data.averageFee") {
-            return "Informasi Rata-Rata Biaya"
+            return "Informasi Rata-Rata Biaya Pembuatan"
         } else if (category === "data.totalFee") {
-            return "Informasi Total Biaya"
+            return "Informasi Total Biaya Pembuatan"
         } else {
-            return "Informasi Rata-Rata Waktu"
+            return "Informasi Rata-Rata Waktu Pembuatan"
         }
     }
 
@@ -128,17 +128,13 @@ class SummaryPanel extends React.Component {
                 {titleTable}
                 {averageTable}
 
-                <Link to="/statistic" className="expanded button success">
+                <Link to={summary.id?"/review/"+summary.id:"/review"} className="expanded button success">
                     <img src="/img/icon-eye.png" style={{ marginRight: '1em' }}/>
-                    <strong>Lihat statistik selengkapnya</strong>
+                    <strong>Lihat ulasan selengkapnya</strong>
                 </Link>
             </div>
         )
     }
-}
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 }
 
 export default SummaryPanel

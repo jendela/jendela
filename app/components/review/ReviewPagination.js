@@ -61,7 +61,6 @@ class ReviewPagination extends React.Component {
     }
 
     _onClicked(e) {
-        console.log(e.target.id)
         e.preventDefault();
         this.props.updatePage(Number(e.target.id));
     }

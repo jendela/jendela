@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker'
 
 require('react-datepicker/dist/react-datepicker.css');
 
+import RatingInput from '../template/RatingInput'
 import CommonQuery from '../../queries/CommonQuery'
 import Title from '../template/Title'
 import { m } from '../../helper'
@@ -29,6 +30,12 @@ const styles = {
     },
     entry: {
         paddingBottom: "10px"
+    },
+    modal: {
+        marginTop: "5px"
+    },
+    disclaimer: {
+        paddingBottom: "15px"
     }
 }
 
@@ -61,7 +68,7 @@ class ReviewAdd extends ParseComponent {
         super(props);
         this.state = {
             province: props.params.provinceId ? props.params.provinceId : "",
-            isAnon: true,
+            isAnon: false,
             isAgree: false,
             date: moment()
         }
@@ -77,6 +84,12 @@ class ReviewAdd extends ParseComponent {
     _onChange(e) {
         let newState = {};
         newState[e.target.id] = e.target.value;
+        this.setState(newState);
+    }
+
+    _onChangeRating(star) {
+        let newState = {};
+        newState.rating = star;
         this.setState(newState);
     }
 
@@ -124,12 +137,13 @@ class ReviewAdd extends ParseComponent {
                 content: this.state.content,
                 fee: Number(this.state.fee),
                 duration: Number(this.state.duration),
-                date: this.state.date
+                date: this.state.date.toDate()
             }
             if (!this.state.isAnon) {
                 newReview["name"] = this.state.name;
                 newReview["phone"] = this.state.phone;
                 newReview["email"] = this.state.email;
+                newReview["idnumber"] = this.state.idnumber;
             }
             ParseReact.Mutation.Create('Review', newReview).dispatch().then(()=> {
                 alert('Terima kasih atas ulasan anda');
@@ -143,10 +157,11 @@ class ReviewAdd extends ParseComponent {
                     content: "",
                     fee: "",
                     duration: "",
-                    date: "",
                     name: "",
                     phone: "",
                     email: "",
+                    idnumber: "",
+                    isAgree: false,
                 });
 
             })
@@ -211,6 +226,7 @@ class ReviewAdd extends ParseComponent {
                 </div>
 
                 <div className="small-10 medium-4 large-3 columns">
+                    {serviceError ? <small className="error">Propinsi harus di isi</small> : <span />}
                     <select id="province" value={province}
                             onChange={this._onChange.bind(this)}
                             style={m(selectionStyles.text, selectionStyles.select)} required>
@@ -259,11 +275,8 @@ class ReviewAdd extends ParseComponent {
         )
 
         let ratingInput = (
-            <ReviewInputRow title="Rating">
-                <input
-                    type="number" min="1" max="5"
-                    value={this.state.rating} id="rating"
-                    onChange={this._onChange.bind(this)} required/>
+            <ReviewInputRow title="Penilaian">
+                <RatingInput size="1.8em" onChange={this._onChangeRating.bind(this)}/>
             </ReviewInputRow>
         )
 
@@ -318,9 +331,9 @@ class ReviewAdd extends ParseComponent {
         let identitasInput = [];
         if (!this.state.isAnon) {
             let nameInput = (
-                <ReviewInputRow title="Name">
+                <ReviewInputRow title="Nama">
                     <input
-                        value={this.state.name} required type="text" placeholder="Name" id="name"
+                        value={this.state.name} required type="text" placeholder="Nama" id="name"
                         onChange={this._onChange.bind(this)}/>
                 </ReviewInputRow>
             )
@@ -340,9 +353,19 @@ class ReviewAdd extends ParseComponent {
                 </ReviewInputRow>
             )
 
+            let idnumberInput = (
+                <ReviewInputRow title="NIK">
+                    <input
+                        value={this.state.idnumber} required type="text" placeholder="Nomer Induk Kependudukan (KTP / SIM)" id="idnumber"
+                        onChange={this._onChange.bind(this)}/>
+                </ReviewInputRow>
+            )
+
+            identitasInput.push(<div style={styles.disclaimer}>Data personal dibawah ini tidak akan dipublikasikan di portal Jendela dan hanya akan dipakai untuk proses verifikasi</div>)
             identitasInput.push(nameInput);
             identitasInput.push(phoneInput);
             identitasInput.push(emailInput);
+            identitasInput.push(idnumberInput);
         }
 
         let isAgreeInput = (
@@ -352,8 +375,16 @@ class ReviewAdd extends ParseComponent {
                         <input
                             required type="checkbox" id="isAgree"
                             onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
-                        Saya menyetujui syarat dan ketentuan berlaku
+                        Saya menyetujui <a data-open="snk">syarat dan ketentuan</a> berlaku
                     </label>
+
+                    <div className="tiny reveal" id="snk" style={styles.modal} data-reveal>
+                        <h3>Syarat dan Ketentuan</h3>
+                        {this._getTerms()}
+                        <button className="close-button" aria-label="Close reveal" type="button" data-close="snk">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -380,16 +411,16 @@ class ReviewAdd extends ParseComponent {
 
         return (
             <div>
-                <section style={styles.container}>
-                    <Title
-                        text="Tulis Ulasan"
-                        iconPath="img/icon-title-last-reviews.png"
-                        color="#2d4771"/>
-                    { locationSelection }
-                </section>
+                <form onSubmit={this._onClick.bind(this)}>
+                    <section style={styles.container}>
+                        <Title
+                            text="Tulis Ulasan"
+                            iconPath="img/icon-title-last-reviews.png"
+                            color="#2d4771"/>
+                        { locationSelection }
+                    </section>
 
-                <section style={styles.content}>
-                    <form onSubmit={this._onClick.bind(this)}>
+                    <section style={styles.content}>
                         <div className="row align-center">
                             <div className="small-12 large-10 columns">
                                 {serviceInput}
@@ -405,20 +436,58 @@ class ReviewAdd extends ParseComponent {
 
                                 <hr />
 
-                                {isAnonInput}
                                 {identitasInput}
-
-                                <hr />
-
+                                {isAnonInput}
                                 {isAgreeInput}
                                 {sendButton}
 
                             </div>
                         </div>
-                    </form>
-                </section>
+                    </section>
+                </form>
             </div>
         );
+    }
+
+    _getTerms() {
+        return <ol>
+            <li>Di Jendela kami menerima segala macam pandangan, input, saran, kritik, dan cerita
+                pengalaman tentang layanan publik di Indonesia. Namun kami mengharapkan bahwa Anda akan
+                menuliskan juga masukan yang konstruktif dan dengan cara dan bahasa yang santun
+            </li>
+            <li>Pengguna bertanggung jawab akan semua konten yang ditulis oleh mereka dan Jendela tidak
+                bertanggung jawab akan keakuratan atau kelegalan dari setiap materi yang dituliskan di
+                website
+            </li>
+            <li>Harap jangan menulis ulasan yang tidak akurat, berisi fitnah, kasar, mengancam,
+                berbahaya, porno, atau kotor.
+            </li>
+            <li>Ulasan yang bisa membayahakan reputasi perseorangan atau organisasi bisa di moderasi
+                oleh kami.
+            </li>
+            <li>Jika ada tuntutan akan materi yang dituliskan oleh pengguna, pengguna bisa diminta
+                pertanggung jawabannya secara hukum
+            </li>
+            <li>Jendela tidak akan menggunakan atau membuka informasi personal pengguna untuk keperluan
+                lain selain untuk tujuan dari portal Jendela
+            </li>
+            <li>Kami hanya menyalurkan informasi yang Anda berikan di portal ini pada pihak ketiga
+                dengan dua ketentuan:
+                <ol>
+                    <li>Pengguna telah memberi izin kepada kami untuk melakukannya</li>
+                    <li>Informasi yang diberikan oleh seorang pengguna telah digabungkan dengan data dari
+                        pengguna lain sehingga pembaca dari data kumulatif ini tidak akan bisa melacak hubungan
+                        antara data dan siapa pengguna yang menuliskannya
+                    </li>
+                </ol>
+            </li>
+            <li> Untuk keamanan data, Jendela melakukan segala macam cara untuk mengamankan data Anda.
+            </li>
+            <li> Jendela juga menyimpan data kunjungan Anda melalui cookies</li>
+            <li> Syarat dan ketentuan ini berlaku mulai Desember tanggal 6 tahun 2015. Jendela bisa
+                memutakhirkan dokumen ini kapan saja
+            </li>
+        </ol>;
     }
 
 }
