@@ -1,44 +1,7 @@
 import React from 'react'
 import Title from '../template/Title'
 import Colors from '../../constants/JendelaColors'
-
-class Accordion extends React.Component {
-    constructor() {
-        super()
-        this.state = { active: false }
-        this.styles = {
-            toggler: {
-                fontWeight: 700,
-                color: Colors.green,
-                textTransform: "uppercase"
-            },
-            active: {
-                display: "inherit"
-            },
-            inactive: {
-                display: "none"
-            }
-        }
-    }
-
-    _toggle() {
-        this.setState({ active: !this.state.active })
-    }
-
-    render() {
-        const activeStyle = this.state.active ? this.styles.active : this.styles.inactive
-        return (
-            <div>
-                <a onClick={this._toggle.bind(this)}>
-                    <h5 style={this.styles.toggler}>{this.props.toggler}</h5>
-                </a>
-                <div style={activeStyle}>
-                    {this.props.children}
-                </div>
-            </div>
-        )
-    }
-}
+import Accordion from '../tempate/Accordion'
 
 class FAQ extends React.Component {
     constructor() {
@@ -76,7 +39,7 @@ class FAQ extends React.Component {
             },
             {
                 question: "Darimana inspirasi Anda untuk membuat portal ini?",
-                answer: (<p>Kami mendapatkan inspirasi dari portal sejenis bernama Ipaidabribe yang sukses membuat perubahan di India.</p>)
+                answer: (<p>Kami mendapatkan inspirasi dari portal sejenis bernama <a href="http://www.ipaidabribe.com">ipaidabribe.com</a> yang sukses membuat perubahan di India.</p>)
             }
         ]
 

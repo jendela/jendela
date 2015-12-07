@@ -1,5 +1,11 @@
-# Jendela 🇮🇩
-### Mengulas layanan publik dengan transparan
+# 🇮🇩 Jendela 🇮🇩
+#### Review site for Indonesian public services
+
+![jendela-logo](http://www.jende.la/img/jendela-banner.png)
+
+__Jendela__ is an initiative to increase transparency across public services and to fight against bribery, by asking citizen's participation to share his or her experiences to this site.ditingkatkan.
+
+To know more information, watch our [pitch](https://youtu.be/gg_wcLIH4RA) and [demo](https://youtu.be/GBR3htH78mw).
 
 ## Usage
 
@@ -28,6 +34,11 @@
   ```sh
   $ parse deploy
   ```
+
+## Tech used
+
+- [React](https://facebook.github.io/react/)
+- [Parse](https://parse.com)
 
 ## License
 
