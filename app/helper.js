@@ -1,3 +1,4 @@
+var assign = require('object.assign').getPolyfill();
 module.exports = {
 
   // helper function to merge multiple styles
@@ -5,7 +6,7 @@ module.exports = {
     var res = {};
     for (var i = 0; i < arguments.length; ++i) {
       if (arguments[i]) {
-        Object.assign(res, arguments[i])
+        assign(res, arguments[i])
       }
     }
     return res
