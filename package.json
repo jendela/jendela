@@ -36,7 +36,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "scripts": {
-    "postinstall": "bower install; npm run build ",
+    "postinstall": "bower install & npm run build",
     "build": "webpack --optimize-minimize --optimize-dedupe",
     "dev": "webpack-dev-server --hot --inline --progress --content-base public --port 8080",
     "start": "if [ -z ${PORT+5001} ]; then http-server -p $PORT ./public; else http-server ./public; fi"
