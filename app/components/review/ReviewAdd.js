@@ -32,7 +32,8 @@ const styles = {
         paddingBottom: "10px"
     },
     modal: {
-        marginTop: "5px"
+        overflowY: "scroll",
+        height: "80%"
     },
     disclaimer: {
         paddingBottom: "15px"
@@ -371,7 +372,7 @@ class ReviewAdd extends ParseComponent {
                         Saya menyetujui <a data-open="snk">syarat dan ketentuan</a> berlaku
                     </label>
 
-                    <div className="tiny reveal" id="snk" style={styles.modal} data-reveal>
+                    <div className="large reveal" id="snk" style={styles.modal} data-reveal>
                         <h3>Syarat dan Ketentuan</h3>
                         {this._getTerms()}
                         <button className="close-button" aria-label="Close reveal" type="button" data-close="snk">
