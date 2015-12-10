@@ -529,3 +529,12 @@ $topbar-padding: 0.5rem;
 $topbar-background: #eee;
 $topbar-link-color: $primary-color;
 $topbar-input-width: 200px;
+
+
+.footer-link {
+    float: left;
+
+    @include breakpoint(large) {
+        float: right;
+    }
+}
