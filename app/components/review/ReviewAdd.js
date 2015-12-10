@@ -32,10 +32,18 @@ const styles = {
         paddingBottom: "10px"
     },
     modal: {
-        marginTop: "5px"
+        overflowY: "scroll",
+        height: "80%"
     },
     disclaimer: {
         paddingBottom: "15px"
+    },
+    labelCheckbox: {
+        fontSize: "14px"
+    },
+    inputCheckbox: {
+        marginRight: "8px",
+        marginBottom: "16px"
     }
 }
 
@@ -364,14 +372,14 @@ class ReviewAdd extends ParseComponent {
         let isAgreeInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
-                    <input
+                    <span style={styles.labelCheckbox}>
+                    <input style={styles.inputCheckbox}
                         required type="checkbox" id="isAgree"
                         onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
-                    <label>
                         Saya menyetujui <a data-open="snk">syarat dan ketentuan</a> berlaku
-                    </label>
+                    </span>
 
-                    <div className="tiny reveal" id="snk" style={styles.modal} data-reveal>
+                    <div className="reveal" id="snk" style={styles.modal} data-reveal>
                         <h3>Syarat dan Ketentuan</h3>
                         {this._getTerms()}
                         <button className="close-button" aria-label="Close reveal" type="button" data-close="snk">
