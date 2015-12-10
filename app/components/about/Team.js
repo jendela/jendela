@@ -11,28 +11,32 @@ const authors = [
         name: "Alsasian Atmopawiro",
         title: "Software Engineer",
         location: "Paris, Perancis",
-        twitter: "alsa"
+        twitter: "alsa",
+        linkedin: "https://id.linkedin.com/in/alsasian"
     },
     {
         avatar: "cyndy.png",
         name: "Cyndy Messah",
         title: "Visual Designer",
         location: "Singapura",
-        twitter: "cyndymessah"
+        twitter: "cyndymessah",
+        linkedin: "https://sg.linkedin.com/in/cyndymessah"
     },
     {
         avatar: "ikhsan.png",
         name: "Ikhsan Assaat",
         title: "Software Engineer",
         location: "London, Inggris",
-        twitter: "ixnixnixn"
+        twitter: "ixnixnixn",
+        linkedin: "https://uk.linkedin.com/in/ikhsanassaat"
     },
     {
         avatar: "yoel.png",
         name: "Yoel Sumitro",
         title: "UX Designer",
         location: "Nuremberg, Jerman",
-        twitter: "yoel_krisnanda"
+        twitter: "yoel_krisnanda",
+        linkedin: "https://de.linkedin.com/in/yoelsumitro"
     },
 ]
 
@@ -51,7 +55,8 @@ class AuthorSection extends React.Component {
                                 name={author.name}
                                 title={author.title}
                                 location={author.location}
-                                twitter={author.twitter} />
+                                twitter={author.twitter}
+                                linkedin={author.linkedin} />
                         </div>
                     )
                 })}

@@ -34,7 +34,11 @@ class Author extends React.Component {
                 <div>{this.props.location}</div>
                 <div style={styles.twitter}>
                     <a href={`http://twitter.com/${this.props.twitter}`} target="_blank">
-                        <img src="img/twitter-icon.png" />
+                        <img src="img/icon-twitter.png" />
+                    </a>
+                    &nbsp;
+                    <a href={this.props.linkedin} target="_blank">
+                        <img src="img/icon-linkedin.png" />
                     </a>
                 </div>
             </div>
