@@ -139,12 +139,11 @@ class ReviewAdd extends ParseComponent {
                 duration: Number(this.state.duration),
                 date: this.state.date.toDate()
             }
-            if (!this.state.isAnon) {
-                newReview["name"] = this.state.name;
-                newReview["phone"] = this.state.phone;
-                newReview["email"] = this.state.email;
-                newReview["idnumber"] = this.state.idnumber;
-            }
+            newReview["isAnon"] = this.state.isAnon;
+            newReview["name"] = this.state.name;
+            newReview["phone"] = this.state.phone;
+            newReview["email"] = this.state.email;
+            newReview["idnumber"] = this.state.idnumber;
             ParseReact.Mutation.Create('Review', newReview).dispatch().then(()=> {
                 alert('Terima kasih atas ulasan anda');
 
@@ -157,10 +156,6 @@ class ReviewAdd extends ParseComponent {
                     content: "",
                     fee: "",
                     duration: "",
-                    name: "",
-                    phone: "",
-                    email: "",
-                    idnumber: "",
                     isAgree: false,
                 });
 
@@ -329,52 +324,50 @@ class ReviewAdd extends ParseComponent {
         )
 
         let identitasInput = [];
-        if (!this.state.isAnon) {
-            let nameInput = (
-                <ReviewInputRow title="Nama">
-                    <input
-                        value={this.state.name} required type="text" placeholder="Nama" id="name"
-                        onChange={this._onChange.bind(this)}/>
-                </ReviewInputRow>
-            )
-            let phoneInput = (
-                <ReviewInputRow title="Telepon">
-                    <input
-                        value={this.state.phone} required type="text" placeholder="Telepon" id="phone"
-                        onChange={this._onChange.bind(this)}/>
-                </ReviewInputRow>
-            )
+        let nameInput = (
+            <ReviewInputRow title="Nama">
+                <input
+                    value={this.state.name} required type="text" placeholder="Nama" id="name"
+                    onChange={this._onChange.bind(this)}/>
+            </ReviewInputRow>
+        )
+        let phoneInput = (
+            <ReviewInputRow title="Telepon">
+                <input
+                    value={this.state.phone} required type="text" placeholder="Telepon" id="phone"
+                    onChange={this._onChange.bind(this)}/>
+            </ReviewInputRow>
+        )
 
-            let emailInput = (
-                <ReviewInputRow title="Email">
-                    <input
-                        value={this.state.email} required type="email" placeholder="Email" id="email"
-                        onChange={this._onChange.bind(this)}/>
-                </ReviewInputRow>
-            )
+        let emailInput = (
+            <ReviewInputRow title="Email">
+                <input
+                    value={this.state.email} required type="email" placeholder="Email" id="email"
+                    onChange={this._onChange.bind(this)}/>
+            </ReviewInputRow>
+        )
 
-            let idnumberInput = (
-                <ReviewInputRow title="NIK">
-                    <input
-                        value={this.state.idnumber} required type="text" placeholder="Nomer Induk Kependudukan (KTP / SIM)" id="idnumber"
-                        onChange={this._onChange.bind(this)}/>
-                </ReviewInputRow>
-            )
+        let idnumberInput = (
+            <ReviewInputRow title="NIK">
+                <input
+                    value={this.state.idnumber} required type="text" placeholder="Nomer Induk Kependudukan (KTP / SIM)" id="idnumber"
+                    onChange={this._onChange.bind(this)}/>
+            </ReviewInputRow>
+        )
 
-            identitasInput.push(<div style={styles.disclaimer}>Data personal dibawah ini tidak akan dipublikasikan di portal Jendela dan hanya akan dipakai untuk proses verifikasi</div>)
-            identitasInput.push(nameInput);
-            identitasInput.push(phoneInput);
-            identitasInput.push(emailInput);
-            identitasInput.push(idnumberInput);
-        }
+        identitasInput.push(<div style={styles.disclaimer}>Jika memutuskan untuk anonim, data personal dibawah ini tidak akan dipublikasikan di portal Jendela dan hanya akan dipakai untuk proses verifikasi</div>)
+        identitasInput.push(nameInput);
+        identitasInput.push(phoneInput);
+        identitasInput.push(emailInput);
+        identitasInput.push(idnumberInput);
 
         let isAgreeInput = (
             <div className="row">
                 <div className="large-9 large-offset-3 columns">
+                    <input
+                        required type="checkbox" id="isAgree"
+                        onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
                     <label>
-                        <input
-                            required type="checkbox" id="isAgree"
-                            onChange={ (e) => { this.setState({isAgree:e.target.checked}) } }/>
                         Saya menyetujui <a data-open="snk">syarat dan ketentuan</a> berlaku
                     </label>
 
