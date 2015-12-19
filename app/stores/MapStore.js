@@ -1,65 +1,65 @@
-'use strict'
+'use strict';
 
-import { EventEmitter} from 'events'
-import assign from 'react/lib/Object.assign'
-import AppDispatcher from '../dispatcher/AppDispatcher'
-import MapConstants from '../constants/MapConstants'
+import { EventEmitter } from 'events';
+import assign from 'react/lib/Object.assign';
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import MapConstants from '../constants/MapConstants';
 
-const CHANGE_EVENT = "change"
+const CHANGE_EVENT = 'change';
 
-var _highlighted = ''
-var _selected = ''
+var _highlighted = '';
+var _selected = '';
 
 const MapStore = assign(EventEmitter.prototype, {
 
   emitChange() {
-    this.emit(CHANGE_EVENT)
+    this.emit(CHANGE_EVENT);
   },
 
   addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback)
+    this.on(CHANGE_EVENT, callback);
   },
 
   removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback)
+    this.removeListener(CHANGE_EVENT, callback);
   },
 
   highlightProvince(province) {
-    _highlighted = province
+    _highlighted = province;
   },
 
   highlightedProvince() {
-    return _highlighted
+    return _highlighted;
   },
 
   selectProvince(province) {
-    _selected = province
+    _selected = province;
   },
 
   selectedProvince() {
-    return _selected
+    return _selected;
   }
 
-})
+});
 
 AppDispatcher.register((action) => {
   switch (action.actionType) {
     case MapConstants.HIGHLIGHT_PROVINCE:
-      MapStore.highlightProvince(action.province)
+      MapStore.highlightProvince(action.province);
       break;
 
     case MapConstants.SELECT_PROVINCE:
-      MapStore.selectProvince(action.province)
+      MapStore.selectProvince(action.province);
       break;
 
     default:
-      // nothingness
+    // nothingness
   }
 
-  MapStore.emitChange()
+  MapStore.emitChange();
 
-  return true
-})
+  return true;
+});
 
 
-module.exports = MapStore
+module.exports = MapStore;

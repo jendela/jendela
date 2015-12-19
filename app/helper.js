@@ -1,4 +1,4 @@
-var assign = require('object.assign').getPolyfill()
+var assign = require('object.assign').getPolyfill();
 
 module.exports = {
 
@@ -7,14 +7,14 @@ module.exports = {
     var res = {};
     for (var i = 0; i < arguments.length; ++i) {
       if (arguments[i]) {
-        assign(res, arguments[i])
+        assign(res, arguments[i]);
       }
     }
-    return res
+    return res;
   },
 
   numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
 
