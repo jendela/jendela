@@ -1,4 +1,7 @@
 # 🇮🇩 Jendela 🇮🇩
+
+[![Build Status](https://travis-ci.org/jendela/jendela.svg?branch=integ-travisneslint)](https://travis-ci.org/jendela/jendela)
+
 #### Review site for Indonesian public services
 
 ![jendela-logo](http://www.jende.la/img/jendela-banner.png)
