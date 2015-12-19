@@ -5,7 +5,7 @@
   "dependencies": {
     "d3": "^3.5.9",
     "flux": "^2.0.1",
-    "history": "^1.17.0",
+    "history": "1.13.1",
     "moment": "~2.10.6",
     "object.assign": "^4.0.3",
     "parse": "~1.6.9",

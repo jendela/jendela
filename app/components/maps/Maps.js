@@ -2,7 +2,6 @@ import React from 'react';
 import Indonesia from './Indonesia';
 import SummaryPanel from './SummaryPanel';
 import MapSelection from './MapSelection';
-import { m } from '../../helper.js';
 
 const height = 500;
 const width = 900;

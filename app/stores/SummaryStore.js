@@ -1,5 +1,3 @@
-'use strict';
-
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import { EventEmitter } from 'events';
 import assign from 'react/lib/Object.assign';
@@ -62,31 +60,29 @@ const SummaryStore = assign(EventEmitter.prototype, {
   },
 
   init() {
-
-    if (_nationInfo)
+    if (_nationInfo) {
       return;
+    }
 
     CommonQuery.getNation().first().then((nation) => {
-
-      CommonQuery.getProvinceNames().find().then((list) => {
-        _raw.push({key: 'IDN', name: 'Indonesia'});
-        list.forEach((e) => {
+      CommonQuery.getProvinceNames().find().then((provinces) => {
+        _raw.push({ key: 'IDN', name: 'Indonesia' });
+        provinces.forEach((e) => {
           _raw.push({
             key: e.get('locale'),
             name: e.get('name')
           });
         });
 
-        StatisticQuery.getNationalServiceDetails().find().then((list) => {
-
-          if (list.length === 0) {
+        StatisticQuery.getNationalServiceDetails().find().then((nationals) => {
+          if (nationals.length === 0) {
             SummaryStore.emitChange();
             return;
           }
 
-          _nationInfo = list.reduce((acc, e) => {
-            acc['totalDuration'] += e.get('total_duration');
-            acc['stats'].push({
+          _nationInfo = nationals.reduce((acc, e) => {
+            acc.totalDuration += e.get('total_duration');
+            acc.stats.push({
               'name': e.get('service').get('name'),
               'totalFee': e.get('total_fee'),
               'totalReview': e.get('total_review'),
@@ -106,10 +102,7 @@ const SummaryStore = assign(EventEmitter.prototype, {
         });
       });
     });
-
-
   }
-
 });
 
 AppDispatcher.register((action) => {
@@ -119,13 +112,13 @@ AppDispatcher.register((action) => {
       break;
     case MapConstants.POPULATE_PROVINCE:
 
-      if (!action.province || SummaryStore.isSummaryPopulated(action.province))
+      if (!action.province || SummaryStore.isSummaryPopulated(action.province)) {
         break;
+      }
 
       CommonQuery.getProvinceByLocale(action.province).first().then((province) => {
         StatisticQuery.getProvinceServiceDetailsByLocale(action.province).find().then((list) => {
-
-          let init = {
+          const init = {
             id: province.id,
             name: province.get('name'),
             totalRating: province.get('total_rating'),
@@ -141,8 +134,8 @@ AppDispatcher.register((action) => {
           }
 
           SummaryStore.setSummary(action.province, list.reduce((acc, e) => {
-            acc['totalDuration'] += e.get('total_duration');
-            acc['stats'].push({
+            acc.totalDuration += e.get('total_duration');
+            acc.stats.push({
               'name': e.get('service').get('name'),
               'totalFee': e.get('total_fee'),
               'totalReview': e.get('total_review'),
