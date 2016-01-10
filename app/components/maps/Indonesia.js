@@ -238,7 +238,7 @@ class Indonesia extends React.Component {
 
 }
 
-Map.propTypes = {
+Indonesia.propTypes = {
     height: React.PropTypes.number.isRequired,
     width: React.PropTypes.number.isRequired,
     centerX: React.PropTypes.number.isRequired,

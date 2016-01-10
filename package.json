@@ -38,7 +38,7 @@
   "scripts": {
     "postinstall": "bower install; npm run build ",
     "build": "webpack --optimize-minimize --optimize-dedupe",
-    "dev": "webpack-dev-server --hot --inline --progress --content-base public --port 8080",
+    "dev": "webpack-dev-server --hot --inline --progress --content-base public --port 8080 --host 0.0.0.0 -d",
     "start": "if [ -z ${PORT+5001} ]; then http-server -p $PORT ./public; else http-server ./public; fi"
   },
   "repository": {

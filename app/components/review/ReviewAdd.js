@@ -187,7 +187,7 @@ class ReviewAdd extends ParseComponent {
     }
 
     render() {
-
+        console.log(this)
         const {
             province,
             provinces,
